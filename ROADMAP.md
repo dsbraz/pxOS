@@ -2,59 +2,65 @@
 
 ## Contexto
 
-O PRD `pxos-brq-work-prd.html` (v0.23) descreve uma plataforma que ainda não existe: o **kernel do pxOS** (Parte A) e sua primeira distribuição, a **BRQ@work** (Parte B). O diretório tem só o PRD, sem código e sem git.
+O PRD `pxos-brq-work-prd.html` (v0.24) descreve uma plataforma que ainda não existe: o **kernel do pxOS** (Parte A) e sua primeira distribuição, a **BRQ@work** (Parte B). Os spikes de memória, ontologia e governança, e execução e isolamento foram concluídos em 13/11/2026 (`spikes/`). O código de produto começa agora.
 
 Decisões já tomadas:
 - **Entregável:** roadmap em fases, com marcos, dependências, gates e critérios de saída.
-- **Primeiro marco:** **kernel completo**, ou seja, os 13 contêineres do §5 e os 13 requisitos do §4, antes de qualquer módulo de uso.
+- **Primeiro marco:** **kernel completo**, ou seja, os 13 contêineres do §5 e os 13 requisitos do §4. A construção começa por uma **fatia vertical** (ver Fase 0–2) que já roda o pacote de contexto de trabalho da BRQ@work.
+- **Memória:** contexto no Hindsight sobre AlloyDB; estado canônico tipado e governado próprio em PostgreSQL ([ADR 0001](docs/adr/0001-memoria-contexto-e-estado-canonico.md)). Graphiti, Neo4j, Mem0 e LangExtract rejeitados.
+- **Fronteira kernel/distribuição** por natureza, com o mantenedor como árbitro ([ADR 0002](docs/adr/0002-fronteira-kernel-distribuicao.md)).
+- **Arquitetura e padrões de código** em [ADR 0003](docs/adr/0003-arquitetura-e-padroes-de-codigo.md).
+- **Implantação:** instalação dedicada por cliente é o padrão, e dentro dela valem as permissões internas. O modo compartilhado fica adiado.
 - **Time:** você e eu. O gargalo é o seu tempo de revisão e os acessos externos (TI, jurídico, GCP), não a escrita de código. Por isso o plano é sequenciado por critério de saída, sem datas.
 
 **Risco aceito:** o próprio PRD aponta o risco "kernel com a forma da BRQ@work". Construir o kernel primeiro inverte esse risco: o kernel fica sem validação de uso diário. A mitigação é um **conjunto de fixtures de referência** que exercita o kernel como duas distribuições diferentes fariam:
-- 2 tenants;
+- 2 instalações, com permissão restrita entre pessoas dentro de uma;
 - 1 conector falso de conteúdo e 1 de registros operacionais;
 - 1 canal falso;
-- 1 pacote de ontologia mínimo.
+- 1 pacote de ontologia de outro domínio (neutralidade), além do pacote real de contexto de trabalho da BRQ@work.
 
 Assim cada fase tem um critério executável.
 
 ## Princípios de execução
 
 - **Local primeiro** (CLAUDE.md): Docker Compose com portas só em loopback, Postgres 16 + pgvector local e emuladores (Pub/Sub, Firestore/Datastore se preciso). Cada serviço GCP (Vertex, Agent Gateway, Agent Engine, BigQuery, Secret Manager, Workflows) fica atrás de um **adaptador** com uma implementação local e uma GCP. Isso também atende o requisito 12 (portabilidade).
-- **Monorepo:** `ontology/` (LinkML), `constitution/` (Markdown), `kernel/` (serviços Python), `modules/`, `distributions/`, `infra/` (Terraform), `fixtures/` e `evals/`.
-- **Stack:** Python (extração, ADK e LinkML puxam para cá), FastAPI, SQLAlchemy/Alembic, pytest e Terraform.
+- **Monorepo:** workspace uv na raiz com `pxos-kernel/` (kernel) e `brq-at-work/` (distribuição), `docs/adr/` e `spikes/`. Outras pastas (`infra/`, `evals/`, Constituição) nascem com a issue que as usa.
+- **Stack:** Python 3.12, LinkML, Pydantic, asyncpg com SQL explícito, Alembic, PostgreSQL/AlloyDB, Hindsight, pytest e Terraform (ADR 0003). Framework HTTP/MCP e motor de fluxos são decididos nas suas issues.
 - **Requisitos viram testes:** cada um dos 13 requisitos do §4 vira um teste automatizado de aceitação, que roda no CI desde que existe.
 - **Medição desde o começo:** traces (OpenTelemetry) e conjuntos de avaliação começam na primeira chamada de modelo, não no fim.
-- **Git:** `git init` local, uma branch por sessão, sem push nem PR até você pedir.
+- **Git:** integração direta na `main` enquanto o time for o mantenedor e o agente (AGENTS.md).
 
 ## Fases
 
 ### Fase 0: Fundação e destravamentos
-- `git init`, estrutura do monorepo, Compose de desenvolvimento, CI local (lint, tipos, testes) e esqueleto do Terraform.
+- Estrutura do monorepo, Compose de desenvolvimento e CI de produto (lint, tipos, testes, contrato de importação e neutralidade).
 - Fixtures de referência (descritas acima) e o esqueleto dos 13 testes de requisito, marcados como `xfail`.
-- **Spike de serviços gerenciados:** confirmar que o Agent Gateway com Service Extensions (política por parâmetro), as regiões do Agent Engine, o Claude no Vertex (global vs. multirregional) e o Gemini em southamerica-east1 funcionam como o PRD supõe. O resultado vira um ADR. Se algo não se confirmar, o adaptador local passa a ser o caminho principal.
-- **Spike de construir ou adotar a memória** (Graphiti/Zep, Mem0 ou próprio sobre Postgres). Gate da Fase 2.
+- **Serviços gerenciados** (Agent Gateway com Service Extensions, regiões do Agent Engine, Claude no Vertex, Gemini em southamerica-east1): não houve spike. A validação acontece nas issues que os usam (K11, K31, K34). Se algo não se confirmar, o adaptador local passa a ser o caminho principal.
+- **Memória:** decidida no ADR 0001 (concluído).
 - **Abrir já as frentes externas** (prazo longo, só bloqueiam a Parte B): permissões no Entra ID e contas de serviço, API do portal de alocação e horas, modelo de acesso ao Granola, política de transcrições com cliente e residência de dados (jurídico).
-- **Saída:** `docker compose up` sobe a base, o CI roda, os ADRs dos dois spikes estão escritos e as frentes externas têm dono e status.
+- **Saída:** `docker compose up` sobe a base, o CI roda, os ADRs 0001–0003 estão aceitos e as frentes externas têm dono e status.
+
+**Fatia 1 (atravessa F0–F2):** PXOS-1 (K01), as sub-issues PXOS-47 a 51 (partes de K04, K05, K06, K08 e K09), PXOS-7 (K07) e, na BRQ@work, o pacote de contexto de trabalho (PXOS-46). **Saída:** um compromisso é proposto com evidência, aprovado pelo papel declarado, lido em duas datas e corrigido sem perder histórico; o pacote fixture de outro domínio faz o mesmo ciclo; nenhum tipo de domínio aparece em `pxos-kernel/`.
 
 ### Fase 1: Ontologia e geração de código
-- Ontologia base em LinkML (Organização, Contrato, Ator, Papel, Evento, Evidência, Métrica, Resultado e suas ações), mais o pacote de contexto de trabalho como primeiro pacote de teste.
-- Camadas: base, pacote e extensão por tenant, com versionamento por camada.
+- Ontologia base em LinkML (Organização, Contrato, Ator, Papel, Evento, Evidência, Métrica, Resultado e suas ações), mais o pacote de contexto de trabalho (na distribuição BRQ@work) e um pacote fixture de outro domínio.
+- Camadas: base, pacote e extensão por instalação, com versionamento por camada.
 - Geradores no CI produzem: schemas de extração (JSON Schema/Pydantic), tools MCP, views tipadas do banco, modelos para agentes e definições de cards.
 - Formato de manifesto de módulo e de distribuição, com validador.
 - **Saída:** mudar um YAML regenera os 5 artefatos de forma determinística, com testes de snapshot. Uma mudança incompatível sem migração faz o CI falhar.
 
-### Fase 2: Estado vivo, identidade e isolamento
-- Esquema genérico: entidades, relações, fontes, aliases, log de ações e índice de trechos com permissões. Só acrescenta e cada fato tem **duas datas**.
-- RLS por tenant e permissões de origem nos trechos.
-- Exclusão real (índice, fatos derivados e páginas), com registro de que houve a exclusão. Política de retenção por tenant.
-- Identidade de pessoas, agentes e atores externos: modelo de papéis e tenants permitidos. Externos ficam sem acesso às tools de leitura.
-- **Saída:** passam os testes dos requisitos 3 (fonte), 4 (RLS nega leitura entre tenants), 5 (identidade) e 11 (a parte de exclusão e retenção).
+### Fase 2: Estado canônico, instalação e identidade
+- Estado canônico governado: proposta imutável → aprovação presa ao digest → fato versionado com **duas datas** → correção e invalidação, sobre o contrato do spike de governança. Outbox na mesma transação.
+- Instalação dedicada com a sua política; permissões internas por RLS. O contexto (Hindsight) fica isolado pela instalação e pelo escopo do servidor.
+- Exclusão real (estado canônico, contexto no Hindsight, fatos derivados e páginas), com registro de que houve a exclusão. Política de retenção por instalação.
+- Identidade de pessoas, agentes e atores externos: modelo de papéis e delegações. Externos ficam sem acesso às tools de leitura.
+- **Saída:** passam os testes dos requisitos 3 (fonte), 4 (credencial de outra instalação recusada e leitura restrita negada pelo banco), 5 (identidade) e 11 (a parte de exclusão e retenção).
 
 ### Fase 3: Acesso a modelos e medição base
-- Ponto único de chamada: pseudonimização (Sensitive Data Protection, ou um adaptador local com Presidio), roteamento por residência do tenant e inspeção (Model Armor, ou um stub local).
-- Traces com custo, modelo, região e tenant (OpenTelemetry → Cloud Trace e BigQuery, ou Jaeger e Postgres em local).
+- Ponto único de chamada: pseudonimização (Sensitive Data Protection, ou um adaptador local com Presidio), roteamento por residência da instalação e inspeção (Model Armor, ou um stub local).
+- Traces com custo, modelo, região e instalação (OpenTelemetry → Cloud Trace e BigQuery, ou Jaeger e Postgres em local).
 - Harness de avaliação: conjuntos de referência rodam a cada mudança de prompt, modelo ou ontologia.
-- **Saída:** um tenant que exige residência no Brasil nunca chega ao endpoint global (teste). Dados pessoais saem pseudonimizados. Toda chamada gera trace.
+- **Saída:** uma instalação que exige residência no Brasil nunca chega ao endpoint global (teste). Dados pessoais saem pseudonimizados. Toda chamada gera trace.
 
 ### Fase 4: Ingestão e framework de conectores
 - Contrato de conector: leitura, mapeamento, ações, acesso e instalação.
@@ -68,8 +74,8 @@ Assim cada fase tem um critério executável.
 - Fila de revisão com cards gerados da ontologia, roteamento para o dono, prazo, substituto ou gestor e expiração.
 - **Saída:** um card criado pelo kernel chega ao canal falso, é aprovado ou expira, e o resultado volta como evento.
 
-### Fase 6: Extração e identidade
-- Pipeline do §6.2: consumidor (com triagem), montador de contexto, extrator com saída estruturada e evidência, validador sem modelo, resolvedor em 5 níveis (o tenant nunca é decidido por modelo), reconciliador (criar, atualizar ou invalidar, nunca apagar), roteador por confiança por tipo e gravador versionado.
+### Fase 6: Proposta canônica e identidade
+- A extração de contexto é do Hindsight (ADR 0001); não se reconstrói extrator, resolvedor ou reconciliador. Esta fase faz: consumidor com triagem e retenção no contexto, propostas canônicas com evidência literal validada em código, identidade canônica (chave determinística, aliases, restrição de candidatos, fila humana) e roteador por confiança sobre o estado canônico.
 - Conjunto de avaliação com transcrições sintéticas anotadas.
 - **Saída:** a avaliação mede precisão de extração e precisão de junção, e a junção fica em 99% ou mais nas fixtures. Fato sem evidência literal é descartado. Risco e mudança de escopo sempre viram card.
 
@@ -93,9 +99,9 @@ Assim cada fase tem um critério executável.
 - **Saída:** passam os testes dos requisitos 9 e 10. A página narrativa é regenerada quando um fato muda.
 
 ### Fase 10: Apps e implantação → **Marco: kernel completo**
-- Hospedagem de apps: banco próprio por app e tenant, espelhamento de fatos no estado vivo e acesso só por MCP, API e canais. Kit de construção de apps com um app de referência.
-- Ciclo de vida de módulos e distribuições por tenant (instalar, atualizar, remover, regenerar), testes de distribuição contra uma versão nova do kernel e permissões por módulo.
-- Terraform para os modos compartilhado e dedicado (projeto GCP separado).
+- Hospedagem de apps: banco próprio por app, espelhamento de fatos no estado vivo e acesso só por MCP, API e canais. Kit de construção de apps com um app de referência.
+- Ciclo de vida de módulos e distribuições por instalação (instalar, atualizar, remover, regenerar), testes de distribuição contra uma versão nova do kernel e permissões por módulo.
+- Terraform para a instalação dedicada (projeto GCP por cliente). O modo compartilhado fica adiado.
 - **Saída:**
   - os 13 testes de requisito passam;
   - a "distribuição de referência" instala do zero em local e em um projeto GCP de homologação;
@@ -147,10 +153,10 @@ Para começar, precisa dos gates de TI e jurídico da Fase 0 resolvidos.
 
 | Questão | Começa | Bloqueia |
 |---|---|---|
-| Construir ou adotar a memória | F0 (spike) | F2 |
+| Construir ou adotar a memória | resolvida (ADR 0001) | — |
 | Residência de inferência | F0 (spike + jurídico) | F3 (desenho), F11 (produção) |
-| Compartilhada vs. dedicada | F0 (ADR inicial) | F10 |
-| Governança da fronteira do kernel | F1 (regra no README do repo) | F10 |
+| Compartilhada vs. dedicada | dedicada como padrão; compartilhada adiada | F10 (só se surgir demanda) |
+| Governança da fronteira do kernel | resolvida (ADR 0002) | — |
 | Permissões do Entra ID e contas de serviço | F0 (TI) | F11.3 |
 | API do portal | F0 (TI) | F11.5 |
 | Modelo de acesso ao Granola | F0 | F11.2 |
@@ -167,4 +173,4 @@ Para começar, precisa dos gates de TI e jurídico da Fase 0 resolvidos.
 
 ## Próximo passo
 
-A Fase 0 começa só com confirmação explícita. O mesmo vale para cada fase seguinte.
+A fatia 1 começa pelo K01 (PXOS-1), depois do aceite do ADR 0003. Cada fase seguinte começa com confirmação explícita.
