@@ -178,7 +178,9 @@ saída verde no CI contra Postgres. A suíte de aceitação (`pxos-kernel/tests/
 um teste por requisito do §4; o req. 3 está verde e os demais são falhas esperadas que nomeiam
 a issue que os entrega.
 
-A fatia 2 está em andamento: o escriba pós-reunião leva um transcrito sintético, por conector
+A fatia 2 foi concluída em 13/11/2026: o escriba pós-reunião leva um transcrito sintético, por conector
 falso, até um compromisso aprovado pelo card em um canal falso, com o trecho literal como
-evidência (PXOS-52 a 56). A extração é do Hindsight; o gateway de modelo fica fora. Cada fase
-começa com confirmação explícita.
+evidência (PXOS-52 a 56). A extração é do Hindsight; o gateway de modelo fica fora. O teste de
+saída também passou contra o Hindsight real com o modelo no Vertex, em execução local opt-in.
+O escopo da próxima fatia é decidido com o mantenedor, e cada fase começa com confirmação
+explícita.
