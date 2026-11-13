@@ -17,3 +17,6 @@ While the team consists only of the maintainer and the agent, integrate directly
 
 ## Commit messages
 Do not mention agent or AI participation in commit subjects, bodies, or trailers. Do not add agent credits, generated-by notices, or Co-authored-by trailers identifying agents. Describe only the change and its rationale.
+
+## Spikes
+Spikes are temporary experiments and do not need CI. Keep their dependencies, tooling, validation instructions, and results inside their own directories under spikes/. Do not add spike-specific jobs or dependency-update automation to repository-wide configuration. Validate experiments locally as needed to answer their hypotheses; do not treat experimental technology as approved product infrastructure.
