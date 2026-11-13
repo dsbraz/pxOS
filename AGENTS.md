@@ -11,3 +11,6 @@ Touch only what you must. Don't "improve" adjacent code, comments, or formatting
 
 ## Rule 4 — Goal-Driven Execution
 Define success criteria. Loop until verified. Don't tell the Agent what steps to follow, tell it what success looks like and let it iterate.
+
+## Integration policy
+While the team consists only of the maintainer and the agent, integrate directly into main. Require pull requests only when other people join the team, not when the product reaches production. Run relevant checks before integration.
