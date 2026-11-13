@@ -12,6 +12,9 @@ Touch only what you must. Don't "improve" adjacent code, comments, or formatting
 ## Rule 4 — Goal-Driven Execution
 Define success criteria. Loop until verified. Don't tell the Agent what steps to follow, tell it what success looks like and let it iterate.
 
+## Test-driven development
+Product code is written test first. Write a failing test that states the expected behavior, watch it fail for the right reason, write the minimum code to pass, then refactor with the tests green. Bug fixes start with a test that reproduces the bug. Tests that claim the database refuses something send raw SQL as the application role. A requirement of PRD §4 not delivered yet stays a strict expected failure in the acceptance suite until its issue replaces it with the real test. Spikes are exempt.
+
 ## Integration policy
 While the team consists only of the maintainer and the agent, integrate directly into main. Require pull requests only when other people join the team, not when the product reaches production. Run relevant checks before integration.
 
