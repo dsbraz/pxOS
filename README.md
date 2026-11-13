@@ -30,7 +30,8 @@ Modelos Pydantic e JSON Schema são gerados do LinkML de cada pacote (`generated
 `generated.schema.json`, ao lado do `ontology.yaml`). Depois de mudar uma ontologia:
 
 ```sh
-uv run python -m pxos_kernel.ontology.generate <pasta-do-pacote> ...   # a base entra sempre
+uv run python -m pxos_kernel.ontology.generate \
+  pxos-kernel/tests/retail_fixture brq-at-work/src/brq_at_work/ontology/work_context
 ```
 
 O teste de snapshot e o CI (`--check`) falham se o gerado divergir do LinkML.

@@ -11,6 +11,10 @@ actors:
     kind: internal_person
     name: Erin
     roles: [store-staff]
+  - id: gina
+    kind: internal_person
+    name: Gina
+    roles: [store-staff]
   - id: frank
     kind: internal_person
     name: Frank

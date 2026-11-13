@@ -29,8 +29,14 @@ known-first-party = ["pxos_kernel", "brq_at_work"]
 [tool.mypy]
 python_version = "3.12"
 strict = true
-files = ["db_testing.py", "pxos-kernel/src", "pxos-kernel/tests", "brq-at-work/src"]
-mypy_path = [".", "pxos-kernel/tests"]
+files = [
+    "db_testing.py",
+    "pxos-kernel/src",
+    "pxos-kernel/tests",
+    "brq-at-work/src",
+    "brq-at-work/tests",
+]
+mypy_path = [".", "pxos-kernel/src", "brq-at-work/src", "pxos-kernel/tests", "brq-at-work"]
 explicit_package_bases = true
 
 [[tool.mypy.overrides]]
@@ -42,7 +48,7 @@ module = ["*.generated"]
 ignore_errors = true
 
 [tool.pytest.ini_options]
-testpaths = ["pxos-kernel/tests"]
+testpaths = ["pxos-kernel/tests", "brq-at-work/tests"]
 pythonpath = [".", "pxos-kernel/tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"

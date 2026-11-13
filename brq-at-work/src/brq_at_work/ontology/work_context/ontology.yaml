@@ -1,0 +1,71 @@
+# Pacote de contexto de trabalho da BRQ@work (PRD §7). Nomes em inglês, rótulos em português.
+id: https://pxos.example/brq-at-work/work_context
+name: work_context
+title: Contexto de trabalho
+version: 0.1.0
+annotations:
+  pxos.base_version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+  work: https://pxos.example/brq-at-work/work_context/
+default_prefix: work
+default_range: string
+imports:
+  - linkml:types
+  - pxos_base
+
+classes:
+  WorkStream:
+    title: Frente de trabalho
+    description: Tipo âncora ao qual reuniões, compromissos e decisões se vinculam.
+    annotations:
+      pxos.kind: context
+    attributes:
+      name:
+        title: nome
+        required: true
+
+  Meeting:
+    title: Reunião
+    is_a: Event
+    annotations:
+      pxos.kind: context
+    attributes:
+      title:
+        title: título
+        required: true
+      work_stream:
+        title: frente de trabalho
+        required: true
+
+  Commitment:
+    title: Compromisso
+    description: Algo que um dono se comprometeu a entregar até um prazo.
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      description:
+        title: descrição
+        required: true
+      owner:
+        title: dono
+        required: true
+      due_date:
+        title: prazo
+        range: date
+        required: true
+      work_stream:
+        title: frente de trabalho
+        required: true
+
+  Decision:
+    title: Decisão
+    annotations:
+      pxos.kind: context
+    attributes:
+      summary:
+        title: resumo
+        required: true
+      work_stream:
+        title: frente de trabalho
+        required: true

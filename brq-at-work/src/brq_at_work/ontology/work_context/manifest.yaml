@@ -1,0 +1,14 @@
+name: work_context
+version: 0.1.0
+types:
+  - name: WorkStream
+  - name: Meeting
+  - name: Commitment
+    readers: [project-manager, team-member]
+  - name: Decision
+actions:
+  - name: create_commitment
+    creates: Commitment
+    approver: project-manager
+    reversible: true
+    rule_parameters: [due_date]

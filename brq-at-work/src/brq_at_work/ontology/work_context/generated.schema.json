@@ -1,0 +1,186 @@
+{
+    "$defs": {
+        "Actor": {
+            "additionalProperties": false,
+            "description": "Pessoa interna, pessoa externa ou agente.",
+            "properties": {
+                "actor_kind": {
+                    "$ref": "#/$defs/ActorKind"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "actor_kind"
+            ],
+            "title": "Actor",
+            "type": "object"
+        },
+        "ActorKind": {
+            "description": "",
+            "enum": [
+                "internal_person",
+                "external_person",
+                "agent"
+            ],
+            "title": "ActorKind",
+            "type": "string"
+        },
+        "Commitment": {
+            "additionalProperties": false,
+            "description": "Algo que um dono se comprometeu a entregar at\u00e9 um prazo.",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "due_date": {
+                    "format": "date",
+                    "type": "string"
+                },
+                "owner": {
+                    "type": "string"
+                },
+                "work_stream": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "owner",
+                "due_date",
+                "work_stream"
+            ],
+            "title": "Commitment",
+            "type": "object"
+        },
+        "Decision": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "summary": {
+                    "type": "string"
+                },
+                "work_stream": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "summary",
+                "work_stream"
+            ],
+            "title": "Decision",
+            "type": "object"
+        },
+        "Event": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "occurred_at": {
+                    "format": "date-time",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "occurred_at"
+            ],
+            "title": "Event",
+            "type": "object"
+        },
+        "Evidence": {
+            "additionalProperties": false,
+            "description": "Refer\u00eancia \u00e0 fonte e trecho literal que sustentam uma proposta.",
+            "properties": {
+                "context_ref": {
+                    "type": "string"
+                },
+                "quote": {
+                    "type": "string"
+                },
+                "source": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source",
+                "quote",
+                "context_ref"
+            ],
+            "title": "Evidence",
+            "type": "object"
+        },
+        "Meeting": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "occurred_at": {
+                    "format": "date-time",
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "work_stream": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "title",
+                "work_stream",
+                "occurred_at"
+            ],
+            "title": "Meeting",
+            "type": "object"
+        },
+        "Organization": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "Organization",
+            "type": "object"
+        },
+        "Role": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "Role",
+            "type": "object"
+        },
+        "WorkStream": {
+            "additionalProperties": false,
+            "description": "Tipo \u00e2ncora ao qual reuni\u00f5es, compromissos e decis\u00f5es se vinculam.",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "WorkStream",
+            "type": "object"
+        }
+    },
+    "$id": "https://pxos.example/brq-at-work/work_context",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.12.0",
+    "title": "work_context",
+    "type": "object",
+    "version": "0.1.0"
+}

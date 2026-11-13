@@ -1,0 +1,20 @@
+# Identidades sintéticas da fatia 1. Identidades reais chegam com OIDC (PXOS-29).
+actors:
+  - id: ana
+    kind: internal_person
+    name: Ana (gerente de projeto)
+    roles: [project-manager]
+  - id: bruno
+    kind: internal_person
+    name: Bruno
+    roles: [team-member]
+  - id: celia
+    kind: internal_person
+    name: Célia
+    roles: [team-member]
+  - id: meeting-agent
+    kind: agent
+    name: Agente de reuniões
+delegations:
+  - agent: meeting-agent
+    person: bruno
