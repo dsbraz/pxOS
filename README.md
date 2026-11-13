@@ -11,18 +11,9 @@ O produto está em planejamento; spikes são experimentos isolados.
 
 ## Desenvolvimento
 
-Python 3.12 e uv 0.13.7. Cada componente mantém seu próprio lockfile.
-Na pasta do componente:
-
-```sh
-uv sync --locked
-uv run --frozen ruff check spike tests
-uv run --frozen ruff format --check spike tests
-uv run --frozen pytest -q
-```
-
-O CI raiz executa lint, formatação e testes dos componentes existentes,
-incluindo integração Neo4j via Compose. Não usa GCP ou inferência paga.
-Novos componentes devem acrescentar seus checks quando implementados.
+Ainda não há código de produto nem pipeline de CI de produto.
+Os experimentos ficam isolados em `spikes/`; seus requisitos, dependências
+e procedimentos de validação estão documentados nas respectivas pastas.
+O CI será definido conforme os componentes de produto forem implementados.
 
 Veja [contribuição](CONTRIBUTING.md), [segurança](SECURITY.md) e [Apache-2.0](LICENSE).
