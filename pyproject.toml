@@ -35,6 +35,7 @@ files = [
     "pxos-kernel/tests",
     "brq-at-work/src",
     "brq-at-work/tests",
+    "brq-at-work/examples",
 ]
 mypy_path = [".", "pxos-kernel/src", "brq-at-work/src", "pxos-kernel/tests", "brq-at-work"]
 explicit_package_bases = true

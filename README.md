@@ -36,6 +36,13 @@ uv run python -m pxos_kernel.ontology.generate \
 
 O teste de snapshot e o CI (`--check`) falham se o gerado divergir do LinkML.
 
+Para ver o ciclo canônico funcionando (proposta, recusas, aprovação, correção e leitura
+em duas datas) num banco local `pxos_demo`:
+
+```sh
+PYTHONPATH=. uv run python brq-at-work/examples/slice1_demo.py
+```
+
 O CI de produto (`.github/workflows/ci.yml`) roda os mesmos checks. Os experimentos em
 `spikes/` ficam fora do workspace e do CI; seus procedimentos estão nas respectivas pastas.
 
