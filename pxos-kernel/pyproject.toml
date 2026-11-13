@@ -5,6 +5,7 @@ description = "Kernel do pxOS"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "alembic>=1.20.1",
+    "httpx==0.28.1",
     "asyncpg==0.32.0",
     "linkml==1.12.1",
     "pydantic==2.14.3",

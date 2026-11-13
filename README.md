@@ -43,6 +43,15 @@ em duas datas) num banco local `pxos_demo`:
 PYTHONPATH=. uv run python brq-at-work/examples/slice1_demo.py
 ```
 
+No CI, a memória de contexto é o adaptador falso. A execução real é opt-in e local, com o
+Hindsight sobre o Postgres do Compose e o modelo no Vertex (gasta tokens no projeto
+indicado):
+
+```sh
+GOOGLE_APPLICATION_CREDENTIALS=... PXOS_VERTEX_PROJECT=... scripts/hindsight-local.sh
+PXOS_HINDSIGHT_URL=http://127.0.0.1:18888 uv run pytest -k hindsight
+```
+
 O CI de produto (`.github/workflows/ci.yml`) roda os mesmos checks. Os experimentos em
 `spikes/` ficam fora do workspace e do CI; seus procedimentos estão nas respectivas pastas.
 
