@@ -18,6 +18,7 @@ jobs:
       - run: uv sync --locked
       - run: uv run ruff check pxos-kernel brq-at-work
       - run: uv run ruff format --check pxos-kernel brq-at-work
+      - run: uv run python -m pxos_kernel.ontology.generate --check pxos-kernel/tests/retail_fixture
       - run: uv run mypy
       - run: uv run lint-imports
       - run: uv run pytest

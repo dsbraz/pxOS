@@ -35,8 +35,10 @@ processo implantável é iniciado por `brq-at-work`, que importa o kernel e regi
 seus pacotes (modelos gerados, manifestos e configuração) por uma API pública do kernel.
 O kernel nunca importa código da distribuição, nem dinamicamente por nome; ele só conhece
 o que recebe no registro. Cada pacote guarda o seu LinkML e o código gerado a partir dele
-na própria pasta (`pxos-kernel/ontology/` para a base, `brq-at-work/ontology/` para os
-pacotes da distribuição). Os testes do kernel registram o pacote fixture da mesma forma.
+na própria pasta, dentro do pacote Python, para que o código gerado seja importável e
+a ontologia vá junto na distribuição do pacote (`pxos_kernel/ontology/base/` para a base,
+`brq_at_work/ontology/<pacote>/` para os pacotes da distribuição). Os testes do kernel
+registram o pacote fixture da mesma forma.
 
 ### 2. O banco é o guardião
 

@@ -15,8 +15,9 @@ from linkml_runtime.utils.schemaview import SchemaView
 
 from pxos_kernel.errors import PxosError
 
-ONTOLOGY_DIR = Path(__file__).resolve().parents[3] / "ontology"
-BASE_SCHEMA = ONTOLOGY_DIR / "base.yaml"
+ONTOLOGY_DIR = Path(__file__).resolve().parent
+BASE_DIR = ONTOLOGY_DIR / "base"
+BASE_SCHEMA = BASE_DIR / "ontology.yaml"
 METAMODEL_SCHEMA = ONTOLOGY_DIR / "metamodel.yaml"
 BASE_IMPORT = "pxos_base"
 KIND_ANNOTATION = "pxos.kind"

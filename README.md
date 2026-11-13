@@ -26,6 +26,15 @@ uv run lint-imports          # o kernel não importa a distribuição
 uv run pytest                # inclui o teste de neutralidade do kernel
 ```
 
+Modelos Pydantic e JSON Schema são gerados do LinkML de cada pacote (`generated.py` e
+`generated.schema.json`, ao lado do `ontology.yaml`). Depois de mudar uma ontologia:
+
+```sh
+uv run python -m pxos_kernel.ontology.generate <pasta-do-pacote> ...   # a base entra sempre
+```
+
+O teste de snapshot e o CI (`--check`) falham se o gerado divergir do LinkML.
+
 O CI de produto (`.github/workflows/ci.yml`) roda os mesmos checks. Os experimentos em
 `spikes/` ficam fora do workspace e do CI; seus procedimentos estão nas respectivas pastas.
 

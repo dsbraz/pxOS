@@ -14,7 +14,7 @@ from pxos_kernel.ontology import (
 )
 from pxos_kernel.ontology.loader import class_kind, is_compatible
 
-RETAIL = Path(__file__).parent / "fixtures" / "retail"
+RETAIL = Path(__file__).parent / "retail_fixture"
 
 
 def write_package(
