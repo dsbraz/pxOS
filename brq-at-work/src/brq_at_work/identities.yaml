@@ -15,6 +15,9 @@ actors:
   - id: meeting-agent
     kind: agent
     name: Agente de reuniões
+  - id: scribe-agent
+    kind: agent
+    name: Escriba pós-reunião
 delegations:
   - agent: meeting-agent
     person: bruno
