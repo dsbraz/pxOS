@@ -19,12 +19,15 @@ ADMIN_DSN = os.environ.get(
 )
 APP_LOGIN = "pxos_app_test"
 APP_PASSWORD = "pxos-app-test"
+PUBLISHER_LOGIN = "pxos_publisher_test"
+PUBLISHER_PASSWORD = "pxos-publisher-test"
 
 
 @dataclass(frozen=True)
 class Database:
     owner_dsn: str
     app_dsn: str
+    publisher_dsn: str
 
 
 def _with(dsn: str, *, database: str, user: str | None = None, password: str | None = None) -> str:
@@ -38,7 +41,7 @@ def _with(dsn: str, *, database: str, user: str | None = None, password: str | N
 
 
 def create_test_database(name: str) -> Database:
-    """Recreate ``name``, migrate it and make sure the application login exists."""
+    """Recreate ``name``, migrate it and make sure the application and publisher logins exist."""
 
     async def recreate() -> None:
         admin = await asyncpg.connect(ADMIN_DSN)
@@ -48,27 +51,34 @@ def create_test_database(name: str) -> Database:
         finally:
             await admin.close()
 
-    async def app_login(owner_dsn: str) -> None:
+    async def logins(owner_dsn: str) -> None:
         owner = await asyncpg.connect(owner_dsn)
         try:
-            await owner.execute(
-                f"""
-                DO $$ BEGIN
-                    IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '{APP_LOGIN}') THEN
-                        CREATE ROLE {APP_LOGIN} LOGIN PASSWORD '{APP_PASSWORD}'
-                            NOSUPERUSER NOBYPASSRLS IN ROLE pxos_app;
-                    END IF;
-                END $$
-                """
-            )
+            for login, password, role in [
+                (APP_LOGIN, APP_PASSWORD, "pxos_app"),
+                (PUBLISHER_LOGIN, PUBLISHER_PASSWORD, "pxos_publisher"),
+            ]:
+                await owner.execute(
+                    f"""
+                    DO $$ BEGIN
+                        IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = '{login}') THEN
+                            CREATE ROLE {login} LOGIN PASSWORD '{password}'
+                                NOSUPERUSER NOBYPASSRLS IN ROLE {role};
+                        END IF;
+                    END $$
+                    """
+                )
         finally:
             await owner.close()
 
     asyncio.run(recreate())
     owner_dsn = _with(ADMIN_DSN, database=name)
     upgrade(owner_dsn)
-    asyncio.run(app_login(owner_dsn))
+    asyncio.run(logins(owner_dsn))
     return Database(
         owner_dsn=owner_dsn,
         app_dsn=_with(ADMIN_DSN, database=name, user=APP_LOGIN, password=APP_PASSWORD),
+        publisher_dsn=_with(
+            ADMIN_DSN, database=name, user=PUBLISHER_LOGIN, password=PUBLISHER_PASSWORD
+        ),
     )

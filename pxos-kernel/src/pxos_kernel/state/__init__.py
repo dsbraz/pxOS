@@ -1,6 +1,7 @@
-"""Governed canonical state: proposals, reviews, facts and outbox."""
+"""Governed canonical state: proposals, reviews, facts and the outbox publisher."""
 
 from pxos_kernel.state.canonical import (
+    Decision,
     DecisionFinal,
     DigestMismatch,
     Evidence,
@@ -22,12 +23,16 @@ from pxos_kernel.state.canonical import (
 )
 from pxos_kernel.state.db import create_pool
 from pxos_kernel.state.migrate import upgrade
+from pxos_kernel.state.outbox import Event, Handler, publish
 
 __all__ = [
+    "Decision",
     "DecisionFinal",
     "DigestMismatch",
+    "Event",
     "Evidence",
     "Fact",
+    "Handler",
     "InvalidProposal",
     "NotApprover",
     "Proposal",
@@ -42,6 +47,7 @@ __all__ = [
     "install_packages",
     "propose",
     "propose_invalidation",
+    "publish",
     "review",
     "upgrade",
 ]
