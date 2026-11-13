@@ -1,0 +1,54 @@
+id: https://pxos.example/spike/memory
+name: pxos_memory_spike
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pxos: https://pxos.example/spike/
+imports:
+  - linkml:types
+default_prefix: pxos
+default_range: string
+classes:
+  Pessoa:
+    description: >-
+      Pessoa física. Homônimos podem ser pessoas distintas. Só una aliases quando
+      a fonte fornecer vínculo explícito. Menção ambígua não prova identidade.
+    attributes:
+      identificador_origem:
+        description: Identificador explicitamente fornecido pela fonte; nunca inventar.
+      email:
+        description: Email explicitamente informado; nunca inferir a partir do nome.
+      aliases:
+        description: Apelidos ou abreviações explicitamente vinculados a esta pessoa.
+        multivalued: true
+  Organizacao:
+    description: Organização explicitamente mencionada na fonte.
+    attributes:
+      identificador_origem:
+        description: Identificador informado pela fonte.
+  Projeto:
+    description: Projeto com nome e código próprios, distinto de uma organização.
+    attributes:
+      codigo:
+        description: Código de projeto explicitamente informado pela fonte.
+  Compromisso:
+    description: Entrega ou obrigação identificável cujo responsável e prazo podem mudar.
+    attributes:
+      codigo:
+        description: Código de compromisso explicitamente informado pela fonte.
+      prazo:
+        description: Prazo informado, em ISO 8601, sem completar datas ausentes.
+  Vinculo:
+    description: Pessoa trabalha para uma organização.
+    attributes:
+      cargo:
+        description: Cargo explicitamente informado, se houver.
+  Participacao:
+    description: Pessoa participa de um projeto.
+    attributes:
+      papel:
+        description: Papel explicitamente informado, se houver.
+  Responsabilidade:
+    description: Pessoa é responsável por um compromisso no intervalo indicado pela fonte.
+    attributes:
+      prazo:
+        description: Prazo do compromisso no intervalo desta responsabilidade, em ISO 8601.

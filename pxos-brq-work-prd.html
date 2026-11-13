@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pxOS · BRQ@work · PRD</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%22-12%20-12%2064%2064%22%3E%3Crect%20x%3D%22-12%22%20y%3D%22-12%22%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%237f2ec9%22/%3E%3Crect%20x%3D%221%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%2215%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%2229%22%20y%3D%221%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%221%22%20y%3D%2215%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%2229%22%20y%3D%2215%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%221%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%2215%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22%20fill-opacity%3D%22.35%22/%3E%3Crect%20x%3D%2215%22%20y%3D%2215%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23fff%22/%3E%3Crect%20x%3D%2229%22%20y%3D%2229%22%20width%3D%2210%22%20height%3D%2210%22%20rx%3D%222%22%20fill%3D%22%23121212%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#121212; --ink-2:#3d3d3d; --ink-3:#626262;
+  --line:#cecece; --line-2:#ececec; --bg:#ffffff; --bg-2:#fafafa;
+  --accent:#7f2ec9; --accent-bg:#f2eafa; --accent-line:#cdb0ea; --accent-ink:#4f1c7c;
+  --orange:#ee7c38;
+  --teal:#36598f; --teal-bg:#ecf1f9; --teal-line:#9fb8e0; --teal-ink:#1f3f73;
+  --gray-bg:#f1f1f1; --gray-line:#b8b8b8; --gray-ink:#3d3d3d;
+  --warn-bg:#f3ece0; --warn-line:#ee7c38; --warn-ink:#8a5310;
+  --font-heading:"Aspekta","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{font-size:16px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:48px 32px 96px}
+/* capa */
+.cover{background:#121212;color:#fff;padding:56px 0 48px}
+.cover__inner{max-width:960px;margin:0 auto;padding:0 32px;display:flex;flex-direction:column;gap:36px}
+.cover__top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brq-logo{width:84px;height:auto;color:#fff;display:block}
+.kicker{font-family:var(--font-mono);font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--orange)}
+h1{font-family:var(--font-heading);font-size:34px;line-height:1.1;margin:0;font-weight:500;letter-spacing:-.5px}
+h1.brand{line-height:0}
+h1.brand svg.logo{height:72px;width:auto;display:block}
+.sub{font-size:20px;line-height:1.45;color:#fff;margin:0;max-width:40ch}
+.cover .note{font-size:15px;color:#b8b8b8;margin:0;max-width:62ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px 28px;font-family:var(--font-mono);font-size:12.5px;letter-spacing:.03em;text-transform:uppercase;color:#b8b8b8;border-top:1px solid rgba(255,255,255,.18);padding-top:18px}
+/* índice */
+nav.toc{border:1px solid var(--line);border-radius:16px;padding:20px 26px;margin:0 0 40px;background:var(--bg-2)}
+nav.toc strong{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.05em}
+nav.toc ol{margin:10px 0 0;padding-left:22px;columns:2;column-gap:32px;font-size:15px}
+nav.toc ol li::marker{font-family:var(--font-mono);color:var(--ink-3);font-size:13px}
+nav.toc a{color:var(--ink);text-decoration:none}
+nav.toc a:hover{color:var(--accent)}
+/* títulos */
+h2{font-family:var(--font-heading);font-size:30px;line-height:1.15;letter-spacing:-.5px;margin:72px 0 16px;font-weight:500;padding-top:28px;border-top:1px solid var(--line)}
+h2 .n{display:block;font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+h2 .n::before{content:"Seção "}
+h3{font-family:var(--font-heading);font-size:20px;line-height:1.2;margin:36px 0 10px;font-weight:500;letter-spacing:-.2px}
+h4{font-family:var(--font-heading);font-weight:500}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin:4px 0}
+li::marker{color:var(--accent)}
+a{color:var(--accent)}
+.lead{font-size:18px;color:var(--ink-3)}
+.summary{background:var(--bg-2);border:1px solid var(--line);border-top:4px solid var(--orange);border-radius:16px;padding:22px 26px;margin:0 0 8px}
+.summary h3{margin:0 0 10px;color:var(--ink);font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.summary ul{margin:0}
+.callout{border-left:3px solid var(--warn-line);background:var(--warn-bg);padding:14px 18px;margin:18px 0;border-radius:0 8px 8px 0}
+.callout.info{border-left-color:var(--accent);background:var(--accent-bg)}
+table{width:100%;border-collapse:collapse;margin:14px 0 24px;font-size:14.5px}
+th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+th{font-family:var(--font-mono);font-weight:600;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:2px solid var(--line);background:none}
+tbody tr:hover{background:#f1f1f1}
+td code,p code,li code{font-family:var(--font-mono);font-size:13px;background:var(--line-2);padding:1px 5px;border-radius:4px}
+pre{background:#121212;color:#ececec;border-radius:12px;padding:18px 20px;overflow:auto;font-size:13px;line-height:1.55;margin:12px 0 20px}
+pre code{font-family:var(--font-mono)}
+figure{margin:20px 0 28px;border:1px solid var(--line);border-radius:16px;padding:20px 16px 12px;background:#fff}
+figure svg{display:block;width:100%;height:auto}
+figcaption{font-size:13px;color:var(--ink-3);margin-top:10px;padding:0 6px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:12px 0 20px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:12px 0 20px}
+.card{border:1px solid var(--line);border-radius:16px;padding:18px 20px;background:var(--bg-2)}
+.card h4{margin:0 0 6px;font-size:16px}
+.card p{margin:0;font-size:14.5px;color:var(--ink-2)}
+.tag{display:inline-block;font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.03em;padding:2px 9px;border-radius:9999px;background:var(--teal-bg);color:var(--teal-ink);margin-right:6px}
+.tag.p{background:var(--accent-bg);color:var(--accent-ink)}
+.tag.g{background:var(--gray-bg);color:var(--gray-ink)}
+.refs li{font-size:14px}
+.refs a{color:var(--accent)}
+footer{margin-top:72px;font-size:12.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+footer .brq-logo{width:44px;color:var(--ink)}
+svg text{font-family:var(--font-body)}
+svg .t{font-size:14px;font-weight:600}
+svg .s{font-size:12px}
+svg .ext rect{fill:var(--gray-bg);stroke:var(--gray-line);stroke-width:.8}
+svg .ext .t{fill:var(--gray-ink)} svg .ext .s{fill:#626262}
+svg .ppl rect{fill:#fff;stroke:var(--gray-line);stroke-width:.8;stroke-dasharray:0}
+svg .ppl .t{fill:var(--ink)} svg .ppl .s{fill:var(--ink-3)}
+svg .mem rect{fill:var(--accent-bg);stroke:var(--accent-line);stroke-width:.8}
+svg .mem .t{fill:var(--accent-ink)} svg .mem .s{fill:#6a27a8}
+svg .use rect{fill:var(--teal-bg);stroke:var(--teal-line);stroke-width:.8}
+svg .use .t{fill:var(--teal-ink)} svg .use .s{fill:var(--teal)}
+svg .sys rect{fill:var(--accent);stroke:var(--accent-ink);stroke-width:.8}
+svg .sys .t{fill:#fff} svg .sys .s{fill:#efe7f7}
+svg .bound{fill:none;stroke:#8d8d8d;stroke-width:1;stroke-dasharray:6 5}
+svg .blabel{font-size:13px;font-weight:600;fill:var(--ink-2)}
+svg .arr{stroke:#626262;stroke-width:1.2;fill:none}
+svg .lbl{font-size:11.5px;fill:var(--ink-3)}
+@media (max-width:720px){nav.toc ol{columns:1}.grid2,.grid3{grid-template-columns:1fr}.wrap,.cover__inner{padding-left:18px;padding-right:18px}h2{font-size:26px}}
+@media print{.wrap{padding:0}.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact}h2{break-before:auto}figure,table,pre{break-inside:avoid}}
+nav.toc .toc__groups{display:grid;grid-template-columns:1fr 1fr;gap:18px 32px;margin-top:12px}
+nav.toc .toc__groups ol{columns:1;margin:6px 0 0}
+nav.toc ol.plain{list-style:none;padding-left:22px}
+.toc__part{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.part{background:#121212;color:#fff;border-radius:16px;padding:30px 34px;margin:88px 0 0}
+.part__k{font-family:var(--font-mono);font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
+.part__t{font-family:var(--font-heading);font-size:34px;line-height:1.1;letter-spacing:-.5px;font-weight:500;margin:0 0 12px}
+.part p.part__d{color:#cecece;margin:0;max-width:64ch}
+.part + section h2{border-top:none;margin-top:48px;padding-top:0}
+@media (max-width:720px){nav.toc .toc__groups{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="cover">
+<div class="cover__inner">
+  <div class="cover__top"><svg class="brq-logo" viewBox="164 98 1239 702" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <g class="logo-brq__mark">
+    <path d="M381.16 345.79C380.76 345.79 380.36 345.76 379.95 345.76H377.71L381.16 345.79Z"/>
+    <path d="M649.4 438.39H649.18V648.36C649.18 652.56 652.58 655.96 656.78 655.96H746.73C750.93 655.96 754.33 652.56 754.33 648.36V344.91H846.52C850.72 344.91 854.12 341.51 854.12 337.31V249.93C854.12 245.57 850.55 242.15 846.19 242.32C739.57 246.38 653.85 331.88 649.38 438.4L649.4 438.39Z"/>
+    <path d="M373.63 242.41H268.15V106.43C268.15 102.23 264.75 98.83 260.55 98.83H172.06C167.86 98.83 164.46 102.23 164.46 106.43V146.42C164.46 259.21 255.57 345.15 368.21 345.77L408.15 345.79H418.53C450.03 345.79 475.56 371.33 475.56 402.82V494.76C475.56 526.26 450.02 551.79 418.53 551.79H326.66C295.16 551.79 269.63 526.25 269.63 494.76V379.29C269.63 375.09 266.23 371.69 262.03 371.69H172.08C167.88 371.69 164.48 375.09 164.48 379.29V451.58C164.48 569.53 267.7 664.26 387.34 656.51C486.76 650.07 566.27 571.07 577.63 472.09C591.9 347.79 495.09 242.4 373.66 242.4L373.63 242.41Z"/>
+    <path d="M1096.41 656.02H1201.89V792C1201.89 796.2 1205.29 799.6 1209.49 799.6H1297.98C1302.18 799.6 1305.58 796.2 1305.58 792V752.01C1305.58 571.91 1214.47 553.28 1101.83 552.66L1061.89 552.64H1051.51C1020.01 552.64 994.48 527.1 994.48 495.61V403.67C994.48 372.17 1020.02 346.64 1051.51 346.64H1143.38C1174.88 346.64 1200.41 372.18 1200.41 403.67V519.73C1200.41 523.93 1203.81 527.33 1208.01 527.33H1297.96C1302.16 527.33 1305.56 523.93 1305.56 519.73V446.85C1305.56 328.9 1202.34 234.17 1082.7 241.92C983.28 248.36 903.77 327.36 892.41 426.34C878.14 550.64 974.95 656.03 1096.38 656.03L1096.41 656.02Z"/>
+  </g>
+</svg>
+<div class="kicker">Diretoria de Produto &amp; Tecnologia · BRQ PX</div></div>
+  <h1 class="brand"><svg class="logo" role="img" aria-label="pxOS" viewBox="0 -82 345.2 108" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,-79) scale(2.2)"><rect x="2" y="2" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="16" y="2" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="30" y="2" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="2" y="16" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="30" y="16" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="2" y="30" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="16" y="30" width="8" height="8" rx="1.6" fill="none" stroke="#ffffff" stroke-width="2"/><rect x="15" y="15" width="10" height="10" rx="2" fill="#b98ce6"/><rect x="29" y="29" width="10" height="10" rx="2" fill="#ffffff"/></g><g transform="translate(112,0)"><path fill="#ffffff" d="M7.0 20.0V-49.6H19.400000000000002V-43.6H21.200000000000003Q22.900000000000002 -46.5 26.5 -48.75Q30.1 -51.0 36.800000000000004 -51.0Q42.800000000000004 -51.0 47.900000000000006 -48.05Q53.0 -45.1 56.1 -39.400000000000006Q59.2 -33.7 59.2 -25.6V-24.0Q59.2 -15.9 56.1 -10.2Q53.0 -4.5 47.900000000000006 -1.5499999999999998Q42.800000000000004 1.4000000000000001 36.800000000000004 1.4000000000000001Q32.300000000000004 1.4000000000000001 29.250000000000004 0.35000000000000003Q26.200000000000003 -0.7000000000000001 24.35 -2.35Q22.5 -4.0 21.400000000000002 -5.7H19.6V20.0ZM33.0 -9.600000000000001Q38.900000000000006 -9.600000000000001 42.75 -13.350000000000001Q46.6 -17.1 46.6 -24.3V-25.3Q46.6 -32.5 42.7 -36.25Q38.800000000000004 -40.0 33.0 -40.0Q27.200000000000003 -40.0 23.300000000000004 -36.25Q19.400000000000002 -32.5 19.400000000000002 -25.3V-24.3Q19.400000000000002 -17.1 23.300000000000004 -13.350000000000001Q27.200000000000003 -9.600000000000001 33.0 -9.600000000000001Z M61.900000000000006 0.0 79.9 -25.0 62.1 -49.6H76.7L88.0 -33.1H89.80000000000001L101.10000000000001 -49.6H115.70000000000002L97.9 -25.0L115.9 0.0H101.10000000000001L89.80000000000001 -16.7H88.0L76.7 0.0Z"/><path fill="#b98ce6" d="M147.6 1.4000000000000001Q134.7 1.4000000000000001 127.1 -5.8500000000000005Q119.5 -13.100000000000001 119.5 -26.8V-43.2Q119.5 -56.900000000000006 127.1 -64.15Q134.7 -71.4 147.6 -71.4Q160.5 -71.4 168.15 -64.15Q175.8 -56.900000000000006 175.8 -43.2V-26.8Q175.8 -13.100000000000001 168.15 -5.8500000000000005Q160.5 1.4000000000000001 147.6 1.4000000000000001ZM147.6 -8.3Q155.9 -8.3 160.4 -13.15Q164.9 -18.0 164.9 -26.400000000000002V-43.6Q164.9 -52.0 160.4 -56.85Q155.9 -61.7 147.6 -61.7Q139.5 -61.7 134.9 -56.85Q130.3 -52.0 130.3 -43.6V-26.400000000000002Q130.3 -18.0 134.9 -13.15Q139.5 -8.3 147.6 -8.3Z M207.9 1.4000000000000001Q200.0 1.4000000000000001 193.9 -1.4Q187.8 -4.2 184.35000000000002 -9.65Q180.9 -15.100000000000001 180.9 -22.900000000000002V-25.400000000000002H191.60000000000002V-22.900000000000002Q191.60000000000002 -15.5 196.05 -11.8Q200.5 -8.1 207.9 -8.1Q215.4 -8.1 219.2 -11.25Q223.0 -14.4 223.0 -19.400000000000002Q223.0 -22.700000000000003 221.2 -24.800000000000004Q219.4 -26.900000000000002 216.10000000000002 -28.150000000000002Q212.8 -29.400000000000002 208.20000000000002 -30.5L204.5 -31.400000000000002Q197.8 -33.0 192.85000000000002 -35.35Q187.9 -37.7 185.2 -41.6Q182.5 -45.5 182.5 -51.6Q182.5 -57.800000000000004 185.55 -62.2Q188.60000000000002 -66.60000000000001 194.0 -69.0Q199.4 -71.4 206.70000000000002 -71.4Q214.0 -71.4 219.75 -68.9Q225.5 -66.4 228.8 -61.5Q232.10000000000002 -56.6 232.10000000000002 -49.2V-45.6H221.4V-49.2Q221.4 -53.7 219.55 -56.5Q217.70000000000002 -59.300000000000004 214.40000000000003 -60.60000000000001Q211.10000000000002 -61.900000000000006 206.70000000000002 -61.900000000000006Q200.3 -61.900000000000006 196.75 -59.25Q193.20000000000002 -56.6 193.20000000000002 -51.900000000000006Q193.20000000000002 -48.7 194.75 -46.650000000000006Q196.3 -44.6 199.3 -43.3Q202.3 -42.0 206.8 -41.0L210.5 -40.1Q217.3 -38.6 222.5 -36.25Q227.70000000000002 -33.9 230.70000000000002 -29.9Q233.70000000000002 -25.900000000000002 233.70000000000002 -19.6Q233.70000000000002 -13.3 230.55 -8.600000000000001Q227.4 -3.9000000000000004 221.60000000000002 -1.25Q215.8 1.4000000000000001 207.9 1.4000000000000001Z"/></g></svg></h1>
+  <p class="sub">PRD da BRQ@work, a primeira distribuição do pxOS: a operação de projetos e times da BRQ com pessoas e agentes trabalhando com o mesmo contexto, nas mesmas ferramentas. O documento também especifica o kernel do pxOS, comum a todas as distribuições.</p>
+  <p class="note">Este documento descreve uma visão e a arquitetura pensada para ela. A plataforma ainda não existe: tudo o que está aqui está por construir.</p>
+  <div class="meta"><span>PRD · <span style="text-transform:none">BRQ@work</span></span><span>Versão 0.23</span><span>Novembro de 2026</span></div>
+</div>
+</header>
+<div class="wrap">
+
+<nav class="toc">
+  <strong>Conteúdo</strong>
+  <div class="toc__groups">
+    <div><span class="toc__part">Abertura</span><ol class="plain"><li><a href="#resumo">Resumo executivo</a></li></ol><ol>
+      <li><a href="#negocio">Contexto de negócio</a></li>
+      <li><a href="#problema">O problema</a></li></ol></div>
+    <div><span class="toc__part">Parte A · Kernel do pxOS</span><ol start="3">
+      <li><a href="#kernel">Kernel, módulos e distribuições</a></li>
+      <li><a href="#requisitos">Requisitos do kernel</a></li>
+      <li><a href="#c2">C2 · Contêineres do kernel</a></li>
+      <li><a href="#c3">C3 · Componentes do kernel</a></li>
+      <li><a href="#ontologia">Ontologia</a></li>
+      <li><a href="#modulos">Módulos e distribuições</a></li></ol></div>
+    <div><span class="toc__part">Parte B · <span style="text-transform:none">BRQ@work</span></span><ol start="9">
+      <li><a href="#brqwork">A BRQ@work</a></li>
+      <li><a href="#uso">Como as pessoas usam</a></li>
+      <li><a href="#c1">C1 · Contexto do sistema</a></li>
+      <li><a href="#fluxo">Fluxo de ponta a ponta</a></li></ol></div>
+    <div><span class="toc__part">Transversal</span><ol start="13">
+      <li><a href="#seguranca">Segurança, dados e LGPD</a></li>
+      <li><a href="#metricas">Métricas</a></li>
+      <li><a href="#mercado">O que existe no mercado</a></li>
+      <li><a href="#decisoes">Questões em aberto e riscos</a></li>
+      <li><a href="#refs">Referências</a></li></ol></div>
+  </div>
+</nav>
+
+<section id="resumo">
+<div class="summary">
+<h3>Resumo executivo</h3>
+<ul>
+  <li>A BRQ quer agentes trabalhando ao lado das pessoas, com o mesmo contexto e a mesma capacidade de agir nas ferramentas do dia a dia.</li>
+  <li>O contexto já é produzido. Todas as reuniões são gravadas. Os documentos estão no SharePoint. As metas estão no Bud. Falta transformar isso em memória estruturada, confiável e mantida.</li>
+  <li>O pxOS é um sistema operacional agêntico em três níveis: um kernel comum (memória, ontologia base, ação governada, agentes, dados operacionais, modelos e medição), módulos (conectores, canais, pacotes de ontologia, agentes e apps) e distribuições, que combinam o kernel com os módulos de um uso.</li>
+  <li>A BRQ@work é a primeira distribuição: a operação de projetos e times da BRQ. As pessoas continuam nas ferramentas que já usam. Perguntam no Claude, recebem briefings e status no Teams e confirmam fatos e ações em cards. O único trabalho novo é confirmar.</li>
+  <li>O ganho financeiro aparece onde menos esforço vira margem: projetos de escopo fechado, operação interna e operações cujo preço não depende de horas. Em alocação, o valor é retenção e diferenciação, não margem.</li>
+  <li>O mesmo kernel é a base das plataformas operadas que PX quer vender, como o HouseOS, e de outras distribuições de cliente, como atendimento ou uma operação remunerada por resultado.</li>
+  <li>Este documento especifica o kernel na Parte A e descreve a BRQ@work na Parte B.</li>
+</ul>
+</div>
+</section>
+
+<section id="negocio">
+<h2><span class="n">1</span>Contexto de negócio</h2>
+<p class="lead">Hoje, a receita de PX vem de projetos, operações e alocação de times. PX quer passar a vender também plataforma operada: uma plataforma especialista em um domínio do cliente, como a da house agêntica, operada pelo time de PX e remunerada por resultado.</p>
+<p>O pxOS é o kernel comum dessas plataformas. Cada plataforma especialista é uma distribuição do pxOS: o kernel com os módulos do domínio do cliente, e não uma construção do zero. A BRQ@work, descrita neste documento, é a distribuição que sustenta a operação da própria BRQ.</p>
+<p>Com mais de um modelo de receita, importa saber onde a eficiência gerada por agentes vira dinheiro para PX:</p>
+<table>
+  <thead><tr><th>Modelo de receita</th><th>Situação</th><th>O que a eficiência gera</th><th>Leitura para o pxOS</th></tr></thead>
+  <tbody>
+    <tr><td>Projeto de escopo fechado</td><td>Receita atual</td><td>Menos esforço para o mesmo preço vira margem direta</td><td>Ganho visível e mensurável</td></tr>
+    <tr><td>Operação</td><td>Receita atual</td><td>Depende do contrato: com preço por escopo ou por resultado, vira margem. Com preço por time, se comporta como alocação</td><td>Ganho visível e mensurável quando o preço não depende de horas</td></tr>
+    <tr><td>Alocação de times</td><td>Receita atual</td><td>O cliente captura o ganho, ou a hora faturada cai</td><td>Valor em retenção e diferenciação, não em margem</td></tr>
+    <tr><td>Plataforma operada, por resultado</td><td>Em formação</td><td>Eficiência vira margem e escala</td><td>É onde o modelo de negócio fica de pé</td></tr>
+  </tbody>
+</table>
+<div class="callout info">Por isso, o ganho do pxOS fica visível e pode ser medido em três lugares: nos projetos de escopo fechado, na operação interna de PX (horas, staffing e status) e nas operações cujo preço não depende de horas, como a house.</div>
+</section>
+
+<section id="problema">
+<h2><span class="n">2</span>O problema</h2>
+<p>PX produz contexto o tempo todo, mas não o retém de forma utilizável.</p>
+<div class="grid2">
+  <div class="card"><h4>O contexto existe, mas está espalhado</h4><p>Decisões ficam em transcrições de reunião que ninguém relê. Documentos ficam no SharePoint. Metas ficam no Bud. O resto fica na cabeça de quem estava presente.</p></div>
+  <div class="card"><h4>Trabalho repetitivo consome o time</h4><p>Lançar horas depois de reuniões, escrever status semanal, montar pauta e recuperar o que foi combinado. É esforço sem valor para o cliente.</p></div>
+  <div class="card"><h4>Entrada de pessoas é lenta</h4><p>Quem chega num projeto depende de conversas para entender histórico, decisões e quem é quem. O conhecimento sai do projeto junto com as pessoas.</p></div>
+  <div class="card"><h4>Agentes sem contexto não ajudam</h4><p>Um agente que não sabe o que foi decidido, por quem e quando, não consegue agir com segurança. Sem uma memória compartilhada, cada agente vira mais um silo.</p></div>
+</div>
+<h3>Por que isso importa</h3>
+<ul>
+  <li><strong>Custo:</strong> o trabalho repetitivo está no COGS de cada projeto. Em escopo fechado, reduzir esse custo é margem.</li>
+  <li><strong>Confiança do cliente:</strong> compromisso esquecido e decisão perdida viram retrabalho e desgaste.</li>
+  <li><strong>Escala:</strong> o modelo de plataforma operada depende de operar vários clientes com o mesmo time. Sem memória e agentes, a operação escala com gente.</li>
+</ul>
+<h3>Por que as tentativas comuns falham</h3>
+<p>Wikis e bases de conhecimento morrem por manutenção. Dependem de disciplina humana para serem atualizados e envelhecem em silêncio. Busca semântica sobre documentos responde perguntas vagas, mas não responde "quais compromissos deste projeto estão vencidos?". O pxOS foi desenhado para atacar exatamente esses dois pontos: captura no lugar do trabalho e manutenção automática com revisão humana.</p>
+</section>
+
+<div class="part"><p class="part__k">Parte A</p><p class="part__t">O kernel do pxOS</p><p class="part__d">O que é comum a todas as distribuições: os níveis do sistema, os requisitos, os contêineres e componentes, a ontologia e as regras de módulos e distribuições.</p></div>
+<section id="kernel">
+<h2><span class="n">3</span>Kernel, módulos e distribuições</h2>
+<p>O pxOS segue o desenho de um sistema operacional em três níveis, como no Linux: um kernel único, módulos que se instalam sobre ele e distribuições que combinam o kernel com um conjunto de módulos para um uso específico.</p>
+<table>
+  <thead><tr><th>Nível</th><th>O que inclui</th><th>Exemplos</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag p">Kernel</span></td><td>Memória em três camadas, ontologia base, ingestão com framework de conectores, dados operacionais, extração e identidade, manutenção, MCP e API, gateway de ação com política, abstração de canais, execução de agentes e de apps, gatilhos e fluxos, acesso a modelos de linguagem e a modelos analíticos, identidade de pessoas, agentes e atores externos, isolamento por cliente, medição e resultado</td><td>O mesmo em todas as instalações</td></tr>
+    <tr><td><span class="tag">Módulos</span></td><td>Conectores, canais, pacotes de ontologia, agentes e apps (sistemas especialistas com interface e dados próprios)</td><td>Conector do Microsoft 365, canal do Teams, pacote de contexto de trabalho, escriba pós-reunião, painel de comando da house</td></tr>
+    <tr><td><span class="tag g">Distribuições</span></td><td>O kernel com um conjunto de módulos, empacotado e operado para um uso</td><td>BRQ@work, HouseOS, atendimento, operação de cliente como gestão de estoque</td></tr>
+  </tbody>
+</table>
+<p>A fronteira entre kernel e módulo segue um critério simples: uma capacidade entra no kernel quando duas ou mais distribuições precisam dela. O que serve a um único caso de uso fica em módulo. Assim o kernel cresce devagar e cada distribuição nova reaproveita o que as anteriores já trouxeram.</p>
+<figure>
+<svg viewBox="0 0 680 300" role="img" aria-label="Níveis do pxOS: kernel, módulos e distribuições">
+<g class="use"><rect x="40" y="24" width="141" height="62" rx="8"/><text class="t" x="110.5" y="50" text-anchor="middle">BRQ@work</text><text class="s" x="110.5" y="70" text-anchor="middle">Projetos e carteira</text></g>
+<g class="use"><rect x="193" y="24" width="141" height="62" rx="8"/><text class="t" x="263.5" y="50" text-anchor="middle">HouseOS</text><text class="s" x="263.5" y="70" text-anchor="middle">Produção criativa</text></g>
+<g class="use"><rect x="346" y="24" width="141" height="62" rx="8"/><text class="t" x="416.5" y="50" text-anchor="middle">Atendimento</text><text class="s" x="416.5" y="70" text-anchor="middle">Voz e mensagens</text></g>
+<g class="use"><rect x="499" y="24" width="141" height="62" rx="8"/><text class="t" x="569.5" y="50" text-anchor="middle">Estoque</text><text class="s" x="569.5" y="70" text-anchor="middle">Operação de cliente</text></g>
+<g class="mem"><rect x="40" y="118" width="110" height="62" rx="8"/><text class="t" x="95" y="144" text-anchor="middle">Conectores</text><text class="s" x="95" y="164" text-anchor="middle">Por sistema</text></g>
+<g class="mem"><rect x="162.5" y="118" width="110" height="62" rx="8"/><text class="t" x="217.5" y="144" text-anchor="middle">Canais</text><text class="s" x="217.5" y="164" text-anchor="middle">Teams, voz</text></g>
+<g class="mem"><rect x="285" y="118" width="110" height="62" rx="8"/><text class="t" x="340" y="144" text-anchor="middle">Ontologia</text><text class="s" x="340" y="164" text-anchor="middle">Por domínio</text></g>
+<g class="mem"><rect x="407.5" y="118" width="110" height="62" rx="8"/><text class="t" x="462.5" y="144" text-anchor="middle">Agentes</text><text class="s" x="462.5" y="164" text-anchor="middle">Por função</text></g>
+<g class="mem"><rect x="530" y="118" width="110" height="62" rx="8"/><text class="t" x="585" y="144" text-anchor="middle">Apps</text><text class="s" x="585" y="164" text-anchor="middle">Por domínio</text></g>
+<g class="sys"><rect x="40" y="212" width="600" height="66" rx="10"/><text class="t" x="340" y="239" text-anchor="middle">pxOS · kernel</text><text class="s" x="340" y="260" text-anchor="middle">Contexto, ontologia base, ação governada, agentes, dados operacionais, modelos e medição</text></g>
+</svg>
+<figcaption>O kernel é um só. Os módulos são versionados uma vez e reaproveitados entre distribuições: o conector do Microsoft 365 e o pacote de contexto de trabalho servem tanto à BRQ@work quanto ao HouseOS. Cada distribuição é instalada por cliente, em ambiente compartilhado ou dedicado.</figcaption>
+</figure>
+<p>A memória do kernel fica em três camadas, cada uma com velocidade e dono diferentes:</p>
+<table>
+  <thead><tr><th>Camada</th><th>O que guarda</th><th>Velocidade</th><th>Onde fica</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag p">Constituição</span></td><td>Método, playbooks, papéis, rituais, glossário e a própria ontologia</td><td>Lenta, curada</td><td>Repositório Git em Markdown. Toda mudança passa por revisão</td></tr>
+    <tr><td><span class="tag p">Estado vivo</span></td><td>O que está acontecendo em cada cliente: fatos do trabalho (decisões, compromissos, riscos, pessoas e status) e registros da operação (pedidos, estoque, atendimentos), todos tipados pela ontologia</td><td>Rápida, derivada das fontes</td><td>Banco relacional com vetores. O histórico operacional em volume fica na base analítica</td></tr>
+    <tr><td><span class="tag p">Execução</span></td><td>Os sistemas onde o trabalho e a operação acontecem</td><td>Contínua</td><td>Na operação de PX, Bud e ferramentas de tarefa. Numa operação de cliente, ERP, e-commerce ou CRM</td></tr>
+  </tbody>
+</table>
+<p>Sobre essas camadas, o kernel executa cinco funções:</p>
+<ol>
+  <li><strong>Captar sinais:</strong> ler reuniões, documentos, canais, metas e eventos dos sistemas da operação assim que mudam.</li>
+  <li><strong>Lembrar:</strong> transformar cada sinal em fatos tipados, com fonte, ligados às entidades certas. Registros operacionais entram já estruturados, sem passar por modelo de linguagem.</li>
+  <li><strong>Manter:</strong> deduplicar, resolver conflitos, envelhecer o que não é usado e propor mudanças à Constituição.</li>
+  <li><strong>Servir e agir:</strong> responder a pessoas e agentes e executar ações nos sistemas, sob política.</li>
+  <li><strong>Medir:</strong> custo, esforço e resultado de cada distribuição contra uma linha de base, que é a base da remuneração por resultado.</li>
+</ol>
+<p>Para leitura ampla, as distribuições de trabalho do conhecimento também geram uma página narrativa por frente de trabalho, seja um projeto, uma operação ou uma conta de marketing (contexto, histórico de decisões e quem é quem), regenerada a partir do estado vivo. A página é derivada e cita os fatos de origem. Ninguém a edita à mão: corrige-se o fato e a página é regenerada.</p>
+</section>
+
+
+<section id="requisitos">
+<h2><span class="n">4</span>Requisitos do kernel</h2>
+<p>Os requisitos valem para qualquer distribuição. Foram derivados da BRQ@work e conferidos contra o HouseOS, o atendimento e uma operação de cliente, para que o kernel não fique com a forma de um único caso de uso.</p>
+<table>
+  <thead><tr><th>#</th><th>Requisito</th><th>Como se traduz no desenho</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Mesmo contexto para pessoa e agente</td><td>Um único ponto de acesso (MCP e API), usado pelas pessoas, pelos agentes e pelos apps</td></tr>
+    <tr><td>2</td><td>Captura sem depender de disciplina</td><td>Ingestão automática das fontes de cada distribuição, por eventos sempre que a fonte permite</td></tr>
+    <tr><td>3</td><td>Todo fato tem fonte</td><td>Cada fato aponta para a reunião e o minuto, o documento ou o registro de origem</td></tr>
+    <tr><td>4</td><td>Isolamento total por cliente</td><td>Um tenant (espaço isolado) por cliente, garantido no banco (Row-Level Security), não no código</td></tr>
+    <tr><td>5</td><td>Identidade para pessoas, agentes e atores externos</td><td>Cada agente tem identidade própria, com as permissões do papel que cumpre. Consumidores e fornecedores têm identidade separada e nunca acessam o contexto interno</td></tr>
+    <tr><td>6</td><td>Ação com política e aprovação</td><td>Agente só muda o mundo por ações tipadas. A política combina a fase de autonomia do agente com regras declaradas pelo módulo. Ação irreversível sempre passa por uma pessoa</td></tr>
+    <tr><td>7</td><td>Ação no tempo da conversa</td><td>Ações pré-aprovadas executam de forma síncrona, com latência compatível com atendimento em tempo real</td></tr>
+    <tr><td>8</td><td>Dados de trabalho e dados de operação</td><td>Fatos extraídos de conteúdo e registros estruturados dos sistemas da operação convivem no mesmo estado vivo, tipados pela mesma ontologia</td></tr>
+    <tr><td>9</td><td>Manutenção automática</td><td>Job diário que deduplica, detecta conflitos e envelhece o que não é usado, com fila de revisão</td></tr>
+    <tr><td>10</td><td>Resultado medido e auditável</td><td>Custo, esforço e resultado medidos por contrato contra uma linha de base acordada, que o cliente pode auditar</td></tr>
+    <tr><td>11</td><td>Dados pessoais protegidos</td><td>Pseudonimização antes do modelo, roteamento por residência de dados, consentimento e retenção por tenant</td></tr>
+    <tr><td>12</td><td>Portabilidade</td><td>Ontologia, extração e dados em padrões abertos. Serviços gerenciados só na camada de execução</td></tr>
+    <tr><td>13</td><td>Kernel pequeno e extensível</td><td>Capacidades de domínio entram como módulos. O kernel só ganha o que duas ou mais distribuições usam</td></tr>
+  </tbody>
+</table>
+</section>
+
+
+<section id="c2">
+<h2><span class="n">5</span>C2 · Contêineres do kernel</h2>
+<p>Os blocos executáveis do kernel. Em roxo, captura e memória. Em azul, uso, ação e execução. Os módulos de cada distribuição rodam sobre esses contêineres: um conector roda na ingestão, um canal se liga à abstração de canais, um agente roda na execução de agentes.</p>
+<figure>
+<svg viewBox="0 0 680 782" role="img" aria-label="Diagrama C2 do kernel do pxOS">
+<defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#626262" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="ext"><rect x="40" y="30" width="186" height="56" rx="8"/><text class="t" x="133" y="53" text-anchor="middle">Fontes de trabalho</text><text class="s" x="133" y="72" text-anchor="middle">Reuniões, documentos, metas</text></g>
+<g class="ext"><rect x="247" y="30" width="186" height="56" rx="8"/><text class="t" x="340" y="53" text-anchor="middle">Sistemas da operação</text><text class="s" x="340" y="72" text-anchor="middle">ERP, e-commerce, CRM</text></g>
+<g class="ext"><rect x="454" y="30" width="186" height="56" rx="8"/><text class="t" x="547" y="53" text-anchor="middle">Ferramentas do domínio</text><text class="s" x="547" y="72" text-anchor="middle">Criação, mídia, tarefas</text></g>
+<rect class="bound" x="30" y="116" width="620" height="550" rx="16"/>
+<text class="blabel" x="46" y="138">pxOS · kernel</text>
+<line class="arr" x1="133" y1="86" x2="133" y2="148" marker-end="url(#a2)"/>
+<line class="arr" x1="340" y1="86" x2="340" y2="148" marker-end="url(#a2)"/>
+<line class="arr" x1="547" y1="86" x2="547" y2="148" marker-end="url(#a2)"/>
+<g class="mem"><rect x="50" y="150" width="568" height="56" rx="8"/><text class="t" x="334" y="173" text-anchor="middle">Ingestão e conectores</text><text class="s" x="334" y="192" text-anchor="middle">Avisos, captura de mudanças e leituras viram eventos na fila</text></g>
+<line class="arr" x1="175" y1="206" x2="175" y2="234" marker-end="url(#a2)"/>
+<line class="arr" x1="320" y1="206" x2="320" y2="320" marker-end="url(#a2)"/>
+<g class="mem"><rect x="50" y="236" width="250" height="56" rx="8"/><text class="t" x="175" y="259" text-anchor="middle">Extração e identidade</text><text class="s" x="175" y="278" text-anchor="middle">Fatos tipados, com fonte</text></g>
+<g class="mem"><rect x="340" y="236" width="278" height="56" rx="8"/><text class="t" x="479" y="259" text-anchor="middle">Manutenção</text><text class="s" x="479" y="278" text-anchor="middle">Deduplicação, conflitos, páginas</text></g>
+<line class="arr" x1="175" y1="292" x2="175" y2="320" marker-end="url(#a2)"/>
+<line class="arr" x1="390" y1="292" x2="390" y2="320" marker-end="url(#a2)"/>
+<g class="mem"><rect x="50" y="322" width="377" height="56" rx="8"/><text class="t" x="238.5" y="345" text-anchor="middle">Estado vivo</text><text class="s" x="238.5" y="364" text-anchor="middle">AlloyDB (PostgreSQL) + pgvector, RLS</text></g>
+<line class="arr" x1="427" y1="350" x2="445" y2="350" marker-end="url(#a2)"/>
+<g class="mem"><rect x="447" y="322" width="171" height="56" rx="8"/><text class="t" x="532.5" y="345" text-anchor="middle">Base analítica</text><text class="s" x="532.5" y="364" text-anchor="middle">BigQuery e modelos</text></g>
+<line class="arr" x1="138" y1="378" x2="138" y2="406" marker-end="url(#a2)"/>
+<g class="use"><rect x="50" y="408" width="176" height="56" rx="8"/><text class="t" x="138" y="431" text-anchor="middle">MCP e API</text><text class="s" x="138" y="450" text-anchor="middle">Pessoas, agentes e apps</text></g>
+<g class="use"><rect x="246" y="408" width="176" height="56" rx="8"/><text class="t" x="334" y="431" text-anchor="middle">Gateway de ação</text><text class="s" x="334" y="450" text-anchor="middle">Política e auditoria</text></g>
+<line class="arr" x1="422" y1="436" x2="440" y2="436" marker-end="url(#a2)"/>
+<g class="use"><rect x="442" y="408" width="176" height="56" rx="8"/><text class="t" x="530" y="431" text-anchor="middle">Canais</text><text class="s" x="530" y="450" text-anchor="middle">Cards, mensagens, voz</text></g>
+<line class="arr" x1="138" y1="494" x2="138" y2="466" marker-end="url(#a2)"/>
+<path class="arr" d="M200 494 V482 H300 V466" marker-end="url(#a2)"/>
+<g class="use"><rect x="50" y="494" width="176" height="56" rx="8"/><text class="t" x="138" y="517" text-anchor="middle">Agentes</text><text class="s" x="138" y="536" text-anchor="middle">Execução com identidade</text></g>
+<line class="arr" x1="246" y1="522" x2="228" y2="522" marker-end="url(#a2)"/>
+<g class="use"><rect x="246" y="494" width="176" height="56" rx="8"/><text class="t" x="334" y="517" text-anchor="middle">Gatilhos e fluxos</text><text class="s" x="334" y="536" text-anchor="middle">Agenda, eventos, etapas</text></g>
+<g class="use"><rect x="442" y="494" width="176" height="56" rx="8"/><text class="t" x="530" y="517" text-anchor="middle">Apps</text><text class="s" x="530" y="536" text-anchor="middle">Interface, dados, deploy</text></g>
+<g class="mem"><rect x="50" y="580" width="176" height="56" rx="8"/><text class="t" x="138" y="603" text-anchor="middle">Repositório Git</text><text class="s" x="138" y="622" text-anchor="middle">Ontologia e Constituição</text></g>
+<g class="use"><rect x="246" y="580" width="176" height="56" rx="8"/><text class="t" x="334" y="603" text-anchor="middle">Acesso a modelos</text><text class="s" x="334" y="622" text-anchor="middle">Residência e privacidade</text></g>
+<g class="use"><rect x="442" y="580" width="176" height="56" rx="8"/><text class="t" x="530" y="603" text-anchor="middle">Medição e resultado</text><text class="s" x="530" y="622" text-anchor="middle">Custo, qualidade, resultado</text></g>
+<g class="ext"><rect x="40" y="696" width="186" height="56" rx="8"/><text class="t" x="133" y="719" text-anchor="middle">Pessoas e atores</text><text class="s" x="133" y="738" text-anchor="middle">Claude, Teams, voz</text></g>
+<g class="ext"><rect x="247" y="696" width="186" height="56" rx="8"/><text class="t" x="340" y="719" text-anchor="middle">Sistemas de destino</text><text class="s" x="340" y="738" text-anchor="middle">Onde as ações acontecem</text></g>
+<g class="ext"><rect x="454" y="696" width="186" height="56" rx="8"/><text class="t" x="547" y="719" text-anchor="middle">Vertex AI</text><text class="s" x="547" y="738" text-anchor="middle">Claude, Gemini e ML</text></g>
+</svg>
+<figcaption>Por legibilidade, o diagrama omite algumas ligações. Registros dos sistemas da operação seguem da ingestão direto para o estado vivo, sem passar pela extração, e o histórico em volume vai para a base analítica. O gateway de ação é o único que escreve nos sistemas externos. Toda chamada a modelo passa pelo acesso a modelos. Apps usam o MCP e a API como qualquer agente. O CI do repositório Git gera, a partir da ontologia, os schemas da extração, as tools do MCP e as views do banco.</figcaption>
+</figure>
+<table>
+  <thead><tr><th>Contêiner</th><th>Responsabilidade</th><th>Tecnologia (Google Cloud)</th></tr></thead>
+  <tbody>
+    <tr><td>Ingestão e conectores</td><td>Executa os conectores instalados em cada tenant. Recebe avisos de mudança, captura mudanças dos sistemas da operação e faz leituras periódicas. Normaliza e amarra cada evento a um tenant e a uma frente de trabalho quando possível</td><td>Cloud Run (receptores e conectores) + Pub/Sub. Datastream para captura de mudanças de bancos</td></tr>
+    <tr><td>Extração e identidade</td><td>Transforma conteúdo não estruturado em fatos tipados com fonte, resolve identidades e reconcilia com o estado atual</td><td>Python em Cloud Run, modelos via Vertex AI</td></tr>
+    <tr><td>Manutenção</td><td>Job diário: deduplicação, conflitos, envelhecimento, páginas narrativas e propostas de mudança para a Constituição</td><td>Cloud Run Jobs + Cloud Scheduler</td></tr>
+    <tr><td>Estado vivo</td><td>Entidades, relações, fontes, aliases e log de ações. Fatos do trabalho e registros da operação, tipados pela ontologia. Só acrescenta, com duas datas por fato. Também guarda o índice de busca: trechos de documentos e transcrições, cada um com link para a origem e com as permissões do documento. Isolamento por tenant no banco</td><td>AlloyDB for PostgreSQL + pgvector, Row-Level Security</td></tr>
+    <tr><td>Base analítica</td><td>Histórico operacional em volume, séries para previsão e a base da medição. Treina e serve os modelos analíticos que os agentes chamam como ferramenta, como previsão de demanda e detecção de anomalia</td><td>BigQuery, BigQuery ML e Vertex AI para modelos próprios</td></tr>
+    <tr><td>Repositório Git</td><td>Ontologia (LinkML), Constituição (Markdown), manifestos de módulos e de distribuições, definições de agentes e skills. Mudanças por pull request</td><td>GitHub, com Cloud Build para a geração de código</td></tr>
+    <tr><td>MCP e API</td><td>Ponto único de leitura e proposta. O MCP atende as pessoas e os agentes. A API atende apps e sistemas especialistas. Os dois aplicam as mesmas permissões e a mesma política</td><td>Cloud Run, com o MCP exposto pelo Agent Gateway</td></tr>
+    <tr><td>Gateway de ação</td><td>Executa ações nos sistemas sob política (ação × papel × fase de autonomia × regras do módulo), com auditoria. Tem um caminho assíncrono, com aprovação humana, e um caminho síncrono para ações pré-aprovadas</td><td>Agent Gateway (políticas por tool) + serviço de política próprio via Service Extensions + Secret Manager</td></tr>
+    <tr><td>Canais</td><td>Abstração por onde o kernel entrega mensagens e cards e recebe pedidos e aprovações. Cada canal concreto é um módulo: Teams, Claude, voz e telefonia, WhatsApp</td><td>Cloud Run. Os módulos de canal usam o serviço de cada plataforma, como o Teams e a suíte de atendimento do Google</td></tr>
+    <tr><td>Agentes</td><td>Executa os agentes instalados, cada um com identidade própria e fase de autonomia</td><td>Agent Runtime (Agent Engine) com ADK, cada agente com Agent Identity</td></tr>
+    <tr><td>Gatilhos e fluxos</td><td>Aciona os agentes por agenda (no horário de cada pessoa ou papel) e por evento (mudanças no estado vivo). Conduz fluxos de longa duração, com etapas, prazos e checagens humanas</td><td>Cloud Scheduler, assinaturas Pub/Sub sobre as mudanças do estado vivo e Cloud Workflows</td></tr>
+    <tr><td>Apps</td><td>Hospeda os apps das distribuições: interface, banco transacional próprio por tenant e fluxos. O app fala com o kernel só pelo MCP, pela API e pelos canais</td><td>Cloud Run, Cloud SQL por app e tenant, Cloud Workflows</td></tr>
+    <tr><td>Acesso a modelos</td><td>Toda chamada a modelo de linguagem passa por aqui. Pseudonimiza dados pessoais, escolhe o modelo e a região conforme a residência exigida pelo tenant e inspeciona o tráfego</td><td>Vertex AI (Claude e Gemini), Model Armor, Sensitive Data Protection</td></tr>
+    <tr><td>Medição e resultado</td><td>Traces e custo de cada chamada. Custo, esforço e qualidade por agente, por frente e por contrato. Linha de base e indicadores de resultado de cada distribuição, com trilha que o cliente pode auditar. Avaliação contínua: conjuntos de referência rodados a cada mudança de prompt, modelo ou ontologia</td><td>Cloud Trace e Cloud Logging (OpenTelemetry do ADK), BigQuery</td></tr>
+  </tbody>
+</table>
+<h3>Implantação</h3>
+<p>O mesmo código é implantado de duas formas:</p>
+<table>
+  <thead><tr><th>Forma</th><th>Para quem</th><th>Como funciona</th></tr></thead>
+  <tbody>
+    <tr><td>Compartilhada</td><td>A BRQ@work e projetos de clientes que não exigem ambiente próprio</td><td>Uma instalação com vários tenants, isolados no banco</td></tr>
+    <tr><td>Dedicada</td><td>Distribuições vendidas a um cliente, ou clientes com exigência contratual de isolamento ou de residência de dados</td><td>Uma instalação própria por cliente, em projeto de nuvem separado, criada a partir da mesma infraestrutura como código</td></tr>
+  </tbody>
+</table>
+<p>O kernel e os módulos são versionados uma vez e distribuídos para todas as instalações. O manifesto da distribuição define quais módulos cada instalação recebe. Os dados nunca circulam entre instalações.</p>
+</section>
+
+
+<section id="c3">
+<h2><span class="n">6</span>C3 · Componentes do kernel</h2>
+<p>Quatro contêineres concentram a maior parte do risco e da lógica própria: a ingestão, que decide como os dados chegam; a extração e identidade, que decide o que entra na memória; o MCP com o gateway de ação, que decide o que pessoas e agentes podem ler e fazer; e o acesso a modelos, que decide para onde vai cada dado enviado a um modelo.</p>
+
+<h3>6.1 Ingestão e conectores</h3>
+<p>A ingestão não conhece fontes específicas. Cada fonte entra por um conector, que é um módulo. O kernel oferece três modos de leitura e um contrato comum que todo conector segue. Ninguém precisa enviar ou marcar nada.</p>
+<table>
+  <thead><tr><th>Modo</th><th>Quando se usa</th><th>Como funciona</th></tr></thead>
+  <tbody>
+    <tr><td>Aviso de mudança e leitura incremental</td><td>Fontes de conteúdo: documentos, mensagens, transcrições</td><td>A fonte avisa que algo mudou. O aviso diz só que houve mudança. A ingestão busca o que mudou desde a última leitura, normaliza e coloca na fila de eventos</td></tr>
+    <tr><td>Captura de mudanças</td><td>Sistemas da operação com volume alto: ERP, e-commerce, CRM, WMS</td><td>Cada inserção, alteração ou exclusão vira um evento estruturado. O registro é mapeado direto para os tipos da ontologia, sem modelo de linguagem, e segue para o estado vivo e para a base analítica</td></tr>
+    <tr><td>Leitura periódica</td><td>Sistemas sem eventos</td><td>Leitura agendada, comparada com a anterior, que gera eventos só do que mudou</td></tr>
+  </tbody>
+</table>
+<table>
+  <thead><tr><th>O que um conector declara</th><th>Descrição</th></tr></thead>
+  <tbody>
+    <tr><td>Leitura</td><td>O modo de leitura e como é feita a carga inicial do histórico</td></tr>
+    <tr><td>Mapeamento</td><td>Como os dados do sistema viram tipos da ontologia e se ligam ao tenant e à frente de trabalho</td></tr>
+    <tr><td>Ações</td><td>Quais ações da ontologia o conector executa no sistema</td></tr>
+    <tr><td>Acesso</td><td>Credenciais e escopo mínimo de permissão no sistema</td></tr>
+    <tr><td>Instalação</td><td>Em quais tenants o conector fica ativo</td></tr>
+  </tbody>
+</table>
+<h3>Cuidados da ingestão</h3>
+<ul>
+  <li><strong>Escopo mínimo de acesso:</strong> cada conector lê só o que foi cadastrado para o tenant (sites, pastas, canais, tabelas), nunca o sistema inteiro.</li>
+  <li><strong>Permissões da origem:</strong> um conteúdo com permissão restrita na origem carrega essa restrição para o pxOS, ou não é ingerido.</li>
+  <li><strong>Carga inicial:</strong> ao entrar um tenant ou uma frente de trabalho, o conector lê o histórico existente uma vez. Depois segue só pelas mudanças.</li>
+  <li><strong>Eventos repetidos ou fora de ordem:</strong> o processamento é idempotente. Um evento recebido duas vezes não gera fato duplicado, e uma reconciliação periódica recupera o que se perdeu.</li>
+  <li><strong>Conteúdo sem vínculo:</strong> o que não se liga a nenhuma frente de trabalho do tenant não gera fatos.</li>
+</ul>
+<p>Quando o fornecedor já oferece um servidor MCP, o lado das ações do conector pode reaproveitá-lo atrás do Agent Gateway. A leitura continua passando pela ingestão, para que os dados virem fatos com fonte e entrem no estado vivo.</p>
+
+<h3>6.2 Extração e identidade</h3>
+<p>Vale para conteúdo não estruturado: transcrições, documentos e mensagens. Registros dos sistemas da operação não passam por aqui.</p>
+<figure>
+<svg viewBox="0 0 780 450" role="img" aria-label="Diagrama C3 da extração e identidade">
+<defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#626262" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="ext"><rect x="30" y="20" width="160" height="56" rx="8"/><text class="t" x="110" y="43" text-anchor="middle">Fila de eventos</text><text class="s" x="110" y="62" text-anchor="middle">Pub/Sub</text></g>
+<g class="ext"><rect x="215" y="20" width="160" height="56" rx="8"/><text class="t" x="295" y="43" text-anchor="middle">Schemas</text><text class="s" x="295" y="62" text-anchor="middle">Gerados da ontologia</text></g>
+<g class="ext"><rect x="400" y="20" width="160" height="56" rx="8"/><text class="t" x="480" y="43" text-anchor="middle">Vertex AI</text><text class="s" x="480" y="62" text-anchor="middle">Claude ou Gemini</text></g>
+<rect class="bound" x="15" y="96" width="750" height="232" rx="14"/>
+<text class="blabel" x="750" y="114" text-anchor="end">Extração e identidade</text>
+<line class="arr" x1="110" y1="76" x2="110" y2="128" marker-end="url(#a3)"/>
+<line class="arr" x1="295" y1="76" x2="295" y2="128" marker-end="url(#a3)"/>
+<line class="arr" x1="480" y1="76" x2="480" y2="128" marker-end="url(#a3)"/>
+<g class="mem"><rect x="30" y="130" width="160" height="56" rx="8"/><text class="t" x="110" y="153" text-anchor="middle">Consumidor</text><text class="s" x="110" y="172" text-anchor="middle">Lê e prioriza eventos</text></g>
+<g class="mem"><rect x="215" y="130" width="160" height="56" rx="8"/><text class="t" x="295" y="153" text-anchor="middle">Montador de contexto</text><text class="s" x="295" y="172" text-anchor="middle">Tipos + estado atual</text></g>
+<g class="mem"><rect x="400" y="130" width="160" height="56" rx="8"/><text class="t" x="480" y="153" text-anchor="middle">Extrator</text><text class="s" x="480" y="172" text-anchor="middle">Fatos candidatos</text></g>
+<g class="mem"><rect x="585" y="130" width="160" height="56" rx="8"/><text class="t" x="665" y="153" text-anchor="middle">Validador</text><text class="s" x="665" y="172" text-anchor="middle">Schema e evidência</text></g>
+<line class="arr" x1="190" y1="158" x2="213" y2="158" marker-end="url(#a3)"/>
+<line class="arr" x1="375" y1="158" x2="398" y2="158" marker-end="url(#a3)"/>
+<line class="arr" x1="560" y1="158" x2="583" y2="158" marker-end="url(#a3)"/>
+<line class="arr" x1="665" y1="186" x2="665" y2="238" marker-end="url(#a3)"/>
+<g class="mem"><rect x="585" y="240" width="160" height="56" rx="8"/><text class="t" x="665" y="263" text-anchor="middle">Resolvedor</text><text class="s" x="665" y="282" text-anchor="middle">Identidade em 5 níveis</text></g>
+<g class="mem"><rect x="400" y="240" width="160" height="56" rx="8"/><text class="t" x="480" y="263" text-anchor="middle">Reconciliador</text><text class="s" x="480" y="282" text-anchor="middle">create, update, invalidate</text></g>
+<g class="mem"><rect x="215" y="240" width="160" height="56" rx="8"/><text class="t" x="295" y="263" text-anchor="middle">Roteador</text><text class="s" x="295" y="282" text-anchor="middle">Confiança por tipo</text></g>
+<g class="mem"><rect x="30" y="240" width="160" height="56" rx="8"/><text class="t" x="110" y="263" text-anchor="middle">Gravador</text><text class="s" x="110" y="282" text-anchor="middle">Fato + fonte + versão</text></g>
+<line class="arr" x1="585" y1="268" x2="562" y2="268" marker-end="url(#a3)"/>
+<line class="arr" x1="400" y1="268" x2="377" y2="268" marker-end="url(#a3)"/>
+<line class="arr" x1="215" y1="268" x2="192" y2="268" marker-end="url(#a3)"/>
+<line class="arr" x1="110" y1="296" x2="110" y2="366" marker-end="url(#a3)"/>
+<line class="arr" x1="295" y1="296" x2="295" y2="366" marker-end="url(#a3)"/>
+<g class="ext"><rect x="30" y="368" width="160" height="56" rx="8"/><text class="t" x="110" y="391" text-anchor="middle">Estado vivo</text><text class="s" x="110" y="410" text-anchor="middle">AlloyDB</text></g>
+<g class="ext"><rect x="215" y="368" width="160" height="56" rx="8"/><text class="t" x="295" y="391" text-anchor="middle">Fila de revisão</text><text class="s" x="295" y="410" text-anchor="middle">Cards no canal</text></g>
+</svg>
+<figcaption>Montador de contexto, resolvedor e reconciliador também leem o estado vivo. As ligações foram omitidas no diagrama.</figcaption>
+</figure>
+<table>
+  <thead><tr><th>Componente</th><th>O que faz</th><th>Regras principais</th></tr></thead>
+  <tbody>
+    <tr><td>Consumidor</td><td>Lê eventos da fila e decide se o evento segue para extração</td><td>Reunião sem projeto identificado não é extraída: vai para triagem</td></tr>
+    <tr><td>Montador de contexto</td><td>Junta a transcrição inteira, os tipos válidos do tenant e o estado atual do projeto (pessoas, compromissos abertos, decisões e riscos recentes, com IDs)</td><td>A reunião passa inteira para o modelo, sem fatiar, para preservar referências cruzadas</td></tr>
+    <tr><td>Extrator</td><td>Chamada ao modelo com saída estruturada pelo schema da ontologia. Devolve fatos candidatos, cada um com trecho e minuto de evidência</td><td>Compromisso só existe com dono e ação. Hipótese não é decisão. Assunto pessoal ou de RH é descartado</td></tr>
+    <tr><td>Validador</td><td>Checagens em código, sem modelo: schema, IDs existentes, prazos coerentes, dono conhecido, trecho de evidência presente na transcrição</td><td>Fato sem evidência literal no texto é descartado</td></tr>
+    <tr><td>Resolvedor</td><td>Liga cada menção a uma entidade: chave determinística, tabela de mapeamento, restrição de candidatos, similaridade com decisão do modelo e, por último, fila humana</td><td>O tenant nunca é decidido por modelo. Na dúvida, não junta</td></tr>
+    <tr><td>Reconciliador</td><td>Compara com o estado atual e decide entre criar, atualizar ou invalidar</td><td>Nunca apaga. Contradições invalidam o fato anterior com data</td></tr>
+    <tr><td>Roteador</td><td>Combina sinais de confiança (consistência, evidência, tipo, atribuição de quem falou) e decide entre gravar como verificado ou enviar para revisão</td><td>Risco e mudança de escopo sempre vão para revisão. Limiares calibrados por tipo</td></tr>
+    <tr><td>Gravador</td><td>Grava o fato com fonte, autor da afirmação, confiança e status de revisão</td><td>Toda mudança é uma nova versão. O histórico e a auditoria são preservados</td></tr>
+  </tbody>
+</table>
+
+<h3>6.3 MCP, API e gateway de ação</h3>
+<figure>
+<svg viewBox="0 0 780 450" role="img" aria-label="Diagrama C3 do MCP e do gateway de ação">
+<defs><marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#626262" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="ext"><rect x="30" y="20" width="160" height="56" rx="8"/><text class="t" x="110" y="43" text-anchor="middle">Clientes MCP</text><text class="s" x="110" y="62" text-anchor="middle">Claude e agentes</text></g>
+<g class="ext"><rect x="585" y="20" width="160" height="56" rx="8"/><text class="t" x="665" y="43" text-anchor="middle">Fila de revisão</text><text class="s" x="665" y="62" text-anchor="middle">Cards no canal</text></g>
+<rect class="bound" x="15" y="96" width="750" height="232" rx="14"/>
+<text class="blabel" x="215" y="114">MCP, API e gateway de ação</text>
+<line class="arr" x1="110" y1="76" x2="110" y2="128" marker-end="url(#a4)"/>
+<line class="arr" x1="665" y1="128" x2="665" y2="78" marker-end="url(#a4)"/>
+<g class="use"><rect x="30" y="130" width="160" height="56" rx="8"/><text class="t" x="110" y="153" text-anchor="middle">Autenticação</text><text class="s" x="110" y="172" text-anchor="middle">Pessoas, agentes, externos</text></g>
+<g class="use"><rect x="215" y="130" width="160" height="56" rx="8"/><text class="t" x="295" y="153" text-anchor="middle">Catálogo de tools</text><text class="s" x="295" y="172" text-anchor="middle">Gerado da ontologia</text></g>
+<g class="use"><rect x="400" y="130" width="160" height="56" rx="8"/><text class="t" x="480" y="153" text-anchor="middle">Política</text><text class="s" x="480" y="172" text-anchor="middle">Ação × papel × fase</text></g>
+<g class="use"><rect x="585" y="130" width="160" height="56" rx="8"/><text class="t" x="665" y="153" text-anchor="middle">Encaminhador</text><text class="s" x="665" y="172" text-anchor="middle">Pede aprovação</text></g>
+<line class="arr" x1="190" y1="158" x2="213" y2="158" marker-end="url(#a4)"/>
+<line class="arr" x1="375" y1="158" x2="398" y2="158" marker-end="url(#a4)"/>
+<line class="arr" x1="560" y1="158" x2="583" y2="158" marker-end="url(#a4)"/>
+<line class="arr" x1="450" y1="186" x2="130" y2="238" marker-end="url(#a4)"/>
+<line class="arr" x1="480" y1="186" x2="315" y2="238" marker-end="url(#a4)"/>
+<path class="arr" d="M665 186 V214 H350 V238" marker-end="url(#a4)"/>
+<g class="use"><rect x="30" y="240" width="160" height="56" rx="8"/><text class="t" x="110" y="263" text-anchor="middle">Tools de leitura</text><text class="s" x="110" y="282" text-anchor="middle">Contexto, linha do tempo</text></g>
+<g class="use"><rect x="215" y="240" width="160" height="56" rx="8"/><text class="t" x="295" y="263" text-anchor="middle">Executor de ação</text><text class="s" x="295" y="282" text-anchor="middle">Conectores</text></g>
+<g class="use"><rect x="400" y="240" width="160" height="56" rx="8"/><text class="t" x="480" y="263" text-anchor="middle">Log de auditoria</text><text class="s" x="480" y="282" text-anchor="middle">Toda ação registrada</text></g>
+<g class="use"><rect x="585" y="240" width="160" height="56" rx="8"/><text class="t" x="665" y="263" text-anchor="middle">Credenciais</text><text class="s" x="665" y="282" text-anchor="middle">Secret Manager</text></g>
+<line class="arr" x1="375" y1="268" x2="398" y2="268" marker-end="url(#a4)"/>
+<line class="arr" x1="110" y1="296" x2="110" y2="366" marker-end="url(#a4)"/>
+<line class="arr" x1="295" y1="296" x2="295" y2="366" marker-end="url(#a4)"/>
+<g class="ext"><rect x="30" y="368" width="160" height="56" rx="8"/><text class="t" x="110" y="391" text-anchor="middle">Estado vivo</text><text class="s" x="110" y="410" text-anchor="middle">Filtrado por RLS</text></g>
+<g class="ext"><rect x="215" y="368" width="160" height="56" rx="8"/><text class="t" x="295" y="391" text-anchor="middle">Ferramentas</text><text class="s" x="295" y="410" text-anchor="middle">Sistemas dos módulos</text></g>
+</svg>
+<figcaption>A política decide, para cada chamada, entre permitir leitura, executar a ação direto ou encaminhar para aprovação. Ação aprovada volta ao executor. O executor usa as credenciais guardadas no Secret Manager para falar com as ferramentas. O Agent Gateway aplica as regras por tool e delega ao serviço de política próprio as regras que dependem de parâmetros e da fase de autonomia.</figcaption>
+</figure>
+<table>
+  <thead><tr><th>Componente</th><th>O que faz</th></tr></thead>
+  <tbody>
+    <tr><td>Autenticação</td><td>Valida o token do provedor de identidade da distribuição (na BRQ@work, o Entra ID) e identifica quem chama: pessoa ou agente, com papel e tenants permitidos. Atores externos, como consumidores e fornecedores, chegam só pelos canais, com identidade separada, e nunca acessam as tools de leitura do contexto interno</td></tr>
+    <tr><td>Catálogo de tools</td><td>Tools geradas a partir da ontologia. Leitura: <code>search</code>, <code>get_context</code>, <code>timeline</code>, <code>list_commitments</code>, <code>get_page</code>. Ação: uma tool por tipo de ação (<code>registrar_decisao</code>, <code>lancar_horas</code>...)</td></tr>
+    <tr><td>Política</td><td>Avalia cada chamada pela ação, pelo papel de quem chama, pelos parâmetros, pela fase de autonomia do agente e pelas regras declaradas pelo módulo. Resultado: permitir, executar com aprovação ou negar</td></tr>
+    <tr><td>Encaminhador</td><td>Cria o card de aprovação para o dono certo e devolve a ação ao executor quando aprovada. Cada aprovação tem prazo. Sem resposta, vai para o substituto ou para o gestor do projeto. Ações expiradas não são executadas</td></tr>
+    <tr><td>Tools de leitura</td><td>Consultam o estado vivo com a identidade de quem chama. O banco aplica o isolamento por tenant</td></tr>
+    <tr><td>Executor de ação</td><td>Usa os conectores dos módulos instalados (na BRQ@work: Bud, Planner, SharePoint e portal de horas). Único caminho de escrita nos sistemas</td></tr>
+    <tr><td>Caminho síncrono</td><td>Para ações pré-aprovadas, como consultar um pedido ou abrir um caso durante uma conversa, a política é avaliada e a ação executada na mesma chamada, sem fila, com latência compatível com tempo real. O que precisa de aprovação nunca entra nesse caminho</td></tr>
+    <tr><td>Log de auditoria</td><td>Registra quem pediu, o que foi pedido, a decisão da política, a aprovação e o resultado</td></tr>
+    <tr><td>Credenciais</td><td>Guarda os tokens OAuth de saída de cada agente para os sistemas externos</td></tr>
+  </tbody>
+</table>
+<h3>Política de autonomia</h3>
+<p>Cada agente evolui por fases. A progressão é decidida pelo sponsor da função, com base em métrica, nunca por calendário.</p>
+<table>
+  <thead><tr><th>Fase</th><th>O agente pode</th><th>Critério para avançar</th></tr></thead>
+  <tbody>
+    <tr><td>1 · Assistido</td><td>Ler e propor. Toda ação passa por aprovação</td><td>95% ou mais das propostas aprovadas sem ajuste e zero incidentes em ações irreversíveis</td></tr>
+    <tr><td>2 · Supervisionado</td><td>Executar ações reversíveis de baixo risco direto. As demais seguem com aprovação</td><td>Mesmo critério, medido sobre as ações automáticas</td></tr>
+    <tr><td>3 · Autônomo</td><td>Executar o escopo definido da função. Ações irreversíveis seguem com aprovação</td><td>Revisão periódica pelo sponsor</td></tr>
+  </tbody>
+</table>
+<p>As fases valem por agente. Cada módulo pode declarar, além disso, regras com parâmetros para as próprias ações, como valor, volume ou frequência ("pedido de compra até um valor por fornecedor sem aprovação"). A política combina as duas: a regra do módulo limita o que a fase permite.</p>
+
+<h3>6.4 Acesso a modelos</h3>
+<p>Agentes, extração e manutenção não chamam modelos diretamente. Toda chamada passa por um ponto único, que aplica as regras do tenant antes de o dado sair.</p>
+<table>
+  <thead><tr><th>Componente</th><th>O que faz</th></tr></thead>
+  <tbody>
+    <tr><td>Pseudonimização</td><td>Troca dados pessoais (nome, documento, telefone, endereço) por marcadores antes da chamada e restaura na resposta, quando a política do tenant exige</td></tr>
+    <tr><td>Roteamento por residência</td><td>Escolhe modelo e região conforme o tenant. Cargas com dados pessoais de clientes que exigem processamento no país vão para modelos Gemini na região de São Paulo. As demais podem usar os modelos Claude pelo endpoint global</td></tr>
+    <tr><td>Inspeção</td><td>Model Armor verifica entradas e saídas: instruções escondidas em conteúdo ingerido, vazamento de dado sensível e resposta fora da política</td></tr>
+    <tr><td>Modelos analíticos</td><td>Previsão, classificação e detecção de anomalia rodam na base analítica, não em modelo de linguagem. O agente os chama como ferramenta: o modelo analítico prevê, o agente decide e comunica</td></tr>
+    <tr><td>Registro</td><td>Cada chamada gera trace com custo, modelo, região e tenant, enviado para a medição</td></tr>
+  </tbody>
+</table>
+</section>
+
+
+<section id="ontologia">
+<h2><span class="n">7</span>Ontologia</h2>
+<p>A ontologia é o modelo de cada domínio em objetos, relações e ações. É o que torna o estado vivo consultável com precisão e o que permite replicar uma distribuição entre clientes. Segue o padrão de objetos, links e ações popularizado pela ontologia da Palantir.</p>
+<h3>Como é implementada</h3>
+<ul>
+  <li><strong>Definição:</strong> arquivos LinkML (YAML) no repositório Git são a fonte da verdade. Mudar a ontologia é um pull request aprovado pelo dono daquela camada.</li>
+  <li><strong>Camadas:</strong> ontologia base do kernel, pacotes de domínio (módulos) e extensões por tenant, só com propriedades a mais.</li>
+  <li><strong>Geração:</strong> o CI gera os schemas da extração, os modelos para os agentes, as tools do MCP, as views tipadas do banco e os cards da fila de revisão.</li>
+  <li><strong>Armazenamento:</strong> núcleo genérico no banco (entidades, relações, fontes, aliases e log de ações), com propriedades em JSON validadas pelo schema. O banco só acrescenta e cada fato tem duas datas: quando era verdade no mundo e quando o sistema soube.</li>
+  <li><strong>Evolução:</strong> cada camada tem versão. Uma mudança que altera tipos existentes vem com a migração dos dados já gravados e, se quebrar compatibilidade, com período de transição para os módulos que dependem dela.</li>
+</ul>
+<h3>Ontologia base e pacotes</h3>
+<table>
+  <thead><tr><th>Camada</th><th>Tipos</th><th>Ações</th></tr></thead>
+  <tbody>
+    <tr><td>Ontologia base (kernel)</td><td>Organização, Contrato, Ator (pessoa interna, pessoa externa ou agente), Papel, Evento, Evidência, Métrica, Resultado</td><td>registrar evento, registrar resultado, atribuir papel</td></tr>
+    <tr><td>Pacote de contexto de trabalho</td><td>Frente de trabalho, Reunião, Documento, Decisão, Compromisso, Risco</td><td>registrar decisão, criar compromisso, atualizar status, registrar risco</td></tr>
+    <tr><td>Pacote de projetos e operação</td><td>Projeto e Operação (tipos de frente de trabalho), Entrega, Alocação, Horas</td><td>lançar horas, propor movimentação de alocação, publicar status</td></tr>
+    <tr><td>Pacote de produção criativa</td><td>Conta de marketing (tipo de frente de trabalho), Campanha, Briefing, Peça, Versão, Aprovação, Canal, Publicação</td><td>abrir briefing, gerar variação, solicitar aprovação, aprovar peça, publicar</td></tr>
+    <tr><td>Pacote de atendimento</td><td>Consumidor (tipo de pessoa externa), Conversa, Caso, Intenção, Transferência</td><td>abrir caso, resolver caso, transferir para atendente</td></tr>
+    <tr><td>Pacote de estoque</td><td>SKU, Posição de estoque, Pedido, Fornecedor, Pedido de compra, Previsão</td><td>propor reposição, emitir pedido de compra, marcar indisponível</td></tr>
+  </tbody>
+</table>
+<p>A ontologia base fica pequena de propósito: só o que toda distribuição usa. "Frente de trabalho" vive no pacote de contexto de trabalho e cada pacote de domínio a especializa: projeto e operação na BRQ@work, conta de marketing no HouseOS. Assim extração, páginas e consultas funcionam igual em todas as distribuições de trabalho do conhecimento. Resultado é da base porque toda distribuição é medida por ele.</p>
+<h3>Exemplo de definição</h3>
+<pre><code>object_types:
+  Decisao:
+    properties:
+      titulo:    {type: string, required: true}
+      status:    {type: enum, values: [proposta, tomada, revertida]}
+      tomada_em: {type: datetime}
+links:
+  - {name: decidida_em,  from: Decisao, to: Reuniao, card: N:1}
+  - {name: afeta,        from: Decisao, to: Projeto, card: N:N}
+  - {name: decidida_por, from: Decisao, to: Pessoa,  card: N:N}
+action_types:
+  registrar_decisao:
+    creates: Decisao
+    approver: papel:gerente_projeto
+    autonomy: {fase1: aprovar, fase2: auto_se_confianca_alta}</code></pre>
+</section>
+
+
+<section id="modulos">
+<h2><span class="n">8</span>Módulos e distribuições</h2>
+<p class="lead">As capacidades de cada domínio vêm em módulos. Um módulo usa o que o kernel já oferece e acrescenta só o que é próprio do domínio, em vez de reconstruir integração, memória e permissão. Uma distribuição é um conjunto de módulos sobre o kernel, empacotado para um uso.</p>
+<h3>O que o kernel entrega para os módulos</h3>
+<table>
+  <thead><tr><th>Capacidade</th><th>O que o módulo recebe</th></tr></thead>
+  <tbody>
+    <tr><td>Contexto</td><td>Estado vivo e Constituição pelo MCP e pela API, sempre com fonte</td></tr>
+    <tr><td>Dados operacionais</td><td>Registros dos sistemas da operação já tipados, com histórico na base analítica</td></tr>
+    <tr><td>Ação governada</td><td>Escrita nos sistemas por ações tipadas, com política, aprovação e caminho síncrono para ações pré-aprovadas</td></tr>
+    <tr><td>Identidade</td><td>Identidade e permissões próprias para cada agente, e identidade separada para atores externos</td></tr>
+    <tr><td>Revisão humana</td><td>Fila de cards pronta, com o dono certo de cada aprovação, entregue pelo canal da distribuição</td></tr>
+    <tr><td>Ontologia extensível</td><td>Novos tipos e ações por domínio, sem mexer na base</td></tr>
+    <tr><td>Modelos</td><td>Modelos de linguagem com residência e privacidade resolvidas, e modelos analíticos chamados como ferramenta</td></tr>
+    <tr><td>Fluxos de longa duração</td><td>Processos com várias etapas, prazos e checagens humanas, que usam a mesma fila de revisão e a mesma política</td></tr>
+    <tr><td>Isolamento</td><td>Tenant por cliente garantido pelo banco</td></tr>
+    <tr><td>Medição e resultado</td><td>Custo, esforço, qualidade e indicadores de resultado por agente e por contrato</td></tr>
+  </tbody>
+</table>
+<h3>Tipos de módulo</h3>
+<table>
+  <thead><tr><th>Tipo</th><th>O que é</th><th>Exemplos</th></tr></thead>
+  <tbody>
+    <tr><td>Conector</td><td>Liga um sistema externo ao kernel, para leitura, para ação ou para os dois</td><td>Microsoft 365, Granola, Bud, portal interno da BRQ, plataforma criativa da Adobe, ERP</td></tr>
+    <tr><td>Canal</td><td>Superfície por onde pessoas e atores falam com o pxOS e recebem mensagens e cards</td><td>Teams, Claude, voz e telefonia, WhatsApp</td></tr>
+    <tr><td>Pacote de ontologia</td><td>Tipos e ações de um domínio, sobre a ontologia base</td><td>Contexto de trabalho, projetos e operação, produção criativa, atendimento, estoque</td></tr>
+    <tr><td>Agente</td><td>Trabalho em linguagem, com identidade e fase de autonomia</td><td>Escriba pós-reunião, briefing do dia, status semanal, revisor de marca, agente de reposição</td></tr>
+    <tr><td>App</td><td>Sistema especialista com interface, dados próprios e fluxos</td><td>Visão de carteira, painel de comando da house, motor de reposição</td></tr>
+  </tbody>
+</table>
+<div class="grid2">
+  <div class="card"><h4>Agente</h4><p>Trabalha em linguagem: lê contexto, propõe e age por ações tipadas. Exemplos: escriba pós-reunião, agente de briefing criativo, revisor de marca.</p></div>
+  <div class="card"><h4>App e sistema especialista</h4><p>Software determinístico ou modelo específico: painel de comando, motor de teste sintético, previsão de demanda, gerador de imagem de mercado. Usa a mesma ontologia, as mesmas ações e a mesma política.</p></div>
+</div>
+<h3>Regras de módulos e distribuições</h3>
+<table>
+  <thead><tr><th>Regra</th><th>Como funciona</th></tr></thead>
+  <tbody>
+    <tr><td>Manifesto do módulo</td><td>Cada módulo declara o que traz: tipos e ações, agentes, conectores, quem aprova cada ação, regras de política, permissões de que precisa e versão mínima do kernel</td></tr>
+    <tr><td>Manifesto da distribuição</td><td>Lista os módulos com suas versões, as políticas e as configurações padrão. É o que se instala num cliente</td></tr>
+    <tr><td>Ciclo de vida</td><td>Distribuições e módulos são instalados, atualizados e removidos por tenant. A instalação aplica os pacotes de ontologia e regenera schemas, tools e views daquele tenant</td></tr>
+    <tr><td>Versões compatíveis</td><td>A ontologia base e a API do kernel têm versão. Mudanças que quebram compatibilidade têm aviso e período de transição</td></tr>
+    <tr><td>Atualização do kernel</td><td>Cada distribuição tem um conjunto de testes que roda contra a versão nova do kernel antes da atualização. Instalações dedicadas recebem o kernel novo pelo mesmo processo</td></tr>
+    <tr><td>Permissões por módulo</td><td>Um módulo lê a ontologia base e os próprios tipos. Ler tipos de outro módulo exige permissão declarada no manifesto</td></tr>
+    <tr><td>Dados do app</td><td>Um app pode ter armazenamento próprio para dados especializados, como ativos visuais, métricas de mídia ou cadastros transacionais. Os fatos relevantes e as referências a esses dados voltam para o estado vivo, para que pessoas e agentes de outros módulos os encontrem. Assim nenhum app vira um silo</td></tr>
+  </tbody>
+</table>
+<h3>Kit para construir apps</h3>
+<table>
+  <thead><tr><th>Peça</th><th>O que oferece</th></tr></thead>
+  <tbody>
+    <tr><td>Interface</td><td>Componentes e padrões visuais para telas e cards, com a identidade de cada distribuição</td></tr>
+    <tr><td>Dados</td><td>Banco transacional próprio por app e tenant, com fatos e referências espelhados no estado vivo</td></tr>
+    <tr><td>Fluxos</td><td>Etapas, prazos e checagens humanas sobre o mesmo motor de fluxos do kernel</td></tr>
+    <tr><td>Implantação</td><td>A mesma infraestrutura como código instala o app em ambiente compartilhado ou dedicado</td></tr>
+    <tr><td>Regra de construção</td><td>O app usa só as peças do kernel: ontologia, ações, MCP, API e canais. Assim uma atualização do kernel chega a todos os apps</td></tr>
+  </tbody>
+</table>
+<h3>Como nasce uma distribuição</h3>
+<p>Distribuições de cliente são montadas por times de engenharia que trabalham dentro da operação do cliente. O time parte dos módulos que já existem e constrói só o que falta. A BRQ fica com o kernel, os módulos e os agentes. O cliente fica com a operação e com os dados. A remuneração é pelo resultado medido no kernel.</p>
+<p>O que se repete em duas ou mais distribuições sobe para módulo comum ou para o kernel. É isso que impede cada distribuição de virar um sistema próprio para manter.</p>
+<h3>Distribuições</h3>
+<table>
+  <thead><tr><th>Distribuição</th><th>Para quem</th><th>Módulos próprios</th><th>Resultado medido</th></tr></thead>
+  <tbody>
+    <tr><td>BRQ@work</td><td>Times de projeto e operação da BRQ</td><td>Conectores de Granola, Microsoft 365, Bud e portal interno. Canais Teams e Claude. Pacotes de contexto de trabalho e de projetos e operação. Escriba, briefing, status semanal e programação de alocação</td><td>Horas de trabalho repetitivo, custo por projeto, tempo de entrada de pessoas</td></tr>
+    <tr><td>HouseOS</td><td>House de marketing operada para um cliente</td><td>Conectores da plataforma criativa da Adobe, do repositório de ativos e das plataformas de mídia. Pacotes de contexto de trabalho e de produção criativa. Agentes criativos, painel de comando e teste com públicos sintéticos</td><td>Prazo e custo por peça, aprovação na primeira rodada, desempenho das campanhas</td></tr>
+    <tr><td>Atendimento</td><td>Operação de atendimento de um cliente</td><td>Canais de voz e mensagens sobre a suíte de atendimento do Google. Pacote de atendimento. Agentes de atendimento. Conectores dos sistemas do cliente</td><td>Resolução sem transferência, tempo de atendimento, satisfação</td></tr>
+    <tr><td>Operação de cliente</td><td>Uma operação do cliente remunerada por resultado, como gestão de estoque em e-commerce</td><td>Conectores de e-commerce, ERP e WMS. Pacote de estoque. Modelos de previsão. Agentes de reposição e de fornecedor, com regras de limite por valor</td><td>Ruptura, cobertura em dias, capital parado em estoque</td></tr>
+  </tbody>
+</table>
+<p>A BRQ@work é descrita em detalhe na Parte B. As outras validam a fronteira do kernel: cada peça usada por mais de uma delas está no kernel.</p>
+<h3>HouseOS</h3>
+<p>O HouseOS traz as ações do fluxo criativo (abrir briefing, gerar variação, solicitar aprovação, aprovar peça, publicar e registrar resultado) e se apoia no kernel assim:</p>
+<table>
+  <thead><tr><th>Peça do HouseOS</th><th>O que é</th><th>Como se apoia no kernel</th></tr></thead>
+  <tbody>
+    <tr><td>Memória de marca</td><td>Tom, regras, aprovações passadas e desempenho de peças anteriores</td><td>Estado vivo e Constituição do tenant da house</td></tr>
+    <tr><td>Agentes especialistas</td><td>Briefing, geração de peças com ferramentas de mercado, revisão de marca, publicação e análise de resultados</td><td>Agentes sobre o MCP e o gateway de ação, cada um com sua fase de autonomia</td></tr>
+    <tr><td>Painel de comando</td><td>Visão do fluxo: peças por etapa, gargalos, prazos e resultados</td><td>App que lê a ontologia de produção criativa</td></tr>
+    <tr><td>Teste com públicos sintéticos</td><td>Avaliação de conceitos antes da produção</td><td>App que lê briefing e memória de marca e grava os resultados como fatos</td></tr>
+  </tbody>
+</table>
+<h3>Atendimento</h3>
+<p>A camada conversacional (voz, telefonia, canais de mensagem e transferência para atendente humano) vem da suíte de atendimento do Google e entra como módulos de canal. O agente conversacional chama as ações do pxOS para agir nos sistemas do cliente pelo caminho síncrono do gateway. O kernel registra o que aconteceu, aplica a política e mede o resultado. Passos regulados, como autenticação e estorno, seguem fluxos determinísticos.</p>
+<h3>Como nasce um agente novo</h3>
+<ol>
+  <li><strong>Função e métrica:</strong> qual trabalho o agente assume, ao lado de quem, e como se mede se ele está ajudando.</li>
+  <li><strong>Ontologia:</strong> se o domínio pede tipos ou ações novas, o pacote ganha uma extensão por pull request. A base não muda.</li>
+  <li><strong>Ações e aprovadores:</strong> quais ações o agente pode pedir, quem aprova, quais regras de limite valem e em que fase de autonomia ele começa.</li>
+  <li><strong>Construção:</strong> o agente é escrito com ADK sobre o MCP. Contexto, identidade, revisão e medição já estão prontos.</li>
+  <li><strong>Fase 1:</strong> o agente propõe e as pessoas aprovam. Cada correção vira aprendizado.</li>
+  <li><strong>Progressão por métrica:</strong> o sponsor da função decide o avanço de fase com base nos resultados medidos.</li>
+</ol>
+</section>
+
+
+<div class="part"><p class="part__k">Parte B</p><p class="part__t">A BRQ@work</p><p class="part__d">A distribuição para a operação de projetos e times da BRQ: o que ela instala sobre o kernel, como as pessoas a usam e com quais sistemas conversa.</p></div>
+<section id="brqwork">
+<h2><span class="n">9</span>A BRQ@work</h2>
+<p class="lead">A BRQ@work é a distribuição do pxOS para a operação de projetos e times da BRQ. É a primeira distribuição e a que valida o kernel no uso diário.</p>
+<p>O público inicial é o time de PX, de cerca de 250 pessoas. Como cada cliente e cada unidade entram como um tenant, o mesmo desenho pode atender outras unidades da BRQ: mudam o volume, o custo de modelo e a governança da Constituição.</p>
+<h3>O que a BRQ@work instala sobre o kernel</h3>
+<table>
+  <thead><tr><th>Tipo de módulo</th><th>Módulos</th></tr></thead>
+  <tbody>
+    <tr><td>Conectores</td><td>Granola (transcrições), Microsoft 365 (SharePoint, OneDrive, canais do Teams e calendário), Bud (missões, indicadores e tarefas) e portal interno da BRQ (alocação e horas)</td></tr>
+    <tr><td>Canais</td><td>Teams (conversa com o pxOS, cards e mensagens proativas) e Claude Enterprise (perguntas pelo MCP)</td></tr>
+    <tr><td>Pacotes de ontologia</td><td>Contexto de trabalho e projetos e operação</td></tr>
+    <tr><td>Agentes</td><td>Escriba pós-reunião, briefing do dia e pré-reunião, status semanal e programação de alocação</td></tr>
+    <tr><td>Apps</td><td>Visão de carteira</td></tr>
+  </tbody>
+</table>
+<div class="grid2">
+  <div class="card"><h4>Dentro do escopo</h4><p>Memória de projetos e operações a partir de reuniões, documentos, canais e metas. Briefings, status e alertas. Programação de alocação. Lançamento de horas e tarefas pelo gateway de ação. Visão de carteira.</p></div>
+  <div class="card"><h4>Fora do escopo</h4><p>Substituir Bud, Planner ou o portal de horas, que seguem como sistemas de execução. Avaliação de desempenho de pessoas. Conversas e reuniões sem vínculo com projeto. Atendimento a cliente final.</p></div>
+</div>
+<h3>Conectores da BRQ@work</h3>
+<p>Cada fonte avisa o pxOS quando algo muda ou é lida periodicamente, conforme os modos de leitura do kernel.</p>
+<table>
+  <thead><tr><th>Fonte</th><th>Como o pxOS fica sabendo</th><th>O que busca</th><th>Como liga à frente de trabalho</th></tr></thead>
+  <tbody>
+    <tr><td>Granola</td><td>Webhook de nota pronta, pela API do Granola</td><td>Transcrição, resumo, participantes e dados do evento de calendário</td><td>Pelo evento de calendário e pelos participantes. Séries recorrentes herdam o projeto</td></tr>
+    <tr><td>SharePoint e OneDrive</td><td>Notificação de mudança do Microsoft Graph na biblioteca de documentos do projeto, seguida de consulta incremental (delta) para saber quais arquivos mudaram</td><td>O arquivo alterado, convertido em texto (Word, PowerPoint, Excel e PDF)</td><td>Pelo site ou pela pasta cadastrada para o projeto</td></tr>
+    <tr><td>Canais do Teams</td><td>Notificação de mudança do Microsoft Graph nas mensagens do canal</td><td>Mensagens e respostas</td><td>Pelo canal cadastrado para o projeto</td></tr>
+    <tr><td>Calendário</td><td>Notificação de mudança do Microsoft Graph nos eventos</td><td>Título, participantes, organizador e recorrência</td><td>É a base para ligar reuniões a projetos</td></tr>
+    <tr><td>Portal interno (alocação e horas)</td><td>Eventos ou leitura periódica pela API do portal</td><td>Alocações por pessoa, projeto e período, demandas abertas e horas lançadas</td><td>Pelo código do projeto</td></tr>
+    <tr><td>Bud</td><td>Eventos ou leitura periódica pela API do Bud</td><td>Missões, indicadores, check-ins e tarefas</td><td>Pelo time ou pela missão cadastrada para o projeto</td></tr>
+  </tbody>
+</table>
+<h3>O que acontece com um documento</h3>
+<ol>
+  <li>Alguém salva uma nova versão de um documento na pasta do projeto no SharePoint.</li>
+  <li>O Microsoft Graph avisa a ingestão. A ingestão pede ao Graph a lista do que mudou desde a última leitura e baixa o arquivo.</li>
+  <li>O arquivo vira texto, é dividido em trechos e indexado para busca, sempre com o link para a versão original.</li>
+  <li>Documentos que registram decisões ou compromissos, como atas, status e especificações, também passam pela extração e geram fatos.</li>
+  <li>A página do projeto é atualizada na próxima rodada da manutenção.</li>
+</ol>
+<h3>Particularidades das fontes</h3>
+<ul>
+  <li><strong>Acesso por site:</strong> o Microsoft Graph permite conceder acesso a sites específicos. O conector lê só os sites, pastas e canais cadastrados para cada projeto.</li>
+  <li><strong>Assinaturas que expiram:</strong> as notificações do Graph têm prazo de validade. Um job renova as assinaturas e a reconciliação periódica recupera mudanças perdidas.</li>
+  <li><strong>Reuniões fora de projeto:</strong> conversas individuais e reuniões internas que não se ligam a nenhum projeto não geram fatos.</li>
+  <li><strong>Cadastro do projeto:</strong> cada projeto é cadastrado uma vez com o canal, a pasta, o domínio do cliente e o código do projeto.</li>
+</ul>
+<div class="callout">O acesso ao Granola tem duas formas possíveis, com efeitos diferentes. Na primeira, a chave corporativa lê as notas que estão no espaço do time, e só entram as reuniões colocadas na pasta do projeto: mais privacidade, mas depende de alguém mover a nota. Na segunda, cada pessoa autoriza o acesso às próprias notas uma vez, e o pxOS filtra pelo vínculo com projeto: captura completa, mas exige um acordo claro sobre o que é lido.</div>
+</section>
+
+
+<section id="uso">
+<h2><span class="n">10</span>Como as pessoas usam</h2>
+<p class="lead">A BRQ@work funciona dentro das ferramentas que as pessoas já usam: Teams, Claude, Bud e Granola. Não há uma interface nova para aprender.</p>
+<p>Cada cliente é um tenant (o espaço isolado com os dados daquele cliente). Dentro dele, cada projeto é cadastrado uma vez e passa a ser acompanhado sem trabalho adicional.</p>
+<h3>Três formas de uso</h3>
+<div class="grid3">
+  <div class="card"><h4>Perguntar</h4><p>No Claude ou mencionando o agente no canal do projeto: "o que ficou decidido sobre o escopo da release 2?". A resposta vem com a fonte: reunião, data e minuto.</p></div>
+  <div class="card"><h4>Receber</h4><p>O pxOS entrega sem ser chamado: briefing antes da reunião, status semanal em rascunho, alerta de compromisso vencido ou de risco sem dono.</p></div>
+  <div class="card"><h4>Confirmar</h4><p>Cards no Teams para aprovar, corrigir ou rejeitar fatos e ações. É o único trabalho novo para as pessoas, e precisa caber em poucos minutos por dia.</p></div>
+</div>
+<h3>Como o pxOS chega até as pessoas</h3>
+<p>Além de responder quando é chamado, o pxOS age por gatilhos:</p>
+<table>
+  <thead><tr><th>Gatilho</th><th>Exemplos</th><th>Como funciona</th></tr></thead>
+  <tbody>
+    <tr><td>Agenda</td><td>Briefing do dia para cada pessoa. Programação de alocação para o Delivery Manager no início da semana</td><td>Um agendador aciona o agente no horário de cada pessoa ou papel. O agente monta o conteúdo com a identidade e as permissões de quem vai receber</td></tr>
+    <tr><td>Evento</td><td>Compromisso vencido, risco novo sem dono, alocação que termina na semana seguinte</td><td>A chegada ou a mudança de um fato no estado vivo aciona a regra correspondente</td></tr>
+    <tr><td>Pedido</td><td>Pergunta no Claude ou no canal do projeto</td><td>A pessoa chama</td></tr>
+  </tbody>
+</table>
+<p>A entrega acontece no chat do Teams de cada pessoa, numa conversa com o pxOS, com cards de ação. O app é distribuído pela administração do Teams, sem instalação manual. Cada pessoa escolhe o horário e o que quer receber. O princípio é uma mensagem consolidada por momento do dia, e não um alerta por fato.</p>
+<div class="grid2">
+  <div class="card"><h4>Briefing do dia</h4><p>No horário escolhido, o agente lê a agenda da pessoa. Para cada reunião ligada a um projeto, busca no estado vivo a última decisão relevante, os compromissos abertos da pessoa e dos participantes e os riscos em aberto. Acrescenta as pendências vencidas e envia uma única mensagem, com um bloco por reunião e links para as fontes.</p></div>
+  <div class="card"><h4>Programação de alocação da semana</h4><p>No início da semana, o agente lê as alocações e as demandas do Delivery Manager. Aponta pessoas ociosas ou sobrealocadas, alocações que terminam e demandas sem pessoa, e propõe movimentações. O Delivery Manager aprova, ajusta ou rejeita cada proposta no card. As aprovadas são registradas no portal de alocação pelo gateway de ação.</p></div>
+</div>
+<h3>Um dia comum</h3>
+<table>
+  <thead><tr><th>Momento</th><th>O que o pxOS faz</th><th>O que a pessoa faz</th></tr></thead>
+  <tbody>
+    <tr><td>Início da semana</td><td>Envia ao Delivery Manager a programação de alocação, com propostas de movimentação</td><td>Aprova, ajusta ou rejeita cada proposta</td></tr>
+    <tr><td>Início do dia</td><td>Envia no Teams o briefing: reuniões do dia, pendências e o que mudou nos projetos</td><td>Lê</td></tr>
+    <tr><td>Durante a reunião</td><td>Nada além do que já acontece: o Granola grava</td><td>Participa normalmente</td></tr>
+    <tr><td>Pouco depois da reunião</td><td>Envia um card com decisões, compromissos e riscos extraídos</td><td>Confirma ou corrige o que é seu</td></tr>
+    <tr><td>Em seguida</td><td>Cria as tarefas no Bud e propõe o lançamento de horas</td><td>Aprova as horas</td></tr>
+    <tr><td>A qualquer momento</td><td>Responde perguntas sobre o histórico do projeto, com link para a fonte</td><td>Pergunta no Claude ou no canal</td></tr>
+    <tr><td>Fim da semana</td><td>Deixa pronto o rascunho do status semanal</td><td>Revisa e envia</td></tr>
+    <tr><td>Entrada de alguém no projeto</td><td>Oferece a página do projeto: contexto, decisões e quem é quem</td><td>Lê e pergunta</td></tr>
+  </tbody>
+</table>
+<h3>Por papel</h3>
+<table>
+  <thead><tr><th>Papel</th><th>O que recebe</th><th>O que faz</th></tr></thead>
+  <tbody>
+    <tr><td>Gestor de projeto ou PM</td><td>Briefing, status em rascunho, alertas de compromissos vencidos e riscos</td><td>Confirma fatos do projeto e aprova ações</td></tr>
+    <tr><td>Designer, engenheiro ou analista</td><td>Contexto do projeto sob demanda e tarefas criadas a partir das reuniões</td><td>Confirma os compromissos dos quais é dono</td></tr>
+    <tr><td>Delivery Manager</td><td>Programação de alocação da semana, com ociosidade, sobrealocação e demandas sem pessoa</td><td>Decide as movimentações propostas</td></tr>
+    <tr><td>Diretor ou sponsor</td><td>Visão da carteira: decisões, riscos e compromissos por projeto</td><td>Consulta e aprova ações de maior risco</td></tr>
+    <tr><td>Pessoa nova num projeto</td><td>Página do projeto, histórico de decisões e quem é quem</td><td>Pergunta, em vez de depender de conversas</td></tr>
+    <tr><td>Agentes</td><td>O mesmo contexto das pessoas, pelo MCP</td><td>Agem dentro da política de ação</td></tr>
+  </tbody>
+</table>
+<h3>O que muda para as pessoas</h3>
+<div class="grid2">
+  <div class="card"><h4>Deixam de fazer</h4><p>Atas, status escrito do zero, lançamento de horas de memória, busca por decisões em transcrições e documentos, explicação repetida do histórico a quem chega.</p></div>
+  <div class="card"><h4>Passam a fazer</h4><p>Confirmar cards. O cadastro do projeto acontece uma vez, na entrada. A adoção depende de os cards serem poucos e certos: se a fila pesar, o modelo não se sustenta.</p></div>
+</div>
+</section>
+
+<section id="c1">
+<h2><span class="n">11</span>C1 · Contexto do sistema</h2>
+<p>Quem usa a BRQ@work e com quais sistemas ela conversa.</p>
+<figure>
+<svg viewBox="0 0 760 470" role="img" aria-label="Diagrama C1 do pxOS">
+<defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#626262" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="ppl"><rect x="40" y="24" width="190" height="62" rx="8"/><text class="t" x="135" y="50" text-anchor="middle">Time PX</text><text class="s" x="135" y="70" text-anchor="middle">PMs, designers, engenheiros</text></g>
+<g class="ppl"><rect x="285" y="24" width="190" height="62" rx="8"/><text class="t" x="380" y="50" text-anchor="middle">Gestores</text><text class="s" x="380" y="70" text-anchor="middle">Aprovam ações e fatos</text></g>
+<g class="ppl"><rect x="530" y="24" width="190" height="62" rx="8"/><text class="t" x="625" y="50" text-anchor="middle">Cliente</text><text class="s" x="625" y="70" text-anchor="middle">Participa das reuniões</text></g>
+<g class="sys"><rect x="265" y="196" width="230" height="78" rx="10"/><text class="t" x="380" y="228" text-anchor="middle">BRQ@work</text><text class="s" x="380" y="250" text-anchor="middle">Kernel do pxOS e módulos</text></g>
+<g class="ext"><rect x="20" y="150" width="190" height="62" rx="8"/><text class="t" x="115" y="176" text-anchor="middle">Claude Enterprise</text><text class="s" x="115" y="196" text-anchor="middle">Interface das pessoas</text></g>
+<g class="ext"><rect x="20" y="258" width="190" height="62" rx="8"/><text class="t" x="115" y="284" text-anchor="middle">Vertex AI</text><text class="s" x="115" y="304" text-anchor="middle">Modelos de linguagem</text></g>
+<g class="ext"><rect x="20" y="390" width="160" height="62" rx="8"/><text class="t" x="100" y="416" text-anchor="middle">Ferramentas</text><text class="s" x="100" y="436" text-anchor="middle">Planner, portal de horas</text></g>
+<g class="ext"><rect x="200" y="390" width="160" height="62" rx="8"/><text class="t" x="280" y="416" text-anchor="middle">Bud</text><text class="s" x="280" y="436" text-anchor="middle">Missões e tarefas</text></g>
+<g class="ext"><rect x="380" y="390" width="160" height="62" rx="8"/><text class="t" x="460" y="416" text-anchor="middle">Microsoft 365</text><text class="s" x="460" y="436" text-anchor="middle">Teams, SharePoint, Entra</text></g>
+<g class="ext"><rect x="560" y="390" width="160" height="62" rx="8"/><text class="t" x="640" y="416" text-anchor="middle">Granola</text><text class="s" x="640" y="436" text-anchor="middle">Grava as reuniões</text></g>
+<line class="arr" x1="160" y1="86" x2="320" y2="194" marker-end="url(#a1)"/>
+<line class="arr" x1="380" y1="86" x2="380" y2="194" marker-end="url(#a1)"/>
+<line class="arr" x1="640" y1="86" x2="640" y2="388" marker-end="url(#a1)"/>
+<line class="arr" x1="210" y1="190" x2="263" y2="220" marker-end="url(#a1)"/>
+<line class="arr" x1="263" y1="252" x2="212" y2="282" marker-end="url(#a1)"/>
+<line class="arr" x1="330" y1="274" x2="120" y2="388" marker-end="url(#a1)"/>
+<line class="arr" x1="355" y1="274" x2="290" y2="388" marker-end="url(#a1)"/>
+<line class="arr" x1="405" y1="274" x2="450" y2="388" marker-end="url(#a1)"/>
+<path class="arr" d="M560 410 Q 520 330 470 276" marker-end="url(#a1)"/>
+<text class="lbl" x="650" y="240">gravações</text>
+<text class="lbl" x="530" y="334">transcrições</text>
+</svg>
+<figcaption>As pessoas acessam a BRQ@work pelo Claude Enterprise e pelo Teams. A distribuição lê e escreve no Microsoft 365, no Bud e nas ferramentas de trabalho, lê as transcrições do Granola e usa modelos do Vertex AI. O cliente não usa o pxOS diretamente: aparece como participante das reuniões e como pessoa dentro do tenant do seu projeto.</figcaption>
+</figure>
+<table>
+  <thead><tr><th>Ator ou sistema</th><th>Relação com o pxOS</th></tr></thead>
+  <tbody>
+    <tr><td>Time PX</td><td>Consulta contexto, recebe briefings e status, confirma fatos e ações pela fila de revisão</td></tr>
+    <tr><td>Gestores</td><td>Aprovam ações que exigem aprovação e fatos de maior risco (riscos, mudança de escopo)</td></tr>
+    <tr><td>Cliente</td><td>Participa das reuniões gravadas. Pessoas do cliente existem só no tenant daquele cliente</td></tr>
+    <tr><td>Claude Enterprise</td><td>Interface das pessoas. Acessa o pxOS pelo mesmo MCP usado pelos agentes</td></tr>
+    <tr><td>Microsoft 365</td><td>Fonte (documentos, canais, calendário), destino (SharePoint) e provedor de identidade (Entra ID)</td></tr>
+    <tr><td>Granola</td><td>Fonte das transcrições de reunião</td></tr>
+    <tr><td>Bud</td><td>Fonte e destino de missões, indicadores e tarefas</td></tr>
+    <tr><td>Ferramentas de trabalho</td><td>Destino de ações: tarefas, lançamento de horas</td></tr>
+    <tr><td>Vertex AI</td><td>Modelos (Claude e Gemini) usados pela extração, pela manutenção e pelos agentes</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="fluxo">
+<h2><span class="n">12</span>Fluxo de ponta a ponta</h2>
+<p>Uma reunião de planejamento de um projeto na BRQ@work, acompanhada por três semanas.</p>
+<ol>
+  <li><strong>Reunião:</strong> o Granola fecha a transcrição. A ingestão cruza calendário e participantes e identifica o projeto. Reuniões recorrentes herdam o mapeamento da série.</li>
+  <li><strong>Extração:</strong> saem duas decisões, três compromissos com dono e prazo e um risco novo, cada um com o minuto de evidência.</li>
+  <li><strong>Roteamento:</strong> decisões e compromissos com alta confiança entram como verificados. O risco vai para a fila e o gerente do projeto aprova no Teams.</li>
+  <li><strong>Ação:</strong> o escriba cria as tarefas no Bud e propõe o lançamento de horas. Na fase 1, o lançamento passa por aprovação.</li>
+  <li><strong>Antes da próxima reunião:</strong> o agente de briefing monta a pauta com o que está pendente e o que venceu.</li>
+  <li><strong>Três semanas depois:</strong> o cliente pergunta por que um item saiu do escopo. A pessoa pergunta no Claude e recebe a decisão, quem decidiu, quando e o link para o minuto da reunião.</li>
+  <li><strong>Visão da carteira:</strong> a diretoria consulta todos os projetos com risco de dependência de terceiro aberto há mais de duas semanas e sem mitigação. É uma consulta tipada, impossível numa busca por documentos.</li>
+</ol>
+</section>
+
+<div class="part"><p class="part__k">Transversal</p><p class="part__t">Dados, medição e riscos</p><p class="part__d">Segurança e LGPD, métricas, mercado, questões em aberto e riscos, para o kernel e para a BRQ@work.</p></div>
+<section id="seguranca">
+<h2><span class="n">13</span>Segurança, dados e LGPD</h2>
+<ul>
+  <li><strong>Isolamento por cliente:</strong> cada cliente é um tenant. O isolamento é garantido pelo banco (Row-Level Security), para pessoas e agentes igualmente.</li>
+  <li><strong>Juntar errado é pior que duplicar:</strong> uma junção errada de entidades pode levar contexto de um cliente a outro. Toda a resolução de identidade é calibrada para precisão, e o tenant nunca é decidido por modelo.</li>
+  <li><strong>Ativo da BRQ separado de dado do cliente:</strong> kernel, módulos, agentes e ontologia pertencem à BRQ. A operação, os fatos, os registros e os documentos pertencem ao cliente e ficam no seu tenant. Isso define o que sai com o cliente ao fim do contrato.</li>
+  <li><strong>Papéis na LGPD:</strong> nas distribuições de cliente, o cliente é o controlador dos dados pessoais e a BRQ atua como operadora, nos limites do contrato.</li>
+  <li><strong>Dados pessoais e modelos:</strong> dados pessoais são pseudonimizados antes de chegar a um modelo de linguagem quando a política do tenant exige, e o roteamento escolhe modelo e região conforme a residência de dados contratada.</li>
+  <li><strong>Atores externos:</strong> consumidores e fornecedores interagem só pelos canais, com identidade própria, e nunca acessam o contexto interno do tenant.</li>
+  <li><strong>Auditoria:</strong> toda ação de agente é registrada, com a decisão da política e a aprovação.</li>
+  <li><strong>Conteúdo ingerido é dado, não instrução:</strong> um documento, uma mensagem ou uma transcrição pode conter texto escrito para manipular um agente. Esse conteúdo nunca é tratado como comando. Toda ação passa pela política, ações sensíveis passam por aprovação e o tráfego dos agentes é inspecionado no Agent Gateway (Model Armor).</li>
+  <li><strong>Agente em nome da pessoa:</strong> quando um agente monta algo para alguém, como o briefing do dia, ele lê com a delegação daquela pessoa e enxerga só o que ela enxerga. Acesso amplo de aplicação fica restrito à ingestão dos sites e canais cadastrados.</li>
+  <li><strong>Exclusão e retenção:</strong> o banco que só acrescenta convive com o direito de exclusão. Quando um documento ou uma nota é apagado na origem, ou quando há pedido de exclusão de dados pessoais, o conteúdo é removido de fato (do índice, dos fatos derivados e das páginas), e fica só um registro de que houve a exclusão. Cada tenant tem uma política de retenção definida em contrato.</li>
+</ul>
+<div class="callout"><strong>Pontos que dependem de validação jurídica</strong><br>1. Uso de transcrições de reuniões com clientes como fonte: consentimento, contrato e LGPD.<br>2. Residência de dados: no Vertex AI, os modelos Claude mais recentes são servidos pelo endpoint global ou pelos multirregionais dos EUA e da UE, que processam dados fora do Brasil. Se a inferência precisar ficar no país, o acesso a modelos encaminha as cargas com dados de cliente para modelos Gemini no endpoint regional de São Paulo.</div>
+</section>
+
+<section id="metricas">
+<h2><span class="n">14</span>Métricas</h2>
+<p>As métricas abaixo são as da BRQ@work. As duas últimas valem para toda distribuição.</p>
+<table>
+  <thead><tr><th>Métrica</th><th>O que mostra</th><th>Referência</th></tr></thead>
+  <tbody>
+    <tr><td>Redução de custo por projeto</td><td>Ganho financeiro direto em escopo fechado</td><td>Medida contra a linha de base do próprio projeto</td></tr>
+    <tr><td>Horas de trabalho repetitivo por pessoa</td><td>Esforço liberado do time</td><td>Comparada com a linha de base anterior ao uso</td></tr>
+    <tr><td>Cards aprovados sem edição</td><td>Qualidade da extração e das ações propostas</td><td>95% ou mais para avançar de fase</td></tr>
+    <tr><td>Precisão das junções de identidade</td><td>Segurança do isolamento e da atribuição</td><td>99% ou mais para pessoas e projetos</td></tr>
+    <tr><td>Reuniões mapeadas automaticamente</td><td>Maturidade da ingestão</td><td>Crescente, puxada pelas séries recorrentes</td></tr>
+    <tr><td>Cards por PM por semana</td><td>Se o sistema está aprendendo</td><td>Precisa cair semana a semana</td></tr>
+    <tr><td>Tempo de entrada de uma pessoa nova</td><td>Valor da memória compartilhada</td><td>Comparado com entradas anteriores</td></tr>
+    <tr><td>Resultado contratado</td><td>O indicador pelo qual cada distribuição é remunerada</td><td>Linha de base acordada antes da operação, com trilha que o cliente pode auditar</td></tr>
+    <tr><td>Reaproveitamento entre distribuições</td><td>Quanto de cada distribuição nova vem de módulos e do kernel que já existiam</td><td>Crescente a cada distribuição</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="mercado">
+<h2><span class="n">15</span>O que existe no mercado</h2>
+<p>Várias plataformas cobrem partes do que o pxOS descreve. Nenhuma cobre a combinação inteira.</p>
+<table>
+  <thead><tr><th>Plataforma</th><th>O que cobre</th><th>O que não cobre para o pxOS</th></tr></thead>
+  <tbody>
+    <tr><td>Palantir Foundry e AIP</td><td>É a referência do modelo: ontologia com objetos, relações e ações, agentes que agem por ações governadas, auditoria, MCP e modelos de agente para Claude Agent SDK e Google ADK</td><td>Custo e porte de plataforma corporativa. A ontologia e as integrações continuam sendo trabalho de serviço de quem implanta. Não traz o domínio de PX nem o da house</td></tr>
+    <tr><td>Microsoft Work IQ (Copilot)</td><td>Camada de contexto e memória sobre e-mail, reuniões, documentos e Teams, com APIs e MCP para agentes e conectores para outros sistemas</td><td>Fica dentro do Microsoft 365 e exige licenças de Copilot. Não tem ontologia de domínio com ações e aprovações, nem plataformas por cliente operadas por terceiros</td></tr>
+    <tr><td>Glean</td><td>Busca corporativa com grafo de conhecimento que respeita permissões, centenas de conectores, assistente e agentes</td><td>Forte em encontrar e citar documentos. Não modela fatos tipados com tempo, nem política de autonomia por agente, nem plataformas especialistas por cliente</td></tr>
+    <tr><td>Dust</td><td>Construção e operação de agentes sobre dados da empresa, com conectores e MCP</td><td>Plataforma de agentes, não de memória estruturada. Ontologia, manutenção e medição por contrato ficam por conta de quem usa</td></tr>
+    <tr><td>Atlassian Rovo e Teamwork Graph</td><td>Grafo de trabalho com pessoas, projetos, documentos e decisões, conectores, agentes e MCP</td><td>Centrado no ecossistema Atlassian, que não é a base de ferramentas de PX</td></tr>
+    <tr><td>Zep (Graphiti) e Mem0</td><td>Componentes de memória para agentes: grafo temporal, extração e reconciliação</td><td>São peças, não plataformas. Podem compor a camada de memória do pxOS</td></tr>
+  </tbody>
+</table>
+<h3>Empresas de serviço</h3>
+<p>Consultorias e empresas de tecnologia estão construindo plataformas próprias com a mesma lógica. Três movimentos se repetem: memória sobre o conhecimento da própria empresa, agentes nascidos em projetos que viram ativos reaproveitáveis e plataforma usada como veículo de entrega, com remuneração por resultado.</p>
+<table>
+  <thead><tr><th>Empresa</th><th>O que construiu</th><th>Para onde aponta</th></tr></thead>
+  <tbody>
+    <tr><td>CI&amp;T</td><td>CI&amp;T Flow, descrita como sistema de gestão de IA que orquestra pessoas, agentes, dados e governança, com observabilidade e medição de retorno. Operações de desenvolvimento com agentes rodando dentro do ambiente do cliente</td><td>Plataforma própria como base da entrega e de modelos comerciais por resultado</td></tr>
+    <tr><td>BCG</td><td>Grafos de conhecimento sobre apresentações, documentos e transcrições da firma. Agentes criados em projetos de clientes que, quando funcionam, viram ferramentas da firma. Servidores MCP sobre fontes internas</td><td>Conhecimento proprietário embutido em processos agênticos reaproveitáveis, conduzidos por pessoas</td></tr>
+    <tr><td>Bain</td><td>Sage, plataforma interna que sintetiza o conhecimento da firma, integrada ao Copilot. Parcerias com OpenAI e Palantir</td><td>Conhecimento interno e produtividade, com parceiros para a camada de plataforma</td></tr>
+    <tr><td>Toptal</td><td>Toptal AI, unidade de serviços de IA com agentes prontos por setor e serviços gerenciados</td><td>Da venda de talento para a venda de agentes orientados a resultado e de serviço operado</td></tr>
+  </tbody>
+</table>
+<p>A camada de contexto para uso interno tem alternativas prontas, principalmente para quem já está no Microsoft 365. O que não existe pronto é a parte que é produto de PX: a ontologia dos domínios em que PX atua, a política de ação e aprovação ligada a essa ontologia e as plataformas especialistas por cliente, operadas pelo time de PX, como a da house.</p>
+</section>
+
+<section id="decisoes">
+<h2><span class="n">16</span>Questões em aberto e riscos</h2>
+<h3>Questões em aberto</h3>
+<ol>
+  <li>Construir ou adotar a camada de memória, a partir das soluções abertas de memória temporal que já existem.</li>
+  <li>Existência de API no portal interno de alocação e horas. Sem ela, os agentes ficam limitados a sugerir.</li>
+  <li>Permissões no Entra ID e contas de serviço para agentes, a acertar com a TI.</li>
+  <li>Política de uso de transcrições de reuniões com clientes.</li>
+  <li>Modelo de acesso ao Granola: notas no espaço do time ou autorização individual de cada pessoa.</li>
+  <li>Residência de dados para inferência dos modelos.</li>
+  <li>Critério para escolher entre implantação compartilhada e dedicada em cada cliente.</li>
+  <li>Governança da fronteira do kernel: quem decide quando um módulo sobe para o kernel.</li>
+  <li>Produto da camada conversacional para a distribuição de atendimento, dentro da suíte de atendimento do Google.</li>
+  <li>Modelo de contrato das distribuições de cliente: linha de base, atribuição do resultado e o que acontece com módulos e dados ao fim do contrato.</li>
+</ol>
+<h3>Riscos</h3>
+<table>
+  <thead><tr><th>Risco</th><th>Mitigação</th></tr></thead>
+  <tbody>
+    <tr><td>A memória envelhece e perde confiança, como acontece com wikis</td><td>Captura automática, manutenção diária e fila de revisão com métricas de qualidade</td></tr>
+    <tr><td>Atribuição errada de quem falou nas transcrições</td><td>Candidatos restritos aos participantes, atribuição pelo contexto e confirmação no card</td></tr>
+    <tr><td>Junção errada leva contexto de um cliente a outro</td><td>Tenant determinado por chave, nunca por modelo. Isolamento no banco. Junções reversíveis</td></tr>
+    <tr><td>Fila de revisão vira sobrecarga para os PMs</td><td>Cada correção vira regra ou alias. A métrica de cards por PM precisa cair</td></tr>
+    <tr><td>Kernel com a forma da BRQ@work, por ser a primeira distribuição</td><td>Requisitos conferidos contra as outras distribuições. Critério de fronteira: só entra no kernel o que duas ou mais usam</td></tr>
+    <tr><td>Apps de cliente viram sistemas próprios para manter</td><td>Apps construídos só com as peças do kernel, manifesto com versões e o que se repete sobe para módulo comum</td></tr>
+    <tr><td>Disputa sobre o resultado cobrado</td><td>Linha de base e atribuição definidas antes da operação e auditáveis pelo cliente</td></tr>
+    <tr><td>Dependência da plataforma de nuvem</td><td>Ontologia, extração e dados em padrões abertos. Serviços gerenciados só na execução e na política</td></tr>
+  </tbody>
+</table>
+</section>
+
+<section id="refs">
+<h2><span class="n">17</span>Referências</h2>
+<ul class="refs">
+  <li><a href="https://slite.com/ebook-downloads/company-brain-ebook.pdf">Company Brain 101</a> (Slite, 2026): componentes de um company brain e por que a maioria falha por manutenção.</li>
+  <li><a href="https://palantir.com/docs/foundry/ontology/core-concepts/">Palantir Foundry: Ontology core concepts</a> e <a href="https://www.palantir.com/docs/foundry/action-types/overview/">Action types</a>: objetos, links e ações.</li>
+  <li><a href="https://arxiv.org/abs/2501.13956v1">Zep: A Temporal Knowledge Graph Architecture for Agent Memory</a> (2025): modelo de duas datas e invalidação.</li>
+  <li><a href="https://www.emergentmind.com/papers/2504.19413">Mem0</a> (2025): reconciliação de memória com o estado existente.</li>
+  <li><a href="http://arxiv.org/abs/2304.02711">SPIRES / OntoGPT</a> (2023): extração guiada por schema LinkML.</li>
+  <li><a href="https://dev.co/ai/frameworks/langextract">LangExtract</a> (Google): extração com evidência ligada ao texto de origem.</li>
+  <li><a href="https://developers.openai.com/cookbook/examples/partners/temporal_agents_with_knowledge_graphs/temporal_agents">Temporal Agents with Knowledge Graphs</a> (OpenAI Cookbook): pipeline de transcrições para grafo temporal.</li>
+  <li><a href="https://www.aibuilderclub.com/blog/karpathy-llm-wiki">LLM Wiki</a> (Karpathy, 2026): wiki mantido por modelo, base da página narrativa por projeto.</li>
+  <li><a href="https://anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a> (Anthropic).</li>
+  <li><a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/govern/gateways/agent-gateway-overview">Google Cloud Agent Gateway</a>: identidade de agentes e políticas de autorização para tráfego MCP.</li>
+  <li><a href="https://docs.cloud.google.com/agent-builder/locations">Vertex AI Agent Engine: regiões</a> e <a href="https://platform.claude.com/docs/en/build-with-claude/claude-on-vertex-ai">Claude no Google Cloud</a>: disponibilidade de runtime e de modelos.</li>
+  <li><a href="https://microsoft.com/en-us/microsoft-365/blog/2026/06/02/announcing-the-new-work-iq-apis">Microsoft Work IQ APIs</a> (2026): contexto e memória para agentes no Microsoft 365.</li>
+  <li><a href="https://www.besthub.dev/articles/palantir-2026-roadmap-enterprise-agents-next-battle-is-trust-not-capability-17738fe1a0e5">Palantir 2026 roadmap</a>: ontologia, ações e agentes governados.</li>
+  <li><a href="https://siliconangle.com/2026/05/06/atlassian-opens-teamwork-graph-pushes-rovo-agentic-execution-team-26">Atlassian Teamwork Graph</a> (2026): grafo de trabalho aberto a agentes.</li>
+  <li><a href="https://coworker.ai/blog/dust-vs-glean">Dust vs Glean</a> (2026): agentes e busca corporativa.</li>
+  <li><a href="https://ciandt.com/us/en-us/how-we-deliver">CI&amp;T: How we deliver</a>: CI&amp;T Flow e operações agênticas.</li>
+  <li><a href="https://www.aol.com/articles/inside-bcgs-ai-product-assembly-103101861.html">Inside BCG's AI product assembly line</a> (Business Insider).</li>
+  <li><a href="https://www.bain.com/careers/life-at-bain/careers-blog/five-ways-bain-is-leading-with-ai/">Five ways Bain is leading with AI</a>.</li>
+  <li><a href="https://technode.global/?p=997222">Toptal AI launch</a> (2026).</li>
+</ul>
+</section>
+
+<footer><span>pxOS · BRQ@work · PRD · Versão 0.23 · Novembro de 2026 · Diretoria de Produto &amp; Tecnologia</span><svg class="brq-logo" viewBox="164 98 1239 702" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <g class="logo-brq__mark">
+    <path d="M381.16 345.79C380.76 345.79 380.36 345.76 379.95 345.76H377.71L381.16 345.79Z"/>
+    <path d="M649.4 438.39H649.18V648.36C649.18 652.56 652.58 655.96 656.78 655.96H746.73C750.93 655.96 754.33 652.56 754.33 648.36V344.91H846.52C850.72 344.91 854.12 341.51 854.12 337.31V249.93C854.12 245.57 850.55 242.15 846.19 242.32C739.57 246.38 653.85 331.88 649.38 438.4L649.4 438.39Z"/>
+    <path d="M373.63 242.41H268.15V106.43C268.15 102.23 264.75 98.83 260.55 98.83H172.06C167.86 98.83 164.46 102.23 164.46 106.43V146.42C164.46 259.21 255.57 345.15 368.21 345.77L408.15 345.79H418.53C450.03 345.79 475.56 371.33 475.56 402.82V494.76C475.56 526.26 450.02 551.79 418.53 551.79H326.66C295.16 551.79 269.63 526.25 269.63 494.76V379.29C269.63 375.09 266.23 371.69 262.03 371.69H172.08C167.88 371.69 164.48 375.09 164.48 379.29V451.58C164.48 569.53 267.7 664.26 387.34 656.51C486.76 650.07 566.27 571.07 577.63 472.09C591.9 347.79 495.09 242.4 373.66 242.4L373.63 242.41Z"/>
+    <path d="M1096.41 656.02H1201.89V792C1201.89 796.2 1205.29 799.6 1209.49 799.6H1297.98C1302.18 799.6 1305.58 796.2 1305.58 792V752.01C1305.58 571.91 1214.47 553.28 1101.83 552.66L1061.89 552.64H1051.51C1020.01 552.64 994.48 527.1 994.48 495.61V403.67C994.48 372.17 1020.02 346.64 1051.51 346.64H1143.38C1174.88 346.64 1200.41 372.18 1200.41 403.67V519.73C1200.41 523.93 1203.81 527.33 1208.01 527.33H1297.96C1302.16 527.33 1305.56 523.93 1305.56 519.73V446.85C1305.56 328.9 1202.34 234.17 1082.7 241.92C983.28 248.36 903.77 327.36 892.41 426.34C878.14 550.64 974.95 656.03 1096.38 656.03L1096.41 656.02Z"/>
+  </g>
+</svg>
+</footer>
+</div>
+</body>
+</html>

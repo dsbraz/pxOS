@@ -1,0 +1,11 @@
+{
+  "project_id": "pxos-spikes",
+  "project_number": "1092891583062",
+  "purpose": "Projeto reutilizável de experimentos pxOS",
+  "organization": "getbud.co",
+  "billing_owner": "Bud",
+  "service_account": "spike-runner@pxos-spikes.iam.gserviceaccount.com",
+  "authentication": "gcloud user login + service account impersonation; no service account keys",
+  "apis": ["aiplatform.googleapis.com", "iamcredentials.googleapis.com", "iam.googleapis.com"],
+  "automatic_project_cleanup": false
+}

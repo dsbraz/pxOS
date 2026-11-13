@@ -1,0 +1,14 @@
+{
+  "project": "pxos-spikes",
+  "region": "us-central1",
+  "cluster": "hindsight-spike",
+  "instance": "primary",
+  "network": "pxos-hindsight-net",
+  "ip_range": "pxos-hindsight-range",
+  "database": "hindsight_spike",
+  "instance_uri": "projects/pxos-spikes/locations/us-central1/clusters/hindsight-spike/instances/primary",
+  "service_account": "spike-runner@pxos-spikes.iam.gserviceaccount.com",
+  "connection": "Auth Proxy public IP; no authorized networks",
+  "cpu_count": 2,
+  "availability": "ZONAL"
+}

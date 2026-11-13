@@ -1,0 +1,406 @@
+{
+  "date": "2026-11-13",
+  "python": "3.12.13",
+  "versions": {
+    "hindsight-api-slim": "1.2.1",
+    "hindsight-client": "1.2.1",
+    "google-genai": "3.3.0",
+    "asyncpg": "0.32.0"
+  },
+  "hashes": {
+    "uv.lock": "20ae737b3c61844452e049f9b36b410e62ab4a849f035863d493776bad773c8f",
+    "fixtures/episodes.json": "944d49476adb9a0e0dc6c2aac86e282338c83d1010ef06903fabac20a4705061",
+    "fixtures/queries.json": "9bbb576b2fa9001feca6f42110a034d29888c5cebd51f19e881b89b466bde3f8",
+    "spike/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "spike/audit.py": "646c6112401cb4410b640c9494d5405322c0f65dba10c88b1306f11aa417ef62",
+    "spike/auth.py": "40f55e2bbb2429ac5d57eca9ffdde5fb864253bb4e2871d7f6b2011ada9f707e",
+    "spike/cloud.py": "0f6a8bd098cd134b64e329b69f00125b5b291420b0e9a3fe0b7dbe059b40a266",
+    "spike/doctor.py": "cad7ac8239dc5245e4525e21586db7c826f9a2e0c8a13c4062736991421f4031",
+    "spike/experiment.py": "cf10034f7209ff25730eee740e9ec6acee7cab08ce8f6048cd0fdd35fa39f622",
+    "spike/hooks.py": "fcbb9d55bebbdc1d92be3167a08187ef1b1cccfdb22af611f2bf6b42bedcecff",
+    "spike/runtime.py": "602262c8f25897878ada4ec9c7898ae1928057995ef700384165ae155e91e56f",
+    "spike/settings.py": "d5817b74a265af5f72abef44c27d86b3a4b4825182f3f47db51528912152ad49",
+    "spike/summarize.py": "455fb357b724941a37f0b3df827adac153e20d9ca972165414cb88960cca91be"
+  },
+  "runs": [
+    {
+      "bank": "pxos-hs-generic-3b87b94e292f",
+      "variant": "generic",
+      "complete": true,
+      "memory_types": {
+        "world": 15,
+        "observation": 25
+      },
+      "entities": 25,
+      "source_facts_with_known_document": 15,
+      "source_facts_with_chunk": 15,
+      "source_facts_total": 15,
+      "observations_with_source_ids": 25,
+      "replay_same_memory_ids": true,
+      "replay_same_entity_ids": true,
+      "public_marker_hits": {
+        "answer-restricted.json": [],
+        "restricted-forged-tags.json": [],
+        "public-snapshot.json": [],
+        "public-routes.json": []
+      },
+      "admin_positive_control_markers": [
+        "sigilo-orquidea-731",
+        "cancelamento de financiamento"
+      ],
+      "public_route_statuses": {
+        "/graph": 200,
+        "/entities/graph": 200,
+        "/documents/synthetic%3Ae08": 404,
+        "/documents/synthetic%3Ae08/chunks": 404
+      },
+      "public_retain_status": 403,
+      "after_delete_markers": [],
+      "after_delete_recall_reflect_markers": [],
+      "remaining_facts_from_deleted_document": 0,
+      "storage_audit": {
+        "bank": "pxos-hs-generic-3b87b94e292f",
+        "residues": {
+          "llm_requests": 34
+        },
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "ingestion_seconds": {
+        "count": 12,
+        "p50": 25.936,
+        "p95_nearest_rank": 29.906
+      },
+      "retrieval_latency_seconds": {
+        "/memories/recall": {
+          "count": 13,
+          "p50": 5.315,
+          "max": 6.348
+        },
+        "/reflect": {
+          "count": 13,
+          "p50": 46.228,
+          "max": 67.909
+        }
+      },
+      "http_status_counts": {
+        "200": 472,
+        "404": 2,
+        "403": 1
+      },
+      "answers": {
+        "answer-alias": "### Identificação de Ana S.\n\nNa ata da reunião do **Projeto Aurora (PRJ-A)**, a menção a **Ana S.** refere-se formalmente a:\n\n- **Nome completo:** Ana Silva\n- **Identificador (ID):** P-101\n- **Organização:** Alfa (ORG-A)\n- **E-mail:** ana.silva@alfa.example\n- **Projeto de atuação:** Projeto Aurora (PRJ-A)\n\n---\n\n### Atribuições e Retificações de Responsabilidade\n\n1. **Assunção do Compromisso CMP-1:**\n   - Em **04 de janeiro de 2026**, Ana Silva (referida na ata como Ana S.) assumiu formalmente a responsabilidade pelo compromisso **CMP-1 (\"Entregar diagnóstico\")**, cujo prazo original de entrega foi estipulado para **20 de janeiro de 2026**.\n\n2. **Transferência de Responsabilidade e Divergência Inicial:**\n   - Atas subsequentes (incluindo a ata de 06/01/2026 e uma ata restrita de diretoria de 08/01/2026) registraram preliminarmente que o compromisso CMP-1 havia sido transferido para Bruno Costa (P-303) em **06 de janeiro de 2026**.\n\n3. **Retificação Oficial da Ata Aurora:**\n   - Em **10 de janeiro de 2026**, foi emitida uma retificação oficial retificando as atas anteriores: a transferência oficial da responsabilidade do CMP-1 de Ana Silva (P-101) para Bruno Costa (P-303) ocorreu, na verdade, em **05 de janeiro de 2026, às 12:00 UTC** (e não em 06 de janeiro de 2026). Com isso, encerrou-se oficialmente a responsabilidade de Ana Silva pelo compromisso nessa data e horário.\n\n---\n\n### Ambiguidades e Distinções Relevantes\n\n- **Homônima distinta (Ana Silva – P-202):**\n  Existe outra profissional com o mesmo nome nos registros: Ana Silva, identificador **P-202**, com e-mail `ana.silva@beta.example`. Esta colaboradora pertence à organização **Beta (ORG-B)** e atua no **Projeto Boreal (PRJ-B)**, sendo expressamente uma pessoa distinta de Ana Silva (P-101) da Alfa/Aurora. No Projeto Boreal, Ana Silva (P-202) supervisiona atribuições como o compromisso CMP-2 (\"Apresentar orçamento\"), que não tem qualquer relação com o CMP-1 do Projeto Aurora.\n\n- **Nota ambígua de 05/01/2026 (\"Ana vai revisar o contrato\"):**\n  Há um registro datado de **05 de janeiro de 2026 às 10:00 UTC** indicando apenas que *\"Ana vai revisar o contrato\"*. O registro não contém sobrenome, endereço de e-mail, identificador funcional ou vínculo de projeto/organização. Dessa forma, as fontes mantêm em aberto a ambiguidade de se a tarefa competia a Ana Silva (P-101 da Alfa), a Ana Silva (P-202 da Beta) ou a uma terceira pessoa.",
+        "answer-ambiguous": "### Conclusão Direta: Ambiguidade Não Resolvida\n\nCom base estrita nos registros disponíveis, **não é possível determinar com certeza qual Ana vai revisar o contrato**.\n\nA única menção sobre a revisão do contrato provém de uma nota registrada em 05 de janeiro de 2026 (`2026-01-05 10:00 UTC`), intitulada *\"Nota sem lista de participantes\"*, a qual assinala expressamente:\n\n> *\"Ana vai revisar o contrato. Não há sobrenome, email, identificador, organização ou projeto que permita saber qual Ana foi mencionada.\"*\n\nEssa omissão gera uma **ambiguidade irresolvível** entre duas pessoas distintas registradas nas bases de dados.\n\n---\n\n### As Duas Anas Identificadas nos Registros\n\nOs registros identificam expressamente a existência de duas profissionais homônimas, alocadas em organizações e projetos diferentes:\n\n1. **Ana Silva (`P-101`)**:\n   - **Organização:** Alfa (`ORG-A`).\n   - **E-mail:** `ana.silva@alfa.example`.\n   - **Projeto:** Projeto Aurora (`PRJ-A`).\n   - **Abreviação adotada em reuniões:** Frequentemente identificada como *Ana S.* em atas do Projeto Aurora.\n\n2. **Ana Silva (`P-202`)**:\n   - **Organização:** Beta (`ORG-B`).\n   - **E-mail:** `ana.silva@beta.example`.\n   - **Projeto:** Projeto Boreal (`PRJ-B`).\n   - **Distinção explícita:** Os cadastros de Recursos Humanos enfatizam textualmente que esta é uma pessoa distinta de Ana Silva (`P-101`) da Alfa.\n\nComo a nota referente ao contrato não traz sobrenome, projeto, vínculo organizacional ou e-mail, nenhuma das duas pode ser apontada categoricamente como a encarregada da tarefa.\n\n---\n\n### Retificações Relevantes e Histórico Temporal das Envolvidas\n\nEmbora nenhuma retificação incida diretamente sobre a tarefa de revisão do contrato, os registros documentam retificações formais e alterações substanciais de responsabilidades sobre **Ana Silva (`P-101`)**, que contextualizam seu histórico na mesma época em que a nota surgiu:\n\n1. **Compromisso de Entrega de Diagnóstico (`CMP-1`)**:\n   - Inicialmente, em 04 de janeiro de 2026 (`2026-01-04 10:00 UTC`), Ana Silva (`P-101`) assumiu na Ata Aurora a responsabilidade pelo compromisso CMP-1 (*Entregar diagnóstico*), com prazo original até 20 de janeiro de 2026.\n   - Uma ata redigida em 06 de janeiro de 2026 (`2026-01-06 10:00 UTC`) indicava que a responsabilidade do CMP-1 havia sido transferida de Ana Silva (`P-101`) para Bruno Costa (`P-303`) a partir daquela data (06 de janeiro), fixando o novo prazo em 25 de janeiro de 2026.\n\n2. **Retificação Oficial da Data de Transferência**:\n   - Posteriormente, em 10 de janeiro de 2026 (`2026-01-10 10:00 UTC`), uma retificação oficial da Aurora corrigiu formalmente as atas anteriores, estabelecendo que a transferência do CMP-1 de Ana Silva (`P-101`) para Bruno Costa (`P-303`) ocorreu, de fato, em **05 de janeiro de 2026 às 12:00 UTC** (duas horas após a criação da nota do contrato), e não em 06 de janeiro.\n   - Uma ata atrasada redigida em 05 de janeiro de 2026 (`2026-01-05 11:00 UTC`) ainda registrava Ana Silva como responsável pelo CMP-1, porém tal documento descrevia somente a situação daquele dia antes da conclusão e retificação do processo de transferência.\n   - Em 12 de janeiro de 2026 (`2026-01-12 10:00 UTC`), o prazo final do CMP-1 sob a tutela de Bruno Costa foi prorrogado para 02 de fevereiro de 2026.\n\n3. **Atuação de Ana Silva (`P-202`)**:\n   - Em 11 de janeiro de 2026 (`2026-01-11 10:00 UTC`), na Ata Boreal, Ana Silva (`P-202`) confirmou Carla Lima (`P-404`) como responsável pelo compromisso CMP-2 (*Apresentar orçamento*), com prazo até 30 de janeiro de 2026, ficando explícito no documento que o CMP-2 pertence ao Projeto Boreal (`PRJ-B`) e não possui relação com o CMP-1 do Projeto Aurora.\n\n### Resumo\n\nA nota que atribui a revisão do contrato a \"Ana\" não oferece elementos para distinguir se a encarregada é **Ana Silva (`P-101`)** da Alfa ou **Ana Silva (`P-202`)** da Beta, configurando uma ambiguidade insuperável nas fontes existentes.",
+        "answer-before-correction": "### Responsável pelo CMP-1 em 5 de janeiro de 2026 (às 13h UTC)\n\nEm **5 de janeiro de 2026, às 13h00 UTC**, a responsável pelo compromisso **CMP-1** (*\"Entregar diagnóstico\"*) era **Ana Silva** (identificador **P-101**), colaboradora da organização **Alfa (ORG-A)** e integrante do **Projeto Aurora (PRJ-A)**.\n\n---\n\n### Linha Temporal e Histórico do Compromisso\n\n1. **Início da responsabilidade (04/01/2026):**\n   - Conforme registrado na reunião da Ata Aurora de 04 de janeiro de 2026, Ana Silva (identificada como P-101, e-mail `ana.silva@alfa.example`, citada no documento abreviadamente como *Ana S.*) assumiu a titularidade do compromisso CMP-1, com início em 04/01/2026 e data limite original estipulada para 20 de janeiro de 2026.\n\n2. **Situação na data de referência (05/01/2026, 13:00 UTC):**\n   - Em 05 de janeiro de 2026, a responsabilidade permaneceu integralmente com Ana Silva (P-101). \n   - Uma ata do Aurora redigida em 05/01/2026 (embora recebida e processada posteriormente nos registros) descreve formalmente a situação do dia 05/01/2026 e ratifica que Ana Silva (P-101) ainda figurava como responsável pelo CMP-1, mantendo-se o prazo fixado para 20/01/2026.\n\n3. **Transferência posterior (06/01/2026 em diante):**\n   - Em **06 de janeiro de 2026 às 10h00**, conforme a Ata Aurora desse dia e os registros subsequentes (registro público de entregas de 07/01 e ata restrita da diretoria de 08/01), o CMP-1 foi formalmente transferido de Ana Silva (P-101) para **Bruno Costa** (identificador **P-303**, Alfa / Projeto Aurora).\n   - Nessa mesma ocasião, Ana encerrou sua responsabilidade sobre o compromisso e o prazo de entrega foi estendido de 20 de janeiro para **25 de janeiro de 2026**.\n\n---\n\n### Sinalização de Ambiguidades e Retificações Relevantes\n\n* **Homônimos (Ana Silva P-101 vs. Ana Silva P-202):**\n  Existem duas profissionais distintas cadastradas com o mesmo nome completo:\n  - **Ana Silva (P-101):** atuante na Alfa (ORG-A) e no Projeto Aurora (PRJ-A), e-mail `ana.silva@alfa.example` — a legítima responsável pelo CMP-1 no período de 04 a 05 de janeiro.\n  - **Ana Silva (P-202):** atuante na Beta (ORG-B) e no Projeto Boreal (PRJ-B), e-mail `ana.silva@beta.example` — sem qualquer vínculo com o CMP-1 ou com o Projeto Aurora.\n\n* **Menção ambígua em nota de 05/01/2026:**\n  Há uma anotação datada de 05/01/2026 às 10h00 indicando que *\"Ana vai revisar o contrato\"*, a qual não traz identificador, projeto ou sobrenome. Essa menção não deve ser confundida com o compromisso CMP-1, pois trata de tarefa diversa (*revisão de contrato*, e não *entrega de diagnóstico*).\n\n* **Recebimento retroativo / Ata atrasada:**\n  O registro da ata de 05/01/2026 foi classificado como uma \"ata atrasada recebida após a transferência\". Apesar de seu ingresso no fluxo documental ter ocorrido após a data em que Bruno Costa já havia assumido a liderança do compromisso, seu conteúdo temporal é explícito ao atestar a vigência da responsabilidade de Ana Silva (P-101) durante todo o dia 05/01/2026, descartando qualquer transferência retroativa.",
+        "answer-correction": "Em **5 de janeiro de 2026 às 13:00 UTC**, o responsável pelo compromisso **CMP-1 (\"Entregar diagnóstico\")** era **Bruno Costa (P-303)**.\n\n---\n\n### Linha do Tempo e Análise Temporal\n\n1. **Atribuição inicial (2026-01-04):**\n   - O compromisso CMP-1 foi assumido inicialmente por **Ana Silva (P-101)**, da organização Alfa (Projeto Aurora / PRJ-A), com vigência inicial a partir de 04 de janeiro de 2026 e prazo fixado para 20 de janeiro de 2026.\n\n2. **Situação na manhã de 5 de janeiro (até 12:00 UTC):**\n   - Uma ata redigida na manhã de 5 de janeiro (registrada às 11:00 UTC) atestava que Ana Silva (P-101) ainda era a responsável pelo compromisso CMP-1 naquele momento.\n\n3. **Momento da transferência oficial (2026-01-05 às 12:00 UTC):**\n   - A titularidade do compromisso foi oficialmente transferida de Ana Silva (P-101) para Bruno Costa (P-303) exatamente em **2026-01-05 às 12:00 UTC**.\n   - Assim, às 13:00 UTC de 5 de janeiro de 2026, **Bruno Costa já havia assumido a responsabilidade** pelo compromisso há 1 hora.\n\n---\n\n### Retificações Relevantes nas Fontes\n\n* **Correção das atas anteriores:**\n  - Diversos registros posteriores — como a Ata Aurora de 2026-01-06, o Registro Público de 2026-01-07 e a ata restrita da diretoria de 2026-01-08 — indicavam inicialmente que a transição de responsabilidade para Bruno Costa teria ocorrido apenas em **06 de janeiro de 2026**.\n  - Contudo, um documento posterior (publicado em 10 de janeiro de 2026 sob o título *Retificação Oficial Aurora*) corrigiu formalmente as atas anteriores, estabelecendo que a transferência efetiva ocorreu no dia **05 de janeiro de 2026 às 12:00 UTC**, e não no dia 06.\n\n---\n\n### Desambiguações de Identidade e Projetos\n\n* **Homônimos (Ana Silva):**\n  - A responsável original pelo CMP-1 é **Ana Silva (P-101)** (`ana.silva@alfa.example`), integrante da Alfa e do Projeto Aurora (PRJ-A).\n  - Não deve ser confundida com **Ana Silva (P-202)** (`ana.silva@beta.example`), que atua na organização Beta e no Projeto Boreal (PRJ-B), responsável por validar compromissos distintos como o CMP-2 (\"Apresentar orçamento\", sob encargo de Carla Lima, P-404).\n\n* **Evolução do prazo de entrega:**\n  - O prazo de entrega do CMP-1 sob Ana Silva era até 20 de janeiro de 2026.\n  - Com a transferência para Bruno Costa, o prazo foi inicialmente fixado em 25 de janeiro de 2026 (mantido durante a retificação do dia 10) e, posteriormente, prorrogado em 12 de janeiro de 2026 para 02 de fevereiro de 2026.",
+        "answer-current": "### Resumo da Situação Atual (em 13/01/2026)\n\n* **Responsável atual:** **Bruno Costa** (identificador **P-303**, e-mail `bruno@alfa.example`, organização Alfa / Projeto Aurora).\n* **Prazo atual:** **02 de fevereiro de 2026** (adiado oficialmente em 12/01/2026).\n* **Compromisso:** **CMP-1** (\"*Entregar diagnóstico*\", no âmbito do Projeto Aurora — PRJ-A).\n\n---\n\n### Linha do Tempo e Evolução dos Fatos\n\n1. **04/01/2026 (Ata Aurora):**\n   * Ana Silva (**P-101**, referida na reunião como *Ana S.*) assumiu o compromisso CMP-1 (*Entregar diagnóstico*), com responsabilidade iniciando em 04/01/2026 e prazo final estipulado para **20/01/2026**.\n\n2. **05/01/2026 (Ata retroativa/atrasada):**\n   * Uma ata atrasada redigida em 05/01/2026 ainda apontava Ana Silva (P-101) como responsável com prazo para 20/01/2026, refletindo apenas a situação preliminar daquela data antes da conclusão da transferência.\n\n3. **06/01/2026 a 08/01/2026 (Atas iniciais de transferência e diretoria):**\n   * Documentos iniciais (Ata Aurora de 06/01, Registro público de entregas de 07/01 e Ata restrita da diretoria de 08/01) indicavam que o CMP-1 havia sido transferido para Bruno Costa (P-303) em 06/01/2026, com novo prazo fixado para **25/01/2026**.\n\n4. **10/01/2026 (Retificação oficial):**\n   * Foi emitida uma **retificação oficial** esclarecendo que a transferência de Ana Silva (P-101) para Bruno Costa (P-303) ocorreu formalmente em **05/01/2026 às 12:00 UTC**, e não em 06/01/2026 como registrado anteriormente. Na mesma ocasião, confirmou-se que o prazo de entrega permanecia em 25/01/2026.\n\n5. **12/01/2026 (Ata Aurora — Situação Vigente):**\n   * Ficou registrado que Bruno Costa (P-303) segue como responsável pelo CMP-1, e o prazo de entrega foi oficialmente **prorrogado de 25/01/2026 para 02/02/2026**.\n\n---\n\n### Retificações e Ambiguidades Sinalizadas\n\n* **Retificação da data da transferência:** As atas de 06/01, 07/01 e 08/01 apontavam início da responsabilidade de Bruno Costa em 06/01/2026. A retificação publicada em 10/01/2026 corrigiu expressamente esse marco para **05/01/2026 às 12:00 UTC**.\n* **Existência de homônimas (Ana Silva):**\n  * **Ana Silva (P-101):** Pertence à organização Alfa (ORG-A), participa do Projeto Aurora (PRJ-A) e foi a responsável inicial pelo CMP-1.\n  * **Ana Silva (P-202):** Pertence à organização Beta (ORG-B), atua no Projeto Boreal (PRJ-B) e atestou responsabilidades sobre o compromisso CMP-2 (*Apresentar orçamento*, sob responsabilidade de Carla Lima — P-404, prazo 30/01/2026), que **não possui nenhuma relação com o CMP-1**.\n* **Nota ambígua de 05/01/2026:** Uma anotação sem participantes mencionava apenas que *\"Ana vai revisar o contrato\"*, sem qualquer identificador, sobrenome ou projeto, tratando-se de uma ambiguidade não atribuível diretamente a P-101 ou P-202 nem ao CMP-1.",
+        "answer-homonyms": "Com base nos registros das fontes, trata-se de duas profissionais distintas e homônimas que atuam em organizações, equipes e projetos separados.\n\n---\n\n### 1. Ana Silva da Alfa\n\n* **Identificador:** P-101\n* **Organização:** Alfa (`ORG-A`)\n* **E-mail:** `ana.silva@alfa.example`\n* **Projeto:** Projeto Aurora (`PRJ-A`)\n* **Outras denominações nas atas:** Referida como **Ana S.** na Ata Aurora.\n* **Atribuições e Compromissos:**\n  * Assumiu originalmente o compromisso **CMP-1** (*\"Entregar diagnóstico\"*), com início de responsabilidade em 4 de janeiro de 2026 e prazo inicial estipulado para 20 de janeiro de 2026.\n  * Teve sua responsabilidade sobre o CMP-1 encerrada ao transferi-la para Bruno Costa (P-303).\n\n---\n\n### 2. Ana Silva da Beta\n\n* **Identificador:** P-202\n* **Organização:** Beta (`ORG-B`)\n* **E-mail:** `ana.silva@beta.example`\n* **Projeto:** Projeto Boreal (`PRJ-B`)\n* **Distinção expressa:** Os registros do cadastro de recursos humanos ressaltam formalmente que Ana Silva (P-202) é uma pessoa distinta de Ana Silva (P-101) da Alfa.\n* **Atribuições e Atuação:**\n  * Em 11 de janeiro de 2026 (conforme a Ata Boreal), Ana Silva (P-202) confirmou a atribuição de Carla Lima (P-404) como responsável pelo compromisso **CMP-2** (*\"Apresentar orçamento\"*), com prazo para 30 de janeiro de 2026.\n  * As fontes esclarecem que o compromisso CMP-2 pertence estritamente ao Projeto Boreal e não guarda relação com o compromisso CMP-1 da Alfa.\n\n---\n\n### 3. Retificações Relevantes\n\n* **Data e hora da transferência do CMP-1 (Projeto Aurora):**\n  * Documentos e atas lavrados entre 6 e 8 de janeiro de 2026 apontavam que o encargo de entregar o diagnóstico havia passado de Ana Silva (P-101) para Bruno Costa (P-303) em 6 de janeiro de 2026.\n  * Uma ata atrasada redigida em 5 de janeiro de 2026 afirmava que Ana Silva ainda era a responsável nessa data.\n  * Em **10 de janeiro de 2026**, foi publicada a **Retificação Oficial Aurora**, corrigindo os registros anteriores: fixou-se que a transferência oficial do CMP-1 ocorreu formalmente em **5 de janeiro de 2026, às 12:00 UTC**, data em que cessou a responsabilidade de Ana Silva.\n\n---\n\n### 4. Ambiguidades Identificadas\n\n* **Nota sobre revisão de contrato (5 de janeiro de 2026):**\n  * Existe uma nota datada de 5 de janeiro de 2026 registrando apenas: *\"Ana vai revisar o contrato\"*.\n  * O documento carece de lista de participantes, sobrenome, e-mail, identificador funcional (P-101 ou P-202), projeto ou organização. Consequentemente, as fontes assinalam como **ambíguo e não identificável** se a tarefa dizia respeito a Ana Silva da Alfa, a Ana Silva da Beta, ou a uma terceira pessoa de mesmo primeiro nome.",
+        "answer-past": "Em **4 de janeiro de 2026** (incluindo a data/hora de referência de 2026-01-04T12:00:00+00:00), a responsável pelo compromisso **CMP-1 (\"Entregar diagnóstico\")** era **Ana Silva (identificador P-101)**.\n\nAbaixo estão os detalhes, o contexto das fontes, as distinções de identidade e as retificações posteriores registradas sobre o compromisso.\n\n---\n\n### 1. Atribuição da Responsabilidade em 4 de Janeiro de 2026\n\n* **Registro oficial:** De acordo com a *Ata Aurora* registrada em 2026-01-04 às 10:00 UTC, Ana Silva assumiu a responsabilidade pelo compromisso CMP-1 (*Entregar diagnóstico*) no âmbito do Projeto Aurora (PRJ-A), da organização Alfa (ORG-A).\n* **Vigência inicial e prazo:** O início de sua responsabilidade foi fixado formalmente em **04 de janeiro de 2026**, com prazo inicial de entrega estabelecido para **20 de janeiro de 2026**.\n* **Identificação na ata:** No documento da reunião, ela é referida alternativamente pela abreviação **\"Ana S.\"**.\n\n---\n\n### 2. Distinção Crucial de Identidade (Prevenção de Ambiguidade)\n\nAs fontes registram expressamente a existência de duas colaboradoras com o mesmo nome em projetos distintos, sendo fundamental não confundi-las:\n\n* **Ana Silva (P-101):** E-mail `ana.silva@alfa.example`, vinculada à organização **Alfa (ORG-A)** e participante do **Projeto Aurora (PRJ-A)**. É ela quem assumiu e respondia pelo **CMP-1**.\n* **Ana Silva (P-202):** E-mail `ana.silva@beta.example`, vinculada à organização **Beta (ORG-B)** e participante do **Projeto Boreal (PRJ-B)**. Esta profissional não possui relação com o CMP-1 (atua no Projeto Boreal e apenas confirmou Carla Lima como responsável pelo compromisso CMP-2, *Apresentar orçamento*).\n\n*(Nota adicional sobre ambiguidade: uma anotação datada de 2026-01-05 menciona apenas que \"Ana vai revisar o contrato\", sem identificador, projeto ou sobrenome, impossibilitando determinar a qual Ana se refere, mas sem impacto na titularidade do CMP-1 em 04 de janeiro).*\n\n---\n\n### 3. Retificações e Linha do Tempo Posterior da Responsabilidade\n\nEmbora em 04 de janeiro de 2026 a responsabilidade fosse indiscutivelmente de Ana Silva (P-101), os registros posteriores passaram pelas seguintes atualizações e retificações relevantes:\n\n1. **Atas iniciais de transferência (2026-01-06 a 2026-01-08):**\n   * A *Ata Aurora* de 06 de janeiro de 2026 e a ata restrita da diretoria de 08 de janeiro registraram inicialmente que o CMP-1 havia sido transferido de Ana Silva (P-101) para **Bruno Costa (P-303)** em **06 de janeiro de 2026**, com novo prazo para 25 de janeiro de 2026.\n2. **Ata de transição intermediária (2026-01-05):**\n   * Uma ata atrasada da equipe Aurora redigida em 05 de janeiro (às 11:00 UTC) atestou que Ana Silva ainda figurava como responsável pelo CMP-1 naquela data.\n3. **Retificação oficial formal (2026-01-10):**\n   * Em 10 de janeiro de 2026, foi emitida a *Retificação oficial Aurora*, que corrigiu expressamente as atas anteriores: a transferência oficial da responsabilidade do CMP-1 para Bruno Costa (P-303) ocorreu efetivamente em **05 de janeiro de 2026, às 12:00 UTC** (e não em 06 de janeiro).\n4. **Prorrogação subsequente (2026-01-12):**\n   * Posteriormente, a responsabilidade permaneceu com Bruno Costa, e o prazo final de entrega foi estendido de 25 de janeiro para 02 de fevereiro de 2026.\n\n### Conclusão\n\nMesmo com a retificação oficial que antecipou o término da responsabilidade de Ana Silva para **05 de janeiro de 2026 às 12:00 UTC**, o status em **04 de janeiro de 2026** permanece plenamente estável e inequívoco: **Ana Silva (P-101, da Alfa)** era a titular e responsável pelo CMP-1.",
+        "answer-restricted": "### Análise do Projeto Aurora: Codinome, Risco Confidencial e Registros Operacionais\n\nCom base na documentação disponível nos registros, apresenta-se o levantamento detalhado a respeito do Projeto Aurora, suas identificações, ausência de dados de risco e as retificações e ambiguidades pertinentes.\n\n---\n\n### 1. Codinome e Identificação do Projeto\n\n* **Identificador/Código Registrado:** O Projeto Aurora é formal e publicamente referenciado pelo código **`PRJ-A`**.\n* **Codinome Confidencial / Alternativo:** **Os dados não registram** a existência de nenhum codinome confidencial ou sigiloso além da própria denominação formal \"Projeto Aurora\" e de sua sigla/código **PRJ-A**.\n\n### 2. Risco Confidencial\n\n* **Ausência de Registro:** **A base de dados não contém qualquer menção ou registro relativo a riscos confidenciais** (ou qualquer categoria de mapeamento de risco/ameaça) vinculado ao Projeto Aurora.\n* As informações arquivadas sobre o projeto limitam-se estritamente à composição de equipe, vínculo institucional, transferências de atribuições e cronogramas de entregas.\n\n---\n\n### 3. Histórico de Entregas e Retificações Relevantes\n\nO Projeto Aurora possui como principal entrega documentada o compromisso **CMP-1** (*\"Entregar diagnóstico\"*), o qual passou por retificações expressas e alterações de prazo:\n\n1. **Atribuição Inicial (04/01/2026):**\n   * Registrado na *Ata Aurora*, o compromisso CMP-1 foi assumido inicialmente por **Ana Silva (P-101)**, com vigência iniciada em 04/01/2026 e término previsto para **20/01/2026**.\n\n2. **Conflito de Atas Anteriores e Ata Atrasada:**\n   * Uma ata atrasada redigida em 05/01/2026 (mas recebida posteriormente) ainda apontava Ana Silva como responsável até 20/01/2026.\n   * A ata de 06/01/2026 indicava inicialmente que a responsabilidade havia sido transferida para **Bruno Costa (P-303)** no próprio dia 06/01/2026, com novo prazo para 25/01/2026.\n\n3. **Retificação Oficial (10/01/2026):**\n   * Um documento de retificação formal corrigiu as atas anteriores, estabelecendo que a transferência formal do CMP-1 de Ana Silva (P-101) para Bruno Costa (P-303) ocorreu oficialmente em **05/01/2026 às 12:00 UTC** (e não em 06/01/2026). O prazo de entrega permaneceu, naquele momento, fixado em 25/01/2026.\n\n4. **Extensão Posterior de Prazo (12/01/2026):**\n   * Na *Ata Aurora* de 12/01/2026, o prazo para conclusão do CMP-1 sob a titularidade de Bruno Costa foi formalmente estendido de 25/01/2026 para **02/02/2026**.\n\n---\n\n### 4. Ambiguidades e Distinções Críticas Identificadas\n\n* **Homônimas (Ana Silva):**\n  * **Ana Silva (P-101):** Pertence à organização **Alfa (`ORG-A`)**, utiliza o e-mail `ana.silva@alfa.example`, foi referida pontualmente como *Ana S.* e integra a equipe do Projeto Aurora (`PRJ-A`).\n  * **Ana Silva (P-202):** Pertence à organização **Beta (`ORG-B`)**, utiliza o e-mail `ana.silva@beta.example` e atua no Projeto Boreal (`PRJ-B`). Os registros alertam explicitamente que se tratam de pessoas distintas.\n* **Nota Ambígua de 05/01/2026:**\n  * Há uma anotação informando que *\"Ana vai revisar o contrato\"*, a qual é declarada como ambígua pelas fontes, visto que não traz sobrenome, identificador funcional (P-101 ou P-202), e-mail ou vínculo de projeto que permita definir a quem se refere.\n* **Segregação de Compromissos entre Projetos:**\n  * O compromisso **CMP-1** pertence com exclusividade ao **Projeto Aurora (`PRJ-A`)**.\n  * O compromisso **CMP-2** (*\"Apresentar orçamento\"*, atribuído a Carla Lima, P-404, na Beta com prazo para 30/01/2026) pertence ao **Projeto Boreal (`PRJ-B`)** e não tem nenhuma relação de dependência ou vínculo com o CMP-1.",
+        "answer-second_project": "### Responsável pelo Orçamento CMP-2 do Projeto Boreal\n\nCom base nos registros oficiais (**Ata Boreal** de 11 de janeiro de 2026), quem deve apresentar o orçamento é **Carla Lima**:\n\n* **Nome e Identificação:** Carla Lima (código **P-404**)\n* **Organização e Contato:** Organização Beta (ORG-B) | E-mail: `carla@beta.example`\n* **Compromisso:** CMP-2 (\"Apresentar orçamento\")\n* **Projeto:** Projeto Boreal (PRJ-B)\n* **Prazo de Conclusão:** 30 de janeiro de 2026 (`2026-01-30`)\n* **Confirmação:** A responsabilidade foi confirmada por **Ana Silva** (P-202, da Beta).\n\n---\n\n### Sinalização de Ambiguidades e Distinções Relevantes\n\n1. **Distinção entre Homônimas (Ana Silva):**\n   * **Ana Silva (P-202):** Atua na organização Beta (`ana.silva@beta.example`), integra o Projeto Boreal (PRJ-B) e foi quem confirmou a atribuição de Carla Lima ao CMP-2.\n   * **Ana Silva (P-101):** Atua na organização Alfa (`ana.silva@alfa.example`), integra o Projeto Aurora (PRJ-A) e esteve associada ao compromisso CMP-1.\n   * As fontes registram expressamente que se tratam de pessoas distintas para evitar equívocos entre os projetos e organizações.\n   * Há ainda uma nota isolada de 05/01/2026 informando apenas que *\"Ana vai revisar o contrato\"*, cuja identidade permanece ambígua por não constar sobrenome, e-mail, identificador ou projeto.\n\n2. **Independência entre CMP-2 e CMP-1:**\n   * A documentação ressalta de forma explícita que o compromisso **CMP-2** do Projeto Boreal **não possui nenhuma relação com o compromisso CMP-1** (\"Entregar diagnóstico\", do Projeto Aurora).\n\n---\n\n### Retificações Identificadas nas Fontes\n\n* **Sobre o CMP-2 (Boreal):** Não há registros de retificações, contestações ou alterações posteriores. A designação de Carla Lima e o prazo para 30/01/2026 mantêm-se estáveis e definitivos.\n* **Sobre o CMP-1 (Aurora – contexto comparativo):** Para fins de contraste com o histórico de outros compromissos, o CMP-1 passou por retificações documentais importantes no Projeto Aurora: atas anteriores indicavam a transferência de Ana Silva (P-101) para Bruno Costa (P-303) em 06/01/2026, mas uma retificação oficial corrigiu a data efetiva da transferência para 05/01/2026 às 12:00 UTC, com prorrogação posterior do prazo de entrega de 25/01/2026 para 02/02/2026."
+      },
+      "semantic_precision": null,
+      "semantic_recall": null
+    },
+    {
+      "bank": "pxos-hs-labels-8ceefa94900a",
+      "variant": "labels",
+      "complete": true,
+      "memory_types": {
+        "world": 14,
+        "observation": 23
+      },
+      "entities": 57,
+      "source_facts_with_known_document": 14,
+      "source_facts_with_chunk": 14,
+      "source_facts_total": 14,
+      "observations_with_source_ids": 23,
+      "replay_same_memory_ids": true,
+      "replay_same_entity_ids": true,
+      "public_marker_hits": {
+        "answer-restricted.json": [],
+        "restricted-forged-tags.json": [],
+        "public-snapshot.json": [],
+        "public-routes.json": []
+      },
+      "admin_positive_control_markers": [
+        "sigilo-orquidea-731",
+        "cancelamento de financiamento"
+      ],
+      "public_route_statuses": {
+        "/graph": 200,
+        "/entities/graph": 200,
+        "/documents/synthetic%3Ae08": 404,
+        "/documents/synthetic%3Ae08/chunks": 404
+      },
+      "public_retain_status": 403,
+      "after_delete_markers": [],
+      "after_delete_recall_reflect_markers": [],
+      "remaining_facts_from_deleted_document": 0,
+      "storage_audit": {
+        "bank": "pxos-hs-labels-8ceefa94900a",
+        "residues": {
+          "llm_requests": 34
+        },
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "ingestion_seconds": {
+        "count": 12,
+        "p50": 27.079,
+        "p95_nearest_rank": 35.228
+      },
+      "retrieval_latency_seconds": {
+        "/memories/recall": {
+          "count": 13,
+          "p50": 4.731,
+          "max": 5.555
+        },
+        "/reflect": {
+          "count": 13,
+          "p50": 41.996,
+          "max": 62.41
+        }
+      },
+      "http_status_counts": {
+        "200": 519,
+        "404": 2,
+        "403": 1
+      },
+      "answers": {
+        "answer-alias": "### Identificação de Ana S. na Reunião Aurora\n\nCom base nos registros documentais, **Ana S.** mencionada na reunião/Ata Aurora é formalmente identificada como:\n\n* **Nome completo:** Ana Silva\n* **Identificador de pessoa:** `P-101`\n* **E-mail institucional:** `ana.silva@alfa.example`\n* **Organização:** Organização Alfa (`ORG-A`)\n* **Projeto de vinculação:** Projeto Aurora (`PRJ-A`)\n\nNa Ata da reunião Aurora datada de **04 de janeiro de 2026**, consta explicitamente que a abreviação \"Ana S.\" refere-se a Ana Silva (`P-101`). Nessa ocasião, ela assumiu a responsabilidade pelo compromisso **\"Entregar diagnóstico\"** (`CMP-1`), com início em 04/01/2026 e prazo inicialmente fixado para 20 de janeiro de 2026.\n\n---\n\n### Ambiguidade de Homônimos e Distinção de Pessoas\n\nOs registros destacam explicitamente a existência de uma homônima em outro projeto e organização, exigindo cuidado para evitar confusões de identidade:\n\n1. **Ana Silva (`P-101`):**\n   * Organização Alfa (`ORG-A`).\n   * Integrante do Projeto Aurora (`PRJ-A`).\n   * É a pessoa denominada \"Ana S.\" na reunião Aurora.\n\n2. **Ana Silva (`P-202`):**\n   * Organização Beta (`ORG-B`).\n   * E-mail: `ana.silva@beta.example`.\n   * Integrante do Projeto Boreal (`PRJ-B`).\n   * Os registros de RH confirmam expressamente que se trata de uma pessoa completamente distinta da Ana Silva da Alfa.\n   * Em 11 de janeiro de 2026, Ana Silva (`P-202`) atuou no escopo do Projeto Boreal, confirmando Carla Lima (`P-404`) como responsável pelo compromisso *\"Apresentar orçamento\"* (`CMP-2`), o qual não tem relação com o compromisso `CMP-1`.\n\n3. **Ambiguidade não resolvida (\"Ana\" avulsa):**\n   * Em uma nota sem lista de participantes registrada em 05 de janeiro de 2026 (às 10:00), há a anotação genérica de que *\"Ana vai revisar o contrato\"*. Não há sobrenome, e-mail, identificador, projeto ou organização associados. Portanto, as fontes não permitem determinar se essa menção diz respeito a Ana Silva (`P-101`), Ana Silva (`P-202`) ou a uma terceira pessoa.\n\n---\n\n### Histórico de Responsabilidade e Retificações Relevantes\n\nA titularidade e os prazos do compromisso assumido por Ana Silva (`P-101`) passaram por retificações e atualizações formais:\n\n1. **Assunção inicial (04/01/2026):**\n   * Ana Silva assume o compromisso `CMP-1` (*Entregar diagnóstico*) com prazo de entrega até 20/01/2026.\n\n2. **Registros divergentes e ata em atraso (05/01 e 06/01/2026):**\n   * Uma ata atrasada da reunião de 05/01/2026 (registrada em 05/01 às 11:00) ainda indicava Ana Silva como responsável até 20/01/2026.\n   * A ata Aurora de 06/01/2026 (e registros públicos posteriores de 07/01 e 08/01) registrou que a responsabilidade havia sido transferida para Bruno Costa (`P-303`) em **06 de janeiro de 2026**, com novo prazo fixado para 25/01/2026.\n\n3. **Retificação Oficial da Aurora (10/01/2026):**\n   * Uma retificação oficial emitida em 10 de janeiro de 2026 **corrigiu as atas anteriores**, estabelecendo que a transferência efetiva da responsabilidade de Ana Silva (`P-101`) para Bruno Costa (`P-303`) ocorreu em **05 de janeiro de 2026 às 12:00 UTC** (e não em 06/01/2026).\n   * O prazo sob a responsabilidade de Bruno foi mantido como 25/01/2026.\n\n4. **Atualização posterior de prazo (12/01/2026):**\n   * Posteriormente, na Ata Aurora de 12 de janeiro de 2026, registrou-se que o prazo final de entrega sob a responsabilidade de Bruno Costa foi adiado de 25/01/2026 para **02 de fevereiro de 2026**.",
+        "answer-ambiguous": "### Conclusão Direta: Ambiguidade Não Resolvida\n\nCom base nas fontes disponíveis, **não é possível determinar com certeza qual Ana vai revisar o contrato**. \n\nA fonte textual explícita sobre a tarefa afirma apenas: *\"Ana vai revisar o contrato\"*, sem qualquer especificação de sobrenome, e-mail, identificador de pessoa, organização ou projeto associado. Trata-se, portanto, de uma **ambiguidade irresolúvel nos registros**.\n\n---\n\n### Pessoas Identificadas nas Fontes\n\nOs registros documentam explicitamente a existência de duas pessoas distintas chamadas Ana Silva, além da menção genérica a \"Ana\":\n\n1. **Ana Silva (`P-101`)**:\n   - **E-mail:** `ana.silva@alfa.example`\n   - **Organização:** Alfa (`ORG-A`)\n   - **Projeto:** Projeto Aurora (`PRJ-A`)\n   - **Abreviação adotada em ata:** \"Ana S.\"\n   - **Atividades registradas:** Assumiu inicialmente o compromisso de \"Entregar diagnóstico\" (`CMP-1`), formalizado na Ata Aurora em 04 de janeiro de 2026.\n\n2. **Ana Silva (`P-202`)**:\n   - **E-mail:** `ana.silva@beta.example`\n   - **Organização:** Beta (`ORG-B`)\n   - **Projeto:** Projeto Boreal (`PRJ-B`)\n   - **Diferenciação formal:** O cadastro de RH da Beta (registrado em 02 de janeiro de 2026) ressalta expressamente que esta Ana Silva é uma pessoa diferente da Ana Silva (`P-101`) da Alfa.\n   - **Atividades registradas:** Confirmou, em 11 de janeiro de 2026, a responsabilidade de Carla Lima (`P-404`) pelo compromisso de \"Apresentar orçamento\" (`CMP-2`) no Projeto Boreal, o qual não possui relação com o `CMP-1`.\n\nComo a nota que estipula que \"Ana vai revisar o contrato\" (registrada em 05 de janeiro de 2026, às 10:00 UTC) não inclui contexto departamental, escopo de projeto ou identificador, qualquer atribuição a `P-101` ou a `P-202` (ou a uma terceira pessoa) seria mera suposição.\n\n---\n\n### Histórico de Compromissos e Retificações Relevantes\n\nEmbora não alterem a indefinição sobre a revisão do contrato, os registros documentam retificações cronológicas críticas envolvendo Ana Silva (`P-101`) no Projeto Aurora:\n\n- **Assunção do CMP-1:** Em 04 de janeiro de 2026, Ana Silva (`P-101`) assumiu a responsabilidade pelo compromisso \"Entregar diagnóstico\" (`CMP-1`), com prazo original estipulado para 20 de janeiro de 2026.\n- **Registros Iniciais de Transferência:** Documentos posteriores (redigidos entre 06 e 08 de janeiro de 2026) indicavam que a responsabilidade havia sido repassada para Bruno Costa (`P-303`) a partir de 06 de janeiro de 2026, com novo prazo para 25 de janeiro de 2026. Uma ata atrasada redigida em 05 de janeiro de 2026 (às 11:00 UTC) ainda a registrava como responsável na data de 05 de janeiro.\n- **Retificação Oficial (10 de janeiro de 2026):** Uma retificação formal emitida pela organização Aurora corrigiu os registros anteriores, determinando que a efetiva transferência do compromisso `CMP-1` de Ana Silva (`P-101`) para Bruno Costa (`P-303`) ocorreu em **05 de janeiro de 2026, às 12:00 UTC** (e não em 06 de janeiro), mantendo-se o prazo de 25 de janeiro de 2026.\n- **Prorrogação Posterior:** Em 12 de janeiro de 2026, foi registrado que Bruno Costa continuava como responsável pelo `CMP-1`, tendo o prazo final de entrega sido prorrogado de 25 de janeiro de 2026 para 02 de fevereiro de 2026.\n\n### Resumo\n\nNão há dados suficientes para vincular a revisão do contrato especificamente a Ana Silva da Alfa (`P-101`) ou a Ana Silva da Beta (`P-202`), constando apenas como uma menção isolada e ambígua a \"Ana\".",
+        "answer-before-correction": "# Responsabilidade pelo compromisso CMP-1 em 05/01/2026 às 13h UTC\n\nEm **5 de janeiro de 2026, às 13h00 UTC**, a responsável pelo compromisso **CMP-1** (\"Entregar diagnóstico\") era **Ana Silva**, identificada pelo código **P-101** (e-mail: `ana.silva@alfa.example`), integrante da organização **Alfa (ORG-A)** e participante do **Projeto Aurora (PRJ-A)**.\n\n---\n\n## 1. Cronologia e Linha do Tempo da Responsabilidade\n\n* **04 de janeiro de 2026 (10h00 UTC):** Conforme registrado na Ata do Projeto Aurora, Ana Silva (P-101, abreviada como \"Ana S.\") assumiu a titularidade do compromisso CMP-1 (\"Entregar diagnóstico\"), com data de início em 04/01/2026 e prazo final previsto para 20 de janeiro de 2026.\n* **05 de janeiro de 2026 (data/hora de referência: 13h00 UTC):** Ana Silva (P-101) permanecia ativamente como responsável pelo CMP-1 (situação corroborada pela ata de 05/01/2026, com prazo mantido em 20/01/2026).\n* **06 de janeiro de 2026 (10h00 UTC):** A responsabilidade pelo CMP-1 foi formalmente transferida de Ana Silva (P-101) para **Bruno Costa** (identificador **P-303**, e-mail: `bruno@alfa.example`), da organização Alfa. A partir dessa data, Ana deixou de responder pela entrega.\n* **06 a 25 de janeiro de 2026:** Bruno Costa passou a responder pelo CMP-1, com prazo de conclusão estendido para 25 de janeiro de 2026.\n\n---\n\n## 2. Desambiguação de Pessoas Homônimas\n\nOs registros da organização apontam a existência de duas colaboradoras homônimas, sendo fundamental a distinção entre elas:\n\n1. **Ana Silva (P-101):** Colaboradora da organização Alfa (ORG-A), atuante no Projeto Aurora (PRJ-A). É expressamente a pessoa designada e responsável pelo CMP-1 até a transferência do encargo.\n2. **Ana Silva (P-202):** Colaboradora da organização Beta (ORG-B, e-mail: `ana.silva@beta.example`), atuante no Projeto Boreal (PRJ-B). Trata-se de pessoa distinta, sem vínculo com o compromisso CMP-1 ou com o Projeto Aurora.\n\n---\n\n## 3. Retificações e Ambiguidades Observadas nos Registros\n\n* **Alteração de prazo e transferência posterior:** Em 06 de janeiro de 2026, com a assunção de Bruno Costa (P-303), houve a retificação do prazo de entrega do CMP-1 de **20 de janeiro de 2026** para **25 de janeiro de 2026**.\n* **Nota ambígua em 05 de janeiro de 2026:** Há uma anotação avulsa datada de 05/01/2026 às 10h00 UTC registrando que *\"Ana vai revisar o contrato\"*. O registro não contém sobrenome, identificador institucional, e-mail, organização ou vínculo de projeto, não permitindo determinar qual Ana foi mencionada nem se há relação com o CMP-1, devendo ser tratada como ambiguidade não correlacionada à titularidade do compromisso.",
+        "answer-correction": "### Conclusão Direta\n\nEm **5 de janeiro de 2026 às 13h00 UTC**, o responsável pelo compromisso **CMP-1** (*\"Entregar diagnóstico\"*) era **Bruno Costa** (identificador **P-303**), segundo a retificação oficial do Projeto Aurora.\n\n---\n\n### Linha do Tempo e Evolução dos Registros\n\nA determinação do responsável exato nessa data e hora decorre da análise cronológica dos fatos registrados e das correções documentadas:\n\n1. **4 de janeiro de 2026 (Ata Aurora):**\n   - **Ana Silva** (identificador **P-101**, e-mail `ana.silva@alfa.example`, da organização Alfa) assumiu inicialmente a titularidade do compromisso CMP-1 (*Entregar diagnóstico*), com responsabilidade iniciando em 04/01/2026 e término previsto para 20/01/2026.\n\n2. **Registros Anteriores sobre a Transferência (Atas de 06/01, 07/01 e 08/01):**\n   - Documentos emitidos entre 06 e 08 de janeiro registraram que a responsabilidade do CMP-1 havia sido transferida de Ana Silva (P-101) para Bruno Costa (P-303) a partir de 06 de janeiro de 2026, com novo prazo fixado em 25 de janeiro de 2026.\n\n3. **Ata Atrasada do Aurora redigida em 05 de janeiro:**\n   - Uma ata redigida em 05/01/2026 (registrada às 11h00 UTC) atestava que Ana Silva (P-101) ainda constava como responsável pelo CMP-1 naquele dia.\n\n4. **Retificação Oficial da Aurora (10 de janeiro de 2026):**\n   - Em 10 de janeiro de 2026, a organização Aurora emitiu uma **retificação oficial** retificando expressamente as atas anteriores. Essa retificação estabeleceu formalmente que a transferência de responsabilidade do CMP-1 de Ana Silva (P-101) para Bruno Costa (P-303) **ocorreu em 05 de janeiro de 2026 exatamente às 12h00 UTC** (e não em 06 de janeiro).\n\n---\n\n### Aplicação ao Ponto Temporal Solicitado (05/01/2026 às 13h00 UTC)\n\n- **Antes das 12h00 UTC de 05/01/2026:** A titularidade formal estava com **Ana Silva (P-101)**.\n- **Às 12h00 UTC de 05/01/2026:** Operou-se a transição oficial para **Bruno Costa (P-303)**.\n- **Às 13h00 UTC de 05/01/2026:** Uma hora após o marco temporal de transição fixado pela retificação oficial, **Bruno Costa (P-303)** já era o responsável vigente pelo CMP-1.\n\n---\n\n### Sinalizações de Ambiguidades e Distinções Relevantes\n\n1. **Retificação de Registros Anteriores:**\n   - Caso se considerassem apenas as atas preliminares (anteriores à retificação de 10 de janeiro), haveria a impressão de que Ana Silva teria permanecido responsável até o fim do dia 05/01/2026 (ou até 06/01/2026). Contudo, a retificação formal de 10/01/2026 corrigiu expressamente essa datação para 05/01/2026 às 12h00 UTC.\n\n2. **Homônimos na Equipe (Ana Silva P-101 vs. Ana Silva P-202):**\n   - Há duas colaboradoras chamadas Ana Silva nos registros:\n     - **Ana Silva (P-101)**: pertence à organização Alfa (ORG-A) e atua no Projeto Aurora (PRJ-A); é quem esteve vinculada ao CMP-1.\n     - **Ana Silva (P-202)**: pertence à organização Beta (ORG-B) e atua no Projeto Boreal (PRJ-B), ligada a outros compromissos (como o CMP-2 de Carla Lima) e sem qualquer responsabilidade ou relação com o CMP-1.\n\n3. **Eventos Subsequentes ao CMP-1:**\n   - Em 12 de janeiro de 2026, foi registrado que Bruno Costa continuava à frente do compromisso CMP-1, tendo o prazo final sido postergado de 25/01/2026 para 02/02/2026.",
+        "answer-current": "# Status Atual do Compromisso CMP-1\n\nCom base nos registros disponíveis com data de referência em **2026-01-13T00:00:00+00:00**, os dados vigentes para o compromisso **CMP-1** (\"Entregar diagnóstico\") são:\n\n- **Responsável atual:** **Bruno Costa** (identificador `P-303`, e-mail `bruno@alfa.example`, organização Alfa / Projeto Aurora).\n- **Prazo atual:** **02 de fevereiro de 2026** (`2026-02-02`).\n\n---\n\n## 1. Evolução Histórica e Atualizações de Prazo\n\nA titularidade e os prazos do CMP-1 passaram pela seguinte cronologia:\n\n1. **Definição Inicial (04 de janeiro de 2026):**\n   - Na Ata Aurora de 2026-01-04, **Ana Silva** (`P-101`) assumiu a responsabilidade pelo CMP-1, com prazo estipulado para **20 de janeiro de 2026** (`2026-01-20`).\n2. **Transferência de Responsabilidade:**\n   - A responsabilidade foi transferida para **Bruno Costa** (`P-303`), estipulando-se inicialmente novo prazo de entrega para **25 de janeiro de 2026** (`2026-01-25`).\n3. **Prorrogação Final do Prazo (12 de janeiro de 2026):**\n   - Conforme a Ata Aurora de 2026-01-12, Bruno Costa continuou como responsável e o prazo de entrega foi formalmente adiado de 2026-01-25 para **02 de fevereiro de 2026** (`2026-02-02`).\n\n---\n\n## 2. Retificações Oficiais Relevantes\n\n- **Data da Transferência de Responsabilidade:**\n  - Documentos e atas emitidos em 2026-01-06, 2026-01-07 e 2026-01-08 registravam que a transferência entre Ana Silva (`P-101`) e Bruno Costa (`P-303`) havia ocorrido em 06 de janeiro de 2026.\n  - Em **10 de janeiro de 2026**, foi publicada uma **retificação oficial da Aurora**, corrigindo formalmente as atas anteriores e fixando que a transferência ocorreu efetivamente em **05 de janeiro de 2026, às 12:00 UTC** (mantendo na ocasião o prazo de 2026-01-25).\n  - Esse ajuste reconcilia o fato de uma ata atrasada redigida em 05 de janeiro de 2026 ainda apontar Ana Silva (`P-101`) como responsável naquela data.\n\n---\n\n## 3. Sinalizações de Ambiguidade e Diferenciação de Entidades\n\n- **Distinção entre Homônimas (Ana Silva):**\n  - **Ana Silva (`P-101`)**: Integrante da organização Alfa (`ORG-A`) e do Projeto Aurora (`PRJ-A`), primeira responsável pelo CMP-1.\n  - **Ana Silva (`P-202`)**: Integrante da organização Beta (`ORG-B`) e do Projeto Boreal (`PRJ-B`), pessoa distinta que confirmou a responsabilidade de Carla Lima (`P-404`) pelo compromisso CMP-2 (\"Apresentar orçamento\", prazo 2026-01-30). O CMP-2 e o Projeto Boreal não têm relação com o CMP-1.\n- **Nota Genérica Ambigua:**\n  - Há um registro datado de 2026-01-05 indicando que \"*Ana vai revisar o contrato*\". Trata-se de uma anotação ambígua e sem identificador, sobrenome ou projeto, não sendo possível determinar a qual das duas profissionais o texto se refere nem se há impacto direto sobre o CMP-1.",
+        "answer-homonyms": "# Identificação e Distinção: Ana Silva (Alfa) vs. Ana Silva (Beta)\n\nCom base nos registros oficiais consultados, confirma-se expressamente que **Ana Silva da Alfa** e **Ana Silva da Beta** são **duas pessoas distintas**, atuando em organizações e projetos diferentes.\n\n---\n\n## 1. Ana Silva da Alfa\n\n* **Identificador:** P-101\n* **Organização:** Alfa (`ORG-A`)\n* **E-mail institucional:** `ana.silva@alfa.example`\n* **Abreviação adotada em atas:** Ana S.\n* **Projeto de atuação:** Projeto Aurora (`PRJ-A`)\n\n### Compromissos e Histórico\n* **Compromisso CMP-1 («Entregar diagnóstico»):**\n  * Em **04 de janeiro de 2026**, na *Ata Aurora*, Ana Silva (P-101) assumiu a responsabilidade pelo compromisso CMP-1, com início nessa data e prazo original estipulado para **20 de janeiro de 2026**.\n  * Registros subsequentes documentaram a transferência desta responsabilidade para Bruno Costa (P-303).\n\n---\n\n## 2. Ana Silva da Beta\n\n* **Identificador:** P-202\n* **Organização:** Beta (`ORG-B`)\n* **E-mail institucional:** `ana.silva@beta.example`\n* **Projeto de atuação:** Projeto Boreal (`PRJ-B`)\n\n### Atuação e Interações\n* Não possui vínculos operacionais com o Projeto Aurora nem com o compromisso CMP-1.\n* Em **11 de janeiro de 2026** (*Ata Boreal*), Ana Silva (P-202) confirmou oficialmente que Carla Lima (P-404) é a responsável pelo compromisso CMP-2 («Apresentar orçamento») do Projeto Boreal, com prazo fixado para **30 de janeiro de 2026**, esclarecendo formalmente que este compromisso não tem qualquer relação com o CMP-1 da Alfa.\n\n---\n\n## 3. Retificações Relevantes\n\n### Data e Hora Exatas da Transferência do Compromisso CMP-1\n* **Registros Iniciais / Divergentes:** Atas redigidas em 06 de janeiro de 2026 (e registros de acompanhamento subsequentes de 07 e 08 de janeiro) afirmavam que o compromisso CMP-1 havia sido transferido de Ana Silva (P-101) para Bruno Costa (P-303) em **06 de janeiro de 2026**, data em que Ana teria cessado sua responsabilidade e o novo prazo de entrega foi ajustado para 25 de janeiro de 2026. Além disso, uma ata atrasada datada de 05 de janeiro indicava que Ana ainda constava como responsável naquele dia.\n* **Retificação Oficial:** Em **10 de janeiro de 2026**, foi emitida uma retificação oficial da Aurora retificando explicitamente os registros anteriores: a transferência efetiva do CMP-1 de Ana Silva para Bruno Costa ocorreu em **05 de janeiro de 2026, às 12:00 UTC** (e não em 06 de janeiro). O prazo de Bruno Costa permaneceu como 25 de janeiro de 2026 (posteriormente adiado para 02 de fevereiro de 2026, conforme ata de 12 de janeiro de 2026).\n\n---\n\n## 4. Ambiguidades Sinalizadas\n\n### Ambiguidade Nominal em Tarefa Contratual\n* Em uma nota sem lista de participantes registrada em **05 de janeiro de 2026 às 10:00**, consta que *«Ana vai revisar o contrato»*.\n* **Sinalização de Ambiguidade:** O registro não informa sobrenome, endereço de e-mail, matrícula/identificador (P-101 ou P-202), organização (Alfa ou Beta) ou projeto (Aurora ou Boreal). Portanto, é impossível determinar a partir das fontes se a atribuição coube a Ana Silva da Alfa (P-101), a Ana Silva da Beta (P-202) ou a uma terceira pessoa homônima.",
+        "answer-past": "# Responsabilidade pelo Compromisso CMP-1 em 4 de Janeiro de 2026\n\nEm **4 de janeiro de 2026** (especificamente às 12:00:00 UTC), a responsável pelo compromisso **CMP-1** (\"*Entregar diagnóstico*\"), no âmbito do Projeto Aurora, era **Ana Silva** (identificador **P-101**).\n\n---\n\n## Detalhamento das Fontes e Evidências\n\n* **Assunção do compromisso:** Conforme registrado na **Ata Aurora** de 04/01/2026 (10:00 UTC), Ana Silva (P-101) assumiu a responsabilidade pelo compromisso CMP-1 (*Entregar diagnóstico*), com data de início formal em **04 de janeiro de 2026** e prazo inicial previsto para **20 de janeiro de 2026**.\n* **Vigência da responsabilidade:** Em 04 de janeiro de 2026, às 12:00 UTC, Ana Silva (P-101) era indubitavelmente a responsável ativa pelo encargo, uma vez que qualquer transição posterior só ocorreu a partir do dia seguinte.\n\n---\n\n## Retificações Relevantes e Linha do Tempo\n\nEmbora em 04 de janeiro a titularidade seja clara, os registros posteriores contêm retificações oficiais importantes sobre quando a responsabilidade de Ana Silva terminou:\n\n1. **Registros divergentes iniciais (06/01 a 08/01):** Documentos posteriores (a Ata Aurora de 06/01/2026, o Registro Público de Entregas de 07/01/2026 e a Ata Restrita da Diretoria de 08/01/2026) afirmavam inicialmente que o compromisso havia sido transferido para **Bruno Costa (P-303)** em **06 de janeiro de 2026**, com novo prazo fixado para 25 de janeiro de 2026.\n2. **Retificação oficial posterior (10/01):** Uma retificação oficial emitida pela organização Aurora em 10 de janeiro de 2026 corrigiu as atas anteriores, esclarecendo que a transferência efetiva do CMP-1 de Ana Silva (P-101) para Bruno Costa (P-303) ocorreu, na verdade, em **05 de janeiro de 2026, às 12:00 UTC** (e não em 06 de janeiro).\n3. **Impacto na data de referência:** Essa retificação retroativa antecipou o término da responsabilidade de Ana Silva para o meio-dia de 05 de janeiro de 2026, mantendo intacta e incontestada a sua responsabilidade em **04 de janeiro de 2026**.\n\n---\n\n## Ambiguidade Nominal e Homônimos\n\nÉ fundamental destacar uma ambiguidade de nomenclatura presente nas fontes para evitar erros de identificação:\n\n* **Ana Silva (P-101):** Pertence à organização **Alfa** (`ORG-A`, e-mail `ana.silva@alfa.example`), atua no **Projeto Aurora** (`PRJ-A`), e é mencionada na ata como \"Ana S.\". É ela a responsável pelo CMP-1.\n* **Ana Silva (P-202):** Pessoa física distinta, pertencente à organização **Beta** (`ORG-B`, e-mail `ana.silva@beta.example`), que atua no **Projeto Boreal** (`PRJ-B`) e não possui envolvimento com o CMP-1 (o Projeto Boreal gerencia o compromisso CMP-2, atribuído a Carla Lima).\n* **Menção indeterminada:** Há um registro isolado de 05 de janeiro indicando que \"Ana vai revisar o contrato\", sem sobrenome, identificador ou projeto, consistindo em uma ambiguidade não atribuível a nenhuma das duas partes, mas sem impacto no compromisso CMP-1.",
+        "answer-restricted": "### Informações sobre Risco Confidencial e Codinome\n\nCom base estrita nas fontes e registros documentais recuperados, **não há qualquer menção ou registro de \"risco confidencial\" nem de \"codinome\"** atribuído ao Projeto Aurora.\n\nO que as fontes registram oficialmente a respeito da identificação do projeto é:\n* **Nome:** Projeto Aurora (referido também apenas como Aurora);\n* **Identificador formal:** `PRJ-A`;\n* **Organização vinculada:** Alfa (`ORG-A`).\n\nQualquer afirmação sobre um codinome distinto de `PRJ-A` ou sobre riscos de caráter confidencial extrapolaria os dados existentes.\n\n---\n\n### Dados Registrados do Projeto Aurora\n\nOs registros disponíveis para o Projeto Aurora cobrem sua equipe e o histórico de um compromisso de entrega:\n\n* **Equipe do Projeto Aurora:**\n  * **Ana Silva** (`P-101`, `ana.silva@alfa.example`, abreviada em atas como *Ana S.*), colaboradora da organização Alfa (`ORG-A`).\n  * **Bruno Costa** (`P-303`, `bruno@alfa.example`), colaborador da organização Alfa (`ORG-A`).\n\n* **Compromisso Registrado:**\n  * **CMP-1 (\"Entregar diagnóstico\")**.\n\n---\n\n### Retificações Relevantes Documentadas\n\nOs documentos apresentam uma retificação formal sobre a linha do tempo do compromisso CMP-1 do Projeto Aurora:\n\n1. **Atribuição Inicial (04/01/2026):**\n   * Na Ata Aurora de 04/01/2026, Ana Silva (`P-101`) assumiu o compromisso CMP-1 (\"Entregar diagnóstico\") com início de responsabilidade em 04/01/2026 e prazo de conclusão até 20/01/2026.\n\n2. **Registros Anteriores e Divergência de Data (06/01/2026 e 07/01/2026):**\n   * A Ata Aurora de 06/01/2026 e um registro público de entregas de 07/01/2026 informavam que a responsabilidade do CMP-1 havia passado para Bruno Costa (`P-303`) em 06/01/2026, com novo prazo fixado em 25/01/2026.\n   * Uma ata atrasada, redigida em 05/01/2026, atestava que Ana Silva ainda constava como responsável naquela data.\n\n3. **Retificação Oficial (10/01/2026):**\n   * Em 10/01/2026, foi emitida uma **retificação oficial da Aurora** corrigindo as atas anteriores: a transferência de CMP-1 de Ana Silva (`P-101`) para Bruno Costa (`P-303`) ocorreu efetivamente em **05/01/2026 às 12:00 UTC**, e não em 06/01/2026. O prazo de Bruno permaneceu estabelecido para 25/01/2026.\n\n4. **Adiantamento Posterior de Prazo (12/01/2026):**\n   * Em 12/01/2026, a Ata Aurora registrou que o prazo de Bruno Costa para a entrega do diagnóstico foi adiado de 25/01/2026 para **02/02/2026**.\n\n---\n\n### Ambiguidades e Distinções Críticas nas Fontes\n\nAs fontes sinalizam com ênfase duas ambiguidades que exigem atenção:\n\n1. **Homônimas em Projetos Distintos (Ana Silva):**\n   * Há duas profissionais chamadas Ana Silva na base de dados:\n     * **Ana Silva (`P-101`)**: trabalha na organização Alfa (`ORG-A`) e atua no **Projeto Aurora (`PRJ-A`)**.\n     * **Ana Silva (`P-202`)**: possui o e-mail `ana.silva@beta.example`, trabalha na organização Beta (`ORG-B`) e atua no **Projeto Boreal (`PRJ-B`)**.\n   * Os registros enfatizam expressamente que são duas pessoas distintas para evitar confusão entre os projetos.\n\n2. **Menção Ambígua a \"Ana\" sem Identificação (05/01/2026):**\n   * Uma nota avulsa datada de 05/01/2026 afirma textualmente: *\"Ana vai revisar o contrato\"*. O registro não contém sobrenome, endereço de e-mail, identificador numérico, organização ou projeto. Trata-se de uma **ambiguidade irresolúvel** pelas fontes, não sendo possível determinar se a revisão competia à participante do Projeto Aurora ou do Projeto Boreal.\n\n3. **Independência entre Compromissos:**\n   * O Projeto Boreal possui o compromisso CMP-2 (\"Apresentar orçamento\", sob responsabilidade de Carla Lima, `P-404`, prazo até 30/01/2026). As fontes confirmam expressamente que o CMP-2 pertence ao Projeto Boreal e **não possui nenhuma relação** com o compromisso CMP-1 do Projeto Aurora.",
+        "answer-second_project": "### Responsável pela Apresentação do Orçamento (CMP-2)\n\nCom base nos registros das fontes, quem deve apresentar o orçamento (**CMP-2**) do **Projeto Boreal (PRJ-B)** é **Carla Lima** (identificador **P-404**).\n\n* **Compromisso:** Apresentar orçamento (CMP-2).\n* **Projeto:** Projeto Boreal (PRJ-B).\n* **Responsável:** Carla Lima (P-404), colaboradora da organização Beta (`carla@beta.example`).\n* **Prazo de Entrega:** 30 de janeiro de 2026 (2026-01-30).\n* **Fonte de Confirmação:** Ata Boreal registrada em 11 de janeiro de 2026, confirmada por Ana Silva (P-202).\n\n---\n\n### Ambiguidades e Distinções Relevantes\n\n1. **Distinção entre Homônimas (Ana Silva):**\n   * **Ana Silva (P-202):** Pertence à organização Beta (ORG-B), participa do Projeto Boreal (PRJ-B) e utiliza o e-mail `ana.silva@beta.example`. Foi ela quem confirmou formalmente a atribuição de Carla Lima ao CMP-2.\n   * **Ana Silva (P-101 / \"Ana S.\"):** Pertence à organização Alfa (ORG-A), participa de outro projeto (Projeto Aurora / PRJ-A) e utiliza o e-mail `ana.silva@alfa.example`. Os registros documentam expressamente que se trata de pessoas distintas.\n   * **Ambiguidade em Nota de Contrato:** Existe uma anotação datada de 05 de janeiro de 2026 indicando genericamente que *\"Ana vai revisar o contrato\"*, sem indicação de sobrenome, identificador, organização ou projeto, tornando impossível determinar a qual das duas profissionais o texto se refere.\n\n2. **Independência entre CMP-2 e CMP-1:**\n   * A Ata Boreal destaca formalmente que o compromisso CMP-2 **não possui qualquer relação** com o compromisso CMP-1 (*Entregar diagnóstico*), pertencente ao Projeto Aurora.\n\n---\n\n### Retificações no Histórico dos Compromissos\n\nEmbora o compromisso **CMP-2** do Projeto Boreal não apresente retificações pendentes nem conflito de responsabilidade (permanecendo atribuído a Carla Lima com prazo inalterado em 30 de janeiro de 2026), as fontes registram retificações no compromisso **CMP-1** do Projeto Aurora que devem ser observadas para evitar confusão entre os projetos:\n\n* **Retificação de data de transferência (CMP-1):** Em 10 de janeiro de 2026, a organização Aurora emitiu uma retificação oficial corrigindo atas anteriores: a transferência da responsabilidade de Ana Silva (P-101) para Bruno Costa (P-303) ocorreu formalmente em **05 de janeiro de 2026 às 12:00 UTC**, e não em 06 de janeiro de 2026.\n* **Prorrogação de prazo (CMP-1):** Em 12 de janeiro de 2026, o prazo de entrega do CMP-1 de Bruno Costa foi postergado de 25 de janeiro de 2026 para 02 de fevereiro de 2026.\n\nEssas retificações aplicam-se exclusivamente ao Projeto Aurora (PRJ-A) e não afetam o compromisso CMP-2 do Projeto Boreal."
+      },
+      "semantic_precision": null,
+      "semantic_recall": null
+    }
+  ],
+  "usage": {
+    "files": [
+      "metrics-phase1.txt",
+      "metrics-phase2.txt",
+      "metrics-phase3.txt",
+      "metrics-phase4.txt"
+    ],
+    "totals": {
+      "calls": 215.0,
+      "input_tokens": 1668363.0,
+      "output_tokens": 57507.0,
+      "thoughts_tokens": 139042.0,
+      "cached_input_tokens": 281751.0
+    },
+    "by_scope": {
+      "retain_extract_facts": {
+        "calls": 30.0,
+        "input_tokens": 101414.0,
+        "output_tokens": 10471.0,
+        "thoughts_tokens": 20903.0
+      },
+      "consolidation": {
+        "calls": 28.0,
+        "input_tokens": 190543.0,
+        "output_tokens": 9466.0,
+        "thoughts_tokens": 70596.0,
+        "cached_input_tokens": 4007.0
+      },
+      "reflect_tool_call": {
+        "calls": 125.0,
+        "input_tokens": 997429.0,
+        "output_tokens": 6810.0,
+        "thoughts_tokens": 23136.0,
+        "cached_input_tokens": 115454.0
+      },
+      "reflect": {
+        "calls": 32.0,
+        "input_tokens": 378977.0,
+        "output_tokens": 30760.0,
+        "thoughts_tokens": 24407.0,
+        "cached_input_tokens": 162290.0
+      }
+    },
+    "notes": "Native counters; excludes startup verification, embeddings and cloud billing. Includes both full runs, review and purge probes. Not a count of every HTTP retry."
+  },
+  "purge_probes": [
+    {
+      "bank": "pxos-hs-purge-4d5e5ba81d1b",
+      "configuration": {
+        "complete": true,
+        "delete_traces_with_document": true
+      },
+      "before": {
+        "bank": "pxos-hs-purge-4d5e5ba81d1b",
+        "residues": {
+          "chunks": 1,
+          "documents": 1,
+          "entities": 1,
+          "llm_requests": 10,
+          "memory_units": 2
+        },
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "after": {
+        "bank": "pxos-hs-purge-4d5e5ba81d1b",
+        "residues": {
+          "llm_requests": 5
+        },
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "public_traces_status": 403
+    },
+    {
+      "bank": "pxos-hs-purge-9a912cfaac94",
+      "configuration": {
+        "complete": true,
+        "delete_traces_with_document": true,
+        "llm_trace_enabled": "false"
+      },
+      "before": {
+        "bank": "pxos-hs-purge-9a912cfaac94",
+        "residues": {
+          "chunks": 1,
+          "documents": 1,
+          "entities": 1,
+          "memory_units": 2
+        },
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "after": {
+        "bank": "pxos-hs-purge-9a912cfaac94",
+        "residues": {},
+        "rls": [
+          {
+            "relname": "chunks",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "documents",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "entities",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          },
+          {
+            "relname": "memory_units",
+            "relrowsecurity": false,
+            "relforcerowsecurity": false
+          }
+        ]
+      },
+      "public_traces_status": 403
+    }
+  ]
+}

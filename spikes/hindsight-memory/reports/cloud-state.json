@@ -1,0 +1,6 @@
+{
+  "name": "projects/pxos-spikes/locations/us-central1/clusters/hindsight-spike/instances/primary",
+  "state": "STOPPED",
+  "activationPolicy": "NEVER",
+  "updateTime": "2026-11-13T19:57:54.927131223Z"
+}

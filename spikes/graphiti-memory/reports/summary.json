@@ -1,0 +1,105 @@
+{
+  "runs": [
+    {
+      "run": "generic-1",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.5,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 46.983611609903164,
+      "ingestion_seconds_p95": 109.7782066760119,
+      "sdk_calls": 234,
+      "provider_reported_tokens": 201582,
+      "calls_without_token_usage": 169
+    },
+    {
+      "run": "generic-2",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.4,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 43.94492964493111,
+      "ingestion_seconds_p95": 99.07846128405072,
+      "sdk_calls": 241,
+      "provider_reported_tokens": 211171,
+      "calls_without_token_usage": 171
+    },
+    {
+      "run": "generic-3",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.5,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 40.39667767297942,
+      "ingestion_seconds_p95": 125.85862774006091,
+      "sdk_calls": 242,
+      "provider_reported_tokens": 215434,
+      "calls_without_token_usage": 173
+    },
+    {
+      "run": "ontology-1",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.6,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 50.0414031050168,
+      "ingestion_seconds_p95": 112.10797096299939,
+      "sdk_calls": 270,
+      "provider_reported_tokens": 304807,
+      "calls_without_token_usage": 147
+    },
+    {
+      "run": "ontology-2",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.4,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 55.26607105403673,
+      "ingestion_seconds_p95": 143.5495583671145,
+      "sdk_calls": 277,
+      "provider_reported_tokens": 320800,
+      "calls_without_token_usage": 149
+    },
+    {
+      "run": "ontology-3",
+      "reviewed_cases": 10,
+      "total_cases": 10,
+      "accuracy_reviewed_only": 0.6,
+      "fact_labeled_cases": 0,
+      "precision_labeled_only": null,
+      "coverage_labeled_only": null,
+      "ingestion_seconds_p50": 56.54530066449661,
+      "ingestion_seconds_p95": 114.19117218698375,
+      "sdk_calls": 278,
+      "provider_reported_tokens": 315675,
+      "calls_without_token_usage": 151
+    }
+  ],
+  "sdk_calls_total": 1542,
+  "provider_reported_tokens_total": 1569469,
+  "unreported_usage_calls_total": 960,
+  "test_results": {
+    "passed": 12,
+    "neo4j_real": true,
+    "provider_live": true
+  },
+  "architecture_verdict": "not_approved_as_sole_canonical_memory",
+  "review": "Codex artifact review; not an independent human evaluation",
+  "resource_sample": {
+    "scope": "post_run_snapshot_not_peak",
+    "neo4j_memory_mib": 799.5,
+    "neo4j_limit_mib": 1536,
+    "cpu_percent": 0.62
+  },
+  "neo4j_image_digest": "sha256:5a015e53de1895e7eee1574ae0325cf8c4b89587222778108c594bdd45a474b5"
+}

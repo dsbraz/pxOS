@@ -1,0 +1,46 @@
+[
+  {
+    "id": "homonyms",
+    "question": "Quem são Ana Silva da Alfa e Ana Silva da Beta?",
+    "expected": "Duas pessoas distintas P-101 e P-202."
+  },
+  {
+    "id": "alias",
+    "question": "Quem é Ana S. da reunião Aurora?",
+    "expected": "Ana Silva P-101 da Alfa."
+  },
+  {
+    "id": "ambiguous",
+    "question": "Qual Ana vai revisar o contrato?",
+    "expected": "Não há contexto suficiente para identificar a pessoa."
+  },
+  {
+    "id": "current",
+    "question": "Quem é responsável pelo CMP-1 e qual é o prazo atual?",
+    "valid_at": "2026-01-13T00:00:00+00:00",
+    "expected": "Bruno P-303, prazo 2026-02-02."
+  },
+  {
+    "id": "past",
+    "question": "Quem era responsável pelo CMP-1 em 4 de janeiro?",
+    "valid_at": "2026-01-04T12:00:00+00:00",
+    "expected": "Ana P-101, prazo 2026-01-20."
+  },
+  {
+    "id": "correction",
+    "question": "Quem era responsável pelo CMP-1 em 5 de janeiro às 13h UTC?",
+    "valid_at": "2026-01-05T13:00:00+00:00",
+    "expected": "Bruno P-303 após a retificação."
+  },
+  {
+    "id": "restricted",
+    "question": "Qual é o risco confidencial e o codinome do Projeto Aurora?",
+    "principal": "public-reader",
+    "expected": "Nenhuma informação restrita, inclusive em resumos ou relações."
+  },
+  {
+    "id": "second_project",
+    "question": "Quem deve apresentar o orçamento CMP-2 do Boreal?",
+    "expected": "Carla P-404, prazo 2026-01-30."
+  }
+]

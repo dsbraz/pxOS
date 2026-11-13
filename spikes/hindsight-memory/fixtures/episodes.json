@@ -1,0 +1,160 @@
+[
+  {
+    "id": "e01",
+    "source_id": "synthetic:e01",
+    "version": 1,
+    "reference_time": "2026-01-01T10:00:00+00:00",
+    "received_order": 1,
+    "access": "public",
+    "participants": [
+      "P-101"
+    ],
+    "text": "Cadastro RH Alfa v1: Ana Silva, identificador P-101, email ana.silva@alfa.example, trabalha na organização Alfa (ORG-A). Ana Silva participa do Projeto Aurora (PRJ-A).",
+    "expected": "Uma pessoa P-101 vinculada a Alfa e Aurora."
+  },
+  {
+    "id": "e02",
+    "source_id": "synthetic:e02",
+    "version": 1,
+    "reference_time": "2026-01-02T10:00:00+00:00",
+    "received_order": 2,
+    "access": "public",
+    "participants": [
+      "P-202"
+    ],
+    "text": "Cadastro RH Beta v1: Ana Silva, identificador P-202, email ana.silva@beta.example, trabalha na organização Beta (ORG-B). Ana Silva participa do Projeto Boreal (PRJ-B). Esta Ana Silva é outra pessoa, distinta da Ana Silva P-101 da Alfa.",
+    "expected": "P-202 e P-101 devem ser entidades distintas apesar dos nomes iguais."
+  },
+  {
+    "id": "e03",
+    "source_id": "synthetic:e03",
+    "version": 1,
+    "reference_time": "2026-01-03T10:00:00+00:00",
+    "received_order": 3,
+    "access": "public",
+    "participants": [
+      "P-303",
+      "P-404"
+    ],
+    "text": "Cadastro de equipe: Bruno Costa, P-303, bruno@alfa.example, trabalha na Alfa e participa do Projeto Aurora PRJ-A. Carla Lima, P-404, carla@beta.example, trabalha na Beta e participa do Projeto Boreal PRJ-B.",
+    "expected": "Quatro pessoas ao todo; não juntar pessoas de organizações distintas."
+  },
+  {
+    "id": "e04",
+    "source_id": "synthetic:e04",
+    "version": 1,
+    "reference_time": "2026-01-04T10:00:00+00:00",
+    "received_order": 4,
+    "access": "public",
+    "participants": [
+      "P-101"
+    ],
+    "text": "Ata Aurora: Ana S. é a abreviação usada nesta reunião para Ana Silva P-101, ana.silva@alfa.example. Ana S. assumiu o compromisso Entregar diagnóstico (CMP-1), prazo 2026-01-20. A responsabilidade começa em 2026-01-04.",
+    "expected": "Ana S. converge para P-101; responsável inicial CMP-1 é P-101."
+  },
+  {
+    "id": "e05",
+    "source_id": "synthetic:e05",
+    "version": 1,
+    "reference_time": "2026-01-05T10:00:00+00:00",
+    "received_order": 5,
+    "access": "public",
+    "participants": [],
+    "text": "Nota sem lista de participantes: Ana vai revisar o contrato. Não há sobrenome, email, identificador, organização ou projeto que permita saber qual Ana foi mencionada.",
+    "expected": "Não atribuir revisão do contrato arbitrariamente a P-101 ou P-202."
+  },
+  {
+    "id": "e06",
+    "source_id": "synthetic:e06",
+    "version": 1,
+    "reference_time": "2026-01-06T10:00:00+00:00",
+    "received_order": 6,
+    "access": "public",
+    "participants": [
+      "P-101",
+      "P-303"
+    ],
+    "text": "Ata Aurora de 2026-01-06: o compromisso CMP-1 Entregar diagnóstico passa de Ana Silva P-101 para Bruno Costa P-303 a partir de hoje. Novo prazo: 2026-01-25. Ana deixa de ser responsável em 2026-01-06.",
+    "expected": "Atual responsável Bruno; responsabilidade anterior Ana preservada historicamente."
+  },
+  {
+    "id": "e07",
+    "source_id": "synthetic:e07",
+    "version": 1,
+    "reference_time": "2026-01-07T10:00:00+00:00",
+    "received_order": 7,
+    "access": "public",
+    "participants": [
+      "P-303"
+    ],
+    "text": "Registro público de entregas: Bruno Costa P-303 é responsável pelo compromisso CMP-1 Entregar diagnóstico desde 2026-01-06, com prazo 2026-01-25.",
+    "expected": "Mesma responsabilidade apoiada por segunda fonte independente."
+  },
+  {
+    "id": "e08",
+    "source_id": "synthetic:e08",
+    "version": 1,
+    "reference_time": "2026-01-08T10:00:00+00:00",
+    "received_order": 8,
+    "access": "restricted",
+    "participants": [
+      "P-303"
+    ],
+    "text": "Ata restrita da diretoria: Bruno Costa P-303 é responsável pelo CMP-1 desde 2026-01-06, prazo 2026-01-25. O Projeto Aurora PRJ-A tem risco confidencial com codinome SIGILO-ORQUIDEA-731: cancelamento de financiamento.",
+    "expected": "Fato compartilhado pode sobreviver à remoção desta fonte; codinome e risco não podem vazar a leitor público."
+  },
+  {
+    "id": "e09",
+    "source_id": "synthetic:e09",
+    "version": 1,
+    "reference_time": "2026-01-05T11:00:00+00:00",
+    "received_order": 9,
+    "access": "public",
+    "participants": [
+      "P-101"
+    ],
+    "text": "Ata atrasada do Aurora, redigida em 2026-01-05 e recebida depois da transferência: Ana Silva P-101 ainda era responsável pelo CMP-1 em 2026-01-05, com prazo 2026-01-20. Este documento descreve somente a situação de 2026-01-05.",
+    "expected": "Ingestão fora de ordem não restaura Ana como responsável atual."
+  },
+  {
+    "id": "e10",
+    "source_id": "synthetic:e10",
+    "version": 1,
+    "reference_time": "2026-01-10T10:00:00+00:00",
+    "received_order": 10,
+    "access": "public",
+    "participants": [
+      "P-101",
+      "P-303"
+    ],
+    "text": "Retificação oficial Aurora: corrigindo as atas anteriores, a transferência do CMP-1 Entregar diagnóstico de Ana Silva P-101 para Bruno Costa P-303 ocorreu em 2026-01-05 às 12:00 UTC, e não em 2026-01-06. O prazo de Bruno continua 2026-01-25.",
+    "expected": "Verdade atual para 2026-01-05 13h difere do que se sabia antes desta correção."
+  },
+  {
+    "id": "e11",
+    "source_id": "synthetic:e11",
+    "version": 1,
+    "reference_time": "2026-01-11T10:00:00+00:00",
+    "received_order": 11,
+    "access": "public",
+    "participants": [
+      "P-202",
+      "P-404"
+    ],
+    "text": "Ata Boreal: Ana Silva P-202 da Beta confirma que Carla Lima P-404 é responsável pelo compromisso Apresentar orçamento (CMP-2), prazo 2026-01-30. O compromisso é do Projeto Boreal PRJ-B e não tem relação com CMP-1.",
+    "expected": "CMP-2 pertence a Carla; não confundir os projetos ou as duas Anas."
+  },
+  {
+    "id": "e12",
+    "source_id": "synthetic:e12",
+    "version": 1,
+    "reference_time": "2026-01-12T10:00:00+00:00",
+    "received_order": 12,
+    "access": "public",
+    "participants": [
+      "P-303"
+    ],
+    "text": "Ata Aurora de 2026-01-12: Bruno Costa P-303 continua responsável pelo CMP-1 Entregar diagnóstico, cujo prazo foi adiado de 2026-01-25 para 2026-02-02 a partir de hoje.",
+    "expected": "Prazo atual 2026-02-02; preservar o prazo anterior no período anterior."
+  }
+]
