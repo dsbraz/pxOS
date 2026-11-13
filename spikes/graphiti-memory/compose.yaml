@@ -1,7 +1,7 @@
 name: pxos-graphiti-spike
 services:
   neo4j:
-    image: neo4j:5.26.0-community@sha256:5a015e53de1895e7eee1574ae0325cf8c4b89587222778108c594bdd45a474b5
+    image: neo4j:5.26.32-community@sha256:42ef3ebfd671ebd01fdebb6dcbe80cf7b45eef2aa3d346ef4132f7ef31e67d2f
     ports:
       - "127.0.0.1:17474:7474"
       - "127.0.0.1:17687:7687"
