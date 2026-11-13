@@ -23,7 +23,7 @@ uv run ruff check pxos-kernel brq-at-work
 uv run ruff format --check pxos-kernel brq-at-work
 uv run mypy
 uv run lint-imports          # o kernel não importa a distribuição
-uv run pytest                # inclui o teste de neutralidade do kernel
+uv run pytest                # neutralidade e integração; exige o Postgres do Compose
 ```
 
 Modelos Pydantic e JSON Schema são gerados do LinkML de cada pacote (`generated.py` e

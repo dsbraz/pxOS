@@ -1,0 +1,24 @@
+actors:
+  - id: carla
+    kind: internal_person
+    name: Carla
+    roles: [store-manager]
+  - id: diego
+    kind: internal_person
+    name: Diego
+    roles: [store-manager]
+  - id: erin
+    kind: internal_person
+    name: Erin
+    roles: [store-staff]
+  - id: frank
+    kind: internal_person
+    name: Frank
+  - id: restock-agent
+    kind: agent
+    name: Agente de reposição
+delegations:
+  - agent: restock-agent
+    person: carla
+  - agent: restock-agent
+    person: erin
