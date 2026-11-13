@@ -1,0 +1,85 @@
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON DATABASE execution_spike FROM PUBLIC;
+CREATE ROLE spike_owner NOLOGIN;
+SELECT format('CREATE ROLE %I LOGIN PASSWORD %L', actor, 'local-' || :'installation' || '-' || actor)
+FROM unnest(ARRAY['alice','bob','lead','agent_alice','agent_bob']) AS actor \gexec
+GRANT CONNECT ON DATABASE execution_spike TO alice,bob,lead,agent_alice,agent_bob;
+CREATE SCHEMA core AUTHORIZATION spike_owner;
+SET ROLE spike_owner;
+CREATE TABLE core.identities(actor text PRIMARY KEY, delegated_to text NOT NULL);
+INSERT INTO core.identities VALUES ('alice','alice'),('bob','bob'),('lead','lead'),('agent_alice','alice'),('agent_bob','bob');
+CREATE TABLE core.resources(id text PRIMARY KEY, package text NOT NULL, readers text[] NOT NULL, payload jsonb NOT NULL);
+INSERT INTO core.resources VALUES
+ ('project-private','projects',ARRAY['alice','lead'],'{"owner":"ana","due":"2026-12-01"}'),
+ ('ticket-private','support',ARRAY['alice','lead'],'{"assignee":"rui","priority":"normal"}'),
+ ('project-public','projects',ARRAY['alice','bob','lead'],'{"owner":"bia","due":"2026-12-02"}');
+CREATE TABLE core.proposals(
+ id uuid PRIMARY KEY, target text NOT NULL REFERENCES core.resources(id), requester text NOT NULL,
+ delegated_to text NOT NULL, params jsonb NOT NULL, digest text NOT NULL,
+ decision text CHECK(decision IN ('approved','rejected')), reviewer text,
+ created_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+CREATE TABLE core.effects(
+ proposal_id uuid PRIMARY KEY REFERENCES core.proposals(id), target text NOT NULL,
+ params jsonb NOT NULL, credential_role text NOT NULL, executed_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+CREATE TABLE core.audit(
+ seq bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY, proposal_id uuid NOT NULL REFERENCES core.proposals(id),
+ actor text NOT NULL, event text NOT NULL, details jsonb NOT NULL,
+ recorded_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+CREATE FUNCTION core.person() RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
+ SELECT delegated_to FROM core.identities WHERE actor=session_user;
+$$;
+CREATE FUNCTION core.can_read(target text) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=pg_catalog AS $$
+ SELECT EXISTS(SELECT 1 FROM core.resources WHERE id=target AND core.person()=ANY(readers));
+$$;
+ALTER TABLE core.resources ENABLE ROW LEVEL SECURITY;
+CREATE POLICY resource_read ON core.resources FOR SELECT USING(core.person()=ANY(readers));
+ALTER TABLE core.proposals ENABLE ROW LEVEL SECURITY;
+CREATE POLICY proposal_read ON core.proposals FOR SELECT USING(core.can_read(target) AND (requester=session_user OR session_user='lead'));
+ALTER TABLE core.effects ENABLE ROW LEVEL SECURITY;
+CREATE POLICY effect_read ON core.effects FOR SELECT USING(EXISTS(SELECT 1 FROM core.proposals p WHERE p.id=proposal_id));
+ALTER TABLE core.audit ENABLE ROW LEVEL SECURITY;
+CREATE POLICY audit_read ON core.audit FOR SELECT USING(EXISTS(SELECT 1 FROM core.proposals p WHERE p.id=proposal_id));
+CREATE FUNCTION core.propose(pid uuid, resource text, parameters jsonb) RETURNS text LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE checksum text;
+BEGIN
+ IF NOT core.can_read(resource) THEN RAISE EXCEPTION 'access denied' USING ERRCODE='42501'; END IF;
+ IF jsonb_typeof(parameters) <> 'object' OR parameters IS NULL THEN RAISE EXCEPTION 'invalid parameters'; END IF;
+ checksum := encode(sha256(convert_to(jsonb_build_object('id',pid,'target',resource,'requester',session_user,'parameters',parameters)::text,'UTF8')),'hex');
+ INSERT INTO core.proposals(id,target,requester,delegated_to,params,digest) VALUES(pid,resource,session_user,core.person(),parameters,checksum);
+ INSERT INTO core.audit(proposal_id,actor,event,details) VALUES(pid,session_user,'proposed',jsonb_build_object('digest',checksum,'target',resource,'parameters',parameters,'delegated_to',core.person()));
+ RETURN checksum;
+END $$;
+CREATE FUNCTION core.review(pid uuid, checksum text, verdict text) RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE p core.proposals;
+BEGIN
+ SELECT * INTO p FROM core.proposals WHERE id=pid FOR UPDATE;
+ IF p.id IS NULL OR session_user <> 'lead' OR NOT core.can_read(p.target) OR p.delegated_to=core.person() THEN RAISE EXCEPTION 'access denied' USING ERRCODE='42501'; END IF;
+ IF checksum IS DISTINCT FROM p.digest THEN RAISE EXCEPTION 'digest mismatch'; END IF;
+ IF verdict NOT IN ('approved','rejected') OR verdict IS NULL THEN RAISE EXCEPTION 'invalid decision'; END IF;
+ IF p.decision IS NOT NULL THEN RAISE EXCEPTION 'already reviewed'; END IF;
+ UPDATE core.proposals SET decision=verdict,reviewer=session_user WHERE id=pid;
+ INSERT INTO core.audit(proposal_id,actor,event,details) VALUES(pid,session_user,verdict,jsonb_build_object('digest',checksum));
+END $$;
+CREATE FUNCTION core.execute(pid uuid, checksum text, parameters jsonb) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+DECLARE p core.proposals; result jsonb;
+BEGIN
+ SELECT * INTO p FROM core.proposals WHERE id=pid FOR UPDATE;
+ IF p.id IS NULL OR p.requester<>session_user OR NOT core.can_read(p.target) THEN RAISE EXCEPTION 'access denied' USING ERRCODE='42501'; END IF;
+ IF p.decision IS DISTINCT FROM 'approved' THEN RAISE EXCEPTION 'not approved'; END IF;
+ IF checksum IS DISTINCT FROM p.digest OR parameters IS DISTINCT FROM p.params THEN RAISE EXCEPTION 'approved content mismatch'; END IF;
+ SELECT params INTO result FROM core.effects WHERE proposal_id=pid;
+ IF FOUND THEN RETURN result; END IF;
+ -- Efeito controlado no mesmo banco; não representa atomicidade com fornecedor remoto.
+ UPDATE core.resources SET payload=p.params WHERE id=p.target;
+ INSERT INTO core.effects VALUES(pid,p.target,p.params,current_user,clock_timestamp());
+ INSERT INTO core.audit(proposal_id,actor,event,details) VALUES(pid,session_user,'executed',jsonb_build_object('target',p.target,'parameters',p.params,'reviewer',p.reviewer,'credential_role',current_user,'result','applied'));
+ RETURN p.params;
+END $$;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA core FROM PUBLIC;
+GRANT USAGE ON SCHEMA core TO alice,bob,lead,agent_alice,agent_bob;
+GRANT SELECT ON core.resources,core.proposals,core.effects,core.audit TO alice,bob,lead,agent_alice,agent_bob;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA core TO alice,bob,lead,agent_alice,agent_bob;
+RESET ROLE;

@@ -7,6 +7,7 @@ O produto está em planejamento; spikes são experimentos isolados.
 
 - [PRD](pxos-brq-work-prd.html)
 - [Roadmap](ROADMAP.md) e [backlog](BACKLOG-KERNEL.md)
+- [Ontologia e governança](spikes/ontology-governance/README.md)
 - [Graphiti](spikes/graphiti-memory/README.md) e [Hindsight](spikes/hindsight-memory/README.md)
 
 ## Desenvolvimento

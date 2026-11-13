@@ -1,0 +1,29 @@
+services:
+  alpha:
+    image: postgres:16.14
+    environment:
+      POSTGRES_PASSWORD: local-alpha-admin
+      POSTGRES_DB: execution_spike
+      INSTALLATION: alpha
+    ports: ["127.0.0.1:26432:5432"]
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d execution_spike"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  beta:
+    image: postgres:16.14
+    environment:
+      POSTGRES_PASSWORD: local-beta-admin
+      POSTGRES_DB: execution_spike
+      INSTALLATION: beta
+    ports: ["127.0.0.1:26433:5432"]
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d execution_spike"]
+      interval: 2s
+      timeout: 3s
+      retries: 30

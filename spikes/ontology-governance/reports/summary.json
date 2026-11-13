@@ -1,0 +1,25 @@
+{
+  "date": "2026-11-13",
+  "result": "local_governance_contract_passed",
+  "backend": "PostgreSQL 16.14 local via Docker",
+  "packages": [
+    "projects",
+    "support"
+  ],
+  "tests": {
+    "passed": 14,
+    "failed": 0
+  },
+  "lint": "passed",
+  "format": "passed",
+  "demo": "both domains completed proposal, approval, retroactive correction and historical reads",
+  "not_validated": [
+    "AlloyDB execution of this spike",
+    "live Hindsight context integration",
+    "source evidence literal verification",
+    "real authentication and isolation",
+    "finite validity intervals and deletion"
+  ],
+  "next_spike": "execution and isolation",
+  "other_validations": "kernel acceptance tests"
+}

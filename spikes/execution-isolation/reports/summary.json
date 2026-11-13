@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-13",
+  "conclusion": "local_execution_and_database_isolation_passed_with_limits",
+  "backend": "two dedicated PostgreSQL 16.14 instances",
+  "tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "lint": "passed",
+  "format": "passed",
+  "demo": "projects and support executed and audited in alpha and beta",
+  "validated": [
+    "exact approval binding",
+    "pending/rejected actions denied",
+    "authenticated requester binding",
+    "cross-installation credentials rejected",
+    "RLS on direct reads",
+    "delegated read permissions",
+    "access revocation at execution",
+    "direct writes and identity impersonation denied",
+    "single effect on concurrent retry",
+    "audit identity, reviewer, parameters and result"
+  ],
+  "not_validated": [
+    "AlloyDB/Hindsight integration",
+    "OIDC/MCP/Agent Gateway",
+    "external provider credentials and effects",
+    "agent process/network/filesystem sandbox",
+    "remote effect recovery",
+    "full policy engine"
+  ],
+  "artifact": "demo.json"
+}

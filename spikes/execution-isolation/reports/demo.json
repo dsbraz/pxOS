@@ -1,0 +1,102 @@
+{
+  "alpha": [
+    {
+      "proposal_id": "f99683e9-101d-416b-8f0c-eeb2150e7330",
+      "result": {
+        "due": "2026-12-03",
+        "owner": "ana"
+      },
+      "audit": [
+        {
+          "actor": "agent_alice",
+          "event": "proposed",
+          "details": "{\"digest\": \"d59cee410c789de0c63f44e99d08a0a1c29556393c5baf0351f3c81a425697d2\", \"target\": \"project-private\", \"parameters\": {\"due\": \"2026-12-03\", \"owner\": \"ana\"}, \"delegated_to\": \"alice\"}"
+        },
+        {
+          "actor": "lead",
+          "event": "approved",
+          "details": "{\"digest\": \"d59cee410c789de0c63f44e99d08a0a1c29556393c5baf0351f3c81a425697d2\"}"
+        },
+        {
+          "actor": "agent_alice",
+          "event": "executed",
+          "details": "{\"result\": \"applied\", \"target\": \"project-private\", \"reviewer\": \"lead\", \"parameters\": {\"due\": \"2026-12-03\", \"owner\": \"ana\"}, \"credential_role\": \"spike_owner\"}"
+        }
+      ]
+    },
+    {
+      "proposal_id": "1a189d05-31f9-4234-9ae5-65ebd9ad4de2",
+      "result": {
+        "assignee": "lia",
+        "priority": "urgent"
+      },
+      "audit": [
+        {
+          "actor": "agent_alice",
+          "event": "proposed",
+          "details": "{\"digest\": \"a902d097b63fbe689a86f2b9d6e58e48da4201b3718d25f087f39029d3a76abf\", \"target\": \"ticket-private\", \"parameters\": {\"assignee\": \"lia\", \"priority\": \"urgent\"}, \"delegated_to\": \"alice\"}"
+        },
+        {
+          "actor": "lead",
+          "event": "approved",
+          "details": "{\"digest\": \"a902d097b63fbe689a86f2b9d6e58e48da4201b3718d25f087f39029d3a76abf\"}"
+        },
+        {
+          "actor": "agent_alice",
+          "event": "executed",
+          "details": "{\"result\": \"applied\", \"target\": \"ticket-private\", \"reviewer\": \"lead\", \"parameters\": {\"assignee\": \"lia\", \"priority\": \"urgent\"}, \"credential_role\": \"spike_owner\"}"
+        }
+      ]
+    }
+  ],
+  "beta": [
+    {
+      "proposal_id": "3c9e8b65-0b4c-4825-b2fb-0210c9a78d21",
+      "result": {
+        "due": "2026-12-03",
+        "owner": "ana"
+      },
+      "audit": [
+        {
+          "actor": "agent_alice",
+          "event": "proposed",
+          "details": "{\"digest\": \"92c38c32dbf47eeb3aecea5ea90ac0b272e6a1a0dec9dc3736574d508584698f\", \"target\": \"project-private\", \"parameters\": {\"due\": \"2026-12-03\", \"owner\": \"ana\"}, \"delegated_to\": \"alice\"}"
+        },
+        {
+          "actor": "lead",
+          "event": "approved",
+          "details": "{\"digest\": \"92c38c32dbf47eeb3aecea5ea90ac0b272e6a1a0dec9dc3736574d508584698f\"}"
+        },
+        {
+          "actor": "agent_alice",
+          "event": "executed",
+          "details": "{\"result\": \"applied\", \"target\": \"project-private\", \"reviewer\": \"lead\", \"parameters\": {\"due\": \"2026-12-03\", \"owner\": \"ana\"}, \"credential_role\": \"spike_owner\"}"
+        }
+      ]
+    },
+    {
+      "proposal_id": "780da246-b70e-4d5a-9155-f5661da5d1c3",
+      "result": {
+        "assignee": "lia",
+        "priority": "urgent"
+      },
+      "audit": [
+        {
+          "actor": "agent_alice",
+          "event": "proposed",
+          "details": "{\"digest\": \"4bf3a2d705f4ea7b1b2ee64349ebe4cf7fe3092ed32663506061a80529c6ed89\", \"target\": \"ticket-private\", \"parameters\": {\"assignee\": \"lia\", \"priority\": \"urgent\"}, \"delegated_to\": \"alice\"}"
+        },
+        {
+          "actor": "lead",
+          "event": "approved",
+          "details": "{\"digest\": \"4bf3a2d705f4ea7b1b2ee64349ebe4cf7fe3092ed32663506061a80529c6ed89\"}"
+        },
+        {
+          "actor": "agent_alice",
+          "event": "executed",
+          "details": "{\"result\": \"applied\", \"target\": \"ticket-private\", \"reviewer\": \"lead\", \"parameters\": {\"assignee\": \"lia\", \"priority\": \"urgent\"}, \"credential_role\": \"spike_owner\"}"
+        }
+      ]
+    }
+  ]
+}

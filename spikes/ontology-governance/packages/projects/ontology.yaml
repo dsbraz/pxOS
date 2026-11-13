@@ -1,0 +1,17 @@
+id: https://pxos.example/spike/projects
+name: projects
+version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports:
+  - linkml:types
+default_range: string
+classes:
+  Commitment:
+    attributes:
+      owner:
+        required: true
+        pattern: "^.+$"
+      due:
+        required: true
+        range: date

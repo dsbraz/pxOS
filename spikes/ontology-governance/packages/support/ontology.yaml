@@ -1,0 +1,22 @@
+id: https://pxos.example/spike/support
+name: support
+version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+imports:
+  - linkml:types
+default_range: string
+classes:
+  Ticket:
+    attributes:
+      assignee:
+        required: true
+        pattern: "^.+$"
+      priority:
+        required: true
+        range: Priority
+enums:
+  Priority:
+    permissible_values:
+      normal:
+      urgent:
