@@ -1,0 +1,6 @@
+- name: create_restock_order
+  creates: RestockOrder
+  approver: store-manager
+  reversible: true
+  rule_parameters:
+    - quantity

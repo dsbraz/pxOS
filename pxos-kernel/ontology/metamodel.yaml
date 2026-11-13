@@ -1,0 +1,38 @@
+# Metamodelo de ação: como um pacote declara seus action_types (PRD §7).
+id: https://pxos.example/ontology/metamodel
+name: pxos_metamodel
+title: Metamodelo de ação do pxOS
+version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pxosmeta: https://pxos.example/ontology/metamodel/
+default_prefix: pxosmeta
+default_range: string
+imports:
+  - linkml:types
+
+classes:
+  ActionType:
+    title: Tipo de ação
+    attributes:
+      name:
+        title: nome
+        identifier: true
+        pattern: "^[a-z][a-z0-9_]*$"
+      creates:
+        title: cria
+        description: Tipo canônico do pacote que a ação cria.
+        required: true
+      approver:
+        title: aprovador
+        description: Papel que aprova a ação.
+        required: true
+        pattern: "^[a-z][a-z0-9-]*$"
+      reversible:
+        title: reversível
+        range: boolean
+        required: true
+      rule_parameters:
+        title: parâmetros sujeitos a regra
+        description: Atributos do tipo criado que regras de módulo podem limitar.
+        multivalued: true

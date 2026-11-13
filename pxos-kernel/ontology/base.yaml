@@ -1,0 +1,83 @@
+# Ontologia base do pxOS (PRD §7). Nomes em inglês, rótulos em português (ADR 0003).
+# Todo tipo declara pxos.kind: canonical (autoriza ação ou alimenta medição) ou context.
+id: https://pxos.example/ontology/base
+name: pxos_base
+title: Ontologia base do pxOS
+version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+  pxos: https://pxos.example/ontology/base/
+default_prefix: pxos
+default_range: string
+imports:
+  - linkml:types
+
+classes:
+  Organization:
+    title: Organização
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      name:
+        title: nome
+        required: true
+
+  Actor:
+    title: Ator
+    description: Pessoa interna, pessoa externa ou agente.
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      name:
+        title: nome
+        required: true
+      actor_kind:
+        title: tipo de ator
+        range: ActorKind
+        required: true
+
+  Role:
+    title: Papel
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      name:
+        title: nome
+        required: true
+
+  Event:
+    title: Evento
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      occurred_at:
+        title: ocorreu em
+        range: datetime
+        required: true
+
+  Evidence:
+    title: Evidência
+    description: Referência à fonte e trecho literal que sustentam uma proposta.
+    annotations:
+      pxos.kind: context
+    attributes:
+      source:
+        title: fonte
+        required: true
+      quote:
+        title: trecho
+        required: true
+      context_ref:
+        title: referência de contexto
+        required: true
+
+enums:
+  ActorKind:
+    title: Tipo de ator
+    permissible_values:
+      internal_person:
+        title: pessoa interna
+      external_person:
+        title: pessoa externa
+      agent:
+        title: agente

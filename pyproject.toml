@@ -23,10 +23,17 @@ extend-exclude = ["spikes"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
 
+[tool.ruff.lint.isort]
+known-first-party = ["pxos_kernel", "brq_at_work"]
+
 [tool.mypy]
 python_version = "3.12"
 strict = true
 files = ["pxos-kernel/src", "pxos-kernel/tests", "brq-at-work/src"]
+
+[[tool.mypy.overrides]]
+module = ["linkml.*", "linkml_runtime.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 testpaths = ["pxos-kernel/tests"]
@@ -47,4 +54,5 @@ dev = [
     "mypy>=2.4.1",
     "pytest>=9.2.0",
     "ruff>=0.17.5",
+    "types-pyyaml>=6.0.12.20261113",
 ]

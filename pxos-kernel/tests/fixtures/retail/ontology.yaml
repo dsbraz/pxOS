@@ -1,0 +1,40 @@
+# Pacote fixture de outro domínio (varejo), para provar a neutralidade do kernel.
+id: https://pxos.example/fixtures/retail
+name: retail
+title: Varejo (fixture)
+version: 0.1.0
+annotations:
+  pxos.base_version: 0.1.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+  retail: https://pxos.example/fixtures/retail/
+default_prefix: retail
+default_range: string
+imports:
+  - linkml:types
+  - pxos_base
+
+classes:
+  RestockOrder:
+    title: Pedido de reposição
+    is_a: Event
+    annotations:
+      pxos.kind: canonical
+    attributes:
+      sku:
+        title: SKU
+        required: true
+      quantity:
+        title: quantidade
+        range: integer
+        required: true
+        minimum_value: 1
+
+  ShelfObservation:
+    title: Observação de gôndola
+    annotations:
+      pxos.kind: context
+    attributes:
+      note:
+        title: nota
+        required: true
