@@ -1,5 +1,6 @@
 name: CI
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -10,6 +11,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   python:
+  workflow_dispatch:
     name: python (${{ matrix.project }})
     runs-on: ubuntu-24.04
     timeout-minutes: 20
