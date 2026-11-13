@@ -36,3 +36,39 @@ classes:
         title: parâmetros sujeitos a regra
         description: Atributos do tipo criado que regras de módulo podem limitar.
         multivalued: true
+
+  TypeDeclaration:
+    title: Declaração de tipo
+    attributes:
+      name:
+        title: nome
+        identifier: true
+      readers:
+        title: leitores
+        description: Papéis que leem os fatos de um tipo canônico.
+        multivalued: true
+        pattern: "^[a-z][a-z0-9-]*$"
+
+  PackageManifest:
+    title: Manifesto de pacote
+    tree_root: true
+    attributes:
+      name:
+        title: nome
+        required: true
+        pattern: "^[a-z][a-z0-9_]*$"
+      version:
+        title: versão
+        required: true
+        pattern: "^\\d+\\.\\d+\\.\\d+$"
+      types:
+        title: tipos
+        range: TypeDeclaration
+        multivalued: true
+        inlined_as_list: true
+        required: true
+      actions:
+        title: ações
+        range: ActionType
+        multivalued: true
+        inlined_as_list: true

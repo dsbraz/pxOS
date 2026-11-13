@@ -1,0 +1,12 @@
+name: retail
+version: 0.1.0
+types:
+  - name: RestockOrder
+    readers: [store-staff, store-manager]
+  - name: ShelfObservation
+actions:
+  - name: create_restock_order
+    creates: RestockOrder
+    approver: store-manager
+    reversible: true
+    rule_parameters: [quantity]

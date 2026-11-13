@@ -1,9 +1,12 @@
-"""Load a domain package on top of the base ontology and check its layer rules.
+"""Load a domain package on top of the base ontology and check its rules.
 
-A package is a LinkML schema that imports ``pxos_base`` plus an ``actions.yaml`` file
-validated against the action metamodel. The kernel only knows what the package declares.
+A package directory holds ``ontology.yaml`` (LinkML, importing ``pxos_base``) and
+``manifest.yaml`` (validated against the metamodel). The kernel only knows what the
+package declares.
 """
 
+import hashlib
+import json
 from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
@@ -25,7 +28,7 @@ BASE_VERSION_ANNOTATION = "pxos.base_version"
 
 
 class InvalidPackage(PxosError):
-    """The package breaks a layer, version or metamodel rule."""
+    """The package breaks a layer, version, manifest or metamodel rule."""
 
 
 class Kind(StrEnum):
@@ -47,21 +50,37 @@ class Package:
     name: str
     version: str
     base_version: str
+    digest: str
     schema: SchemaView
     kinds: dict[str, Kind]
+    readers: dict[str, tuple[str, ...]]
     actions: tuple[ActionType, ...]
 
+    def action(self, name: str) -> ActionType:
+        for action in self.actions:
+            if action.name == name:
+                return action
+        raise InvalidPackage(f"{self.name}: unknown action {name}")
 
-def load_package(schema_path: Path, actions_path: Path) -> Package:
+
+def load_package(package_dir: Path) -> Package:
+    schema_path = package_dir / "ontology.yaml"
+    manifest_path = package_dir / "manifest.yaml"
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
     base = SchemaView(str(BASE_SCHEMA))
     view = SchemaView(str(schema_path), importmap={BASE_IMPORT: str(BASE_SCHEMA.with_suffix(""))})
     schema = view.schema
     name = str(schema.name)
 
+    report = validate(manifest, str(METAMODEL_SCHEMA), "PackageManifest", strict=True)
+    if report.results:
+        messages = "; ".join(result.message for result in report.results)
+        raise InvalidPackage(f"{name}: invalid manifest: {messages}")
+    if manifest["name"] != name or manifest["version"] != schema.version:
+        raise InvalidPackage(f"{name}: manifest name and version must match the LinkML schema")
+
     if BASE_IMPORT not in (schema.imports or []):
         raise InvalidPackage(f"{name}: package must import {BASE_IMPORT}")
-    if not schema.version:
-        raise InvalidPackage(f"{name}: package must declare a version")
     base_version = _annotation(schema.annotations, BASE_VERSION_ANNOTATION)
     if base_version is None:
         raise InvalidPackage(f"{name}: package must declare {BASE_VERSION_ANNOTATION}")
@@ -70,20 +89,22 @@ def load_package(schema_path: Path, actions_path: Path) -> Package:
             f"{name}: built for base {base_version}, kernel has {base.schema.version}"
         )
 
-    base_classes = set(base.all_classes())
     own_classes = set(view.all_classes(imports=False))
-    redefined = sorted(own_classes & base_classes)
+    redefined = sorted(own_classes & set(base.all_classes()))
     if redefined:
         raise InvalidPackage(f"{name}: package redefines base types {redefined}")
 
     kinds = {class_name: class_kind(view, class_name, name) for class_name in sorted(own_classes)}
-    actions = _load_actions(view, kinds, actions_path, name)
+    readers = _readers(manifest, kinds, name)
+    actions = _actions(manifest, view, kinds, readers, name)
     return Package(
         name=name,
         version=str(schema.version),
         base_version=base_version,
+        digest=_digest(manifest, schema_path),
         schema=view,
         kinds=kinds,
+        readers=readers,
         actions=actions,
     )
 
@@ -100,26 +121,41 @@ def class_kind(view: SchemaView, class_name: str, package: str) -> Kind:
 
 def is_compatible(declared: str, available: str) -> bool:
     """Same major version; below 1.0 the minor version must match too."""
-    declared_major, declared_minor, *_ = declared.split(".")
-    available_major, available_minor, *_ = available.split(".")
+    try:
+        declared_major, declared_minor, _ = (int(part) for part in declared.split("."))
+        available_major, available_minor, _ = (int(part) for part in available.split("."))
+    except ValueError:
+        raise InvalidPackage(
+            f"versions must be MAJOR.MINOR.PATCH: {declared}, {available}"
+        ) from None
     if declared_major != available_major:
         return False
-    return declared_major != "0" or declared_minor == available_minor
+    return declared_major != 0 or declared_minor == available_minor
 
 
-def _load_actions(
-    view: SchemaView, kinds: dict[str, Kind], actions_path: Path, package: str
+def _readers(
+    manifest: dict[str, Any], kinds: dict[str, Kind], package: str
+) -> dict[str, tuple[str, ...]]:
+    declared = {item["name"]: tuple(item.get("readers", [])) for item in manifest["types"]}
+    if set(declared) != set(kinds):
+        raise InvalidPackage(f"{package}: manifest types must be exactly the package types")
+    for type_name, roles in declared.items():
+        if kinds[type_name] is Kind.CANONICAL and not roles:
+            raise InvalidPackage(f"{package}: canonical type {type_name} must declare readers")
+        if kinds[type_name] is Kind.CONTEXT and roles:
+            raise InvalidPackage(f"{package}: context type {type_name} cannot declare readers")
+    return {type_name: roles for type_name, roles in declared.items() if roles}
+
+
+def _actions(
+    manifest: dict[str, Any],
+    view: SchemaView,
+    kinds: dict[str, Kind],
+    readers: dict[str, tuple[str, ...]],
+    package: str,
 ) -> tuple[ActionType, ...]:
-    raw = yaml.safe_load(actions_path.read_text(encoding="utf-8"))
-    if not isinstance(raw, list):
-        raise InvalidPackage(f"{package}: actions file must be a list of action types")
-
     actions = []
-    for item in raw:
-        report = validate(item, str(METAMODEL_SCHEMA), "ActionType", strict=True)
-        if report.results:
-            messages = "; ".join(result.message for result in report.results)
-            raise InvalidPackage(f"{package}: invalid action type {item!r}: {messages}")
+    for item in manifest.get("actions", []):
         action = ActionType(
             name=item["name"],
             creates=item["creates"],
@@ -131,8 +167,9 @@ def _load_actions(
             raise InvalidPackage(
                 f"{package}: {action.name} must create a canonical type of the package"
             )
-        attributes = set(view.class_slots(action.creates))
-        unknown = sorted(set(action.rule_parameters) - attributes)
+        if action.approver not in readers[action.creates]:
+            raise InvalidPackage(f"{package}: approver of {action.name} must read {action.creates}")
+        unknown = sorted(set(action.rule_parameters) - set(view.class_slots(action.creates)))
         if unknown:
             raise InvalidPackage(f"{package}: {action.name} rule parameters {unknown} unknown")
         actions.append(action)
@@ -141,6 +178,18 @@ def _load_actions(
     if len(names) != len(set(names)):
         raise InvalidPackage(f"{package}: duplicated action type names")
     return tuple(actions)
+
+
+def _digest(manifest: dict[str, Any], schema_path: Path) -> str:
+    """Identity of what was reviewed: manifest, package and base LinkML (parsed, so
+    comments and formatting do not count)."""
+    content = {
+        "manifest": manifest,
+        "ontology": yaml.safe_load(schema_path.read_text(encoding="utf-8")),
+        "base": yaml.safe_load(BASE_SCHEMA.read_text(encoding="utf-8")),
+    }
+    encoded = json.dumps(content, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
 
 
 def _annotation(annotations: Any, key: str) -> str | None:
