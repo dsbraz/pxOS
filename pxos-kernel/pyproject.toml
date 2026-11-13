@@ -1,0 +1,10 @@
+[project]
+name = "pxos-kernel"
+version = "0.1.0"
+description = "Kernel do pxOS"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.13,<0.14"]
+build-backend = "uv_build"

@@ -1,7 +1,7 @@
 # pxOS
 
 Monorepo do kernel pxOS e suas distribuições, incluindo BRQ@work.
-O produto está em planejamento; spikes são experimentos isolados.
+O kernel está em construção (fatia 1); spikes são experimentos isolados.
 
 ## Conteúdo
 
@@ -13,9 +13,20 @@ O produto está em planejamento; spikes são experimentos isolados.
 
 ## Desenvolvimento
 
-Ainda não há código de produto nem pipeline de CI de produto.
-Os experimentos ficam isolados em `spikes/`; seus requisitos, dependências
-e procedimentos de validação estão documentados nas respectivas pastas.
-O CI será definido conforme os componentes de produto forem implementados.
+O código de produto fica em `pxos-kernel/` (kernel) e `brq-at-work/` (distribuição),
+num workspace uv com Python 3.12. A fronteira entre os dois está nos ADRs 0002 e 0003.
+
+```sh
+uv sync
+docker compose up -d --wait   # Postgres 16 + pgvector em 127.0.0.1:25432
+uv run ruff check pxos-kernel brq-at-work
+uv run ruff format --check pxos-kernel brq-at-work
+uv run mypy
+uv run lint-imports          # o kernel não importa a distribuição
+uv run pytest                # inclui o teste de neutralidade do kernel
+```
+
+O CI de produto (`.github/workflows/ci.yml`) roda os mesmos checks. Os experimentos em
+`spikes/` ficam fora do workspace e do CI; seus procedimentos estão nas respectivas pastas.
 
 Veja [contribuição](CONTRIBUTING.md), [segurança](SECURITY.md) e [Apache-2.0](LICENSE).

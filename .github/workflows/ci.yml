@@ -1,0 +1,23 @@
+# CI de produto: pxos-kernel e brq-at-work. Spikes ficam fora (AGENTS.md).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: astral-sh/setup-uv@v10.3.3
+      - run: uv sync --locked
+      - run: uv run ruff check pxos-kernel brq-at-work
+      - run: uv run ruff format --check pxos-kernel brq-at-work
+      - run: uv run mypy
+      - run: uv run lint-imports
+      - run: uv run pytest

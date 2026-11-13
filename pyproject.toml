@@ -1,0 +1,50 @@
+[project]
+name = "pxos"
+version = "0.1.0"
+requires-python = ">=3.12,<3.13"
+dependencies = ["pxos-kernel", "brq-at-work"]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+pxos-kernel = { workspace = true }
+brq-at-work = { workspace = true }
+
+[tool.uv.workspace]
+members = ["pxos-kernel", "brq-at-work"]
+exclude = ["spikes/*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["spikes"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["pxos-kernel/src", "pxos-kernel/tests", "brq-at-work/src"]
+
+[tool.pytest.ini_options]
+testpaths = ["pxos-kernel/tests"]
+addopts = ["--import-mode=importlib"]
+
+[tool.importlinter]
+root_packages = ["pxos_kernel", "brq_at_work"]
+
+[[tool.importlinter.contracts]]
+name = "O kernel não importa a distribuição"
+type = "forbidden"
+source_modules = ["pxos_kernel"]
+forbidden_modules = ["brq_at_work"]
+
+[dependency-groups]
+dev = [
+    "import-linter>=2.16",
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "ruff>=0.17.5",
+]

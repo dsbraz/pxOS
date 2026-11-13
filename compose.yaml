@@ -1,0 +1,19 @@
+# Base local de desenvolvimento. Portas só em loopback; credenciais apenas locais.
+services:
+  postgres:
+    image: pgvector/pgvector:0.8.1-pg16
+    environment:
+      POSTGRES_USER: pxos
+      POSTGRES_PASSWORD: pxos-local
+      POSTGRES_DB: pxos
+    ports: ["127.0.0.1:${PXOS_DB_PORT:-25432}:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pxos -d pxos"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  postgres-data:
