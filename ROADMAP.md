@@ -176,5 +176,9 @@ Para começar, precisa dos gates de TI e jurídico da Fase 0 resolvidos.
 A fatia 1 foi concluída em 13/11/2026: PXOS-1, PXOS-47 a 51, PXOS-7 e PXOS-46, com o teste de
 saída verde no CI contra Postgres. A suíte de aceitação (`pxos-kernel/tests/acceptance/`) tem
 um teste por requisito do §4; o req. 3 está verde e os demais são falhas esperadas que nomeiam
-a issue que os entrega. O escopo da próxima fatia é decidido com o mantenedor, e cada fase
+a issue que os entrega.
+
+A fatia 2 está em andamento: o escriba pós-reunião leva um transcrito sintético, por conector
+falso, até um compromisso aprovado pelo card em um canal falso, com o trecho literal como
+evidência (PXOS-52 a 56). A extração é do Hindsight; o gateway de modelo fica fora. Cada fase
 começa com confirmação explícita.
